@@ -65,7 +65,8 @@ function mxzsm_check_get_set_get( $_get ) {
 
 	$_get_ = array(
 		'region_id' => 0,
-		'city_id'	=> 0
+		'city_id'	=> 0,
+		'res_page'	=> 1
 	);
 
 	foreach ( $_get as $key => $value ) {
@@ -220,4 +221,83 @@ function mxzsm_get_available_cities() {
 
 	return $cities_array;
 
+}
+
+/*
+* Тavigation
+*/
+function mxzsm_navigation( $custom_post, $count_posts_in_page, $meta_query ){
+
+	//get this page
+	$this_page = $_GET['res_page'];
+
+	$this_page = (int) $this_page;
+
+	if( $this_page === 0 ) $this_page = 1;
+
+	//get count publish posts
+	// $count_posts = wp_count_posts( $type = $custom_post, $perm = '' )->publish;
+
+	$post_type_res = new WP_Query(
+
+		array(
+			'post_type' 		=> 'mxzsm_objects',
+			'meta_query'		=> $meta_query
+		)
+
+	);
+
+	$count_posts = count( $post_type_res->posts ); 
+
+	//set count page
+	$count_page = $count_posts / $count_posts_in_page;
+
+	$count_page = ceil( $count_page );
+
+	//get url
+	$host = $_SERVER['HTTP_HOST'];
+
+	$path = $_SERVER['REQUEST_URI'];
+
+	$url = $host . $path;
+
+	//loop links
+	if( $count_posts > $count_posts_in_page ){ ?>
+
+		<!-- pagination -->
+		<nav class="mx-pagination">
+			<ul class="pagination">
+
+				<?php if( $this_page > 1 ): 
+					$prev_page = $this_page - 1;
+				?>
+
+					<li><a href="<?php echo $url . '&res_page=' . $prev_page; ?>" aria-label="Previous"><span aria-hidden="true" id="mx-Previous">«</span></a></li>				
+				<?php endif; ?>
+
+				<?php for ( $i = 1; $i <= $count_page; $i++ ) { 
+				if( $i === $this_page ){ ?>
+					<li class="active">
+						<a href="#" onclick="return false;"><?php echo $i; ?></a>
+					</li>
+				<?php }
+				else{ ?>					
+					<li>
+						<a href="<?php echo $url . '&res_page=' . $i; ?>"><?php echo $i; ?></a>
+					</li>
+
+				<?php }
+				} ?>
+
+				<?php if( $this_page < $count_page ): 
+					$next_page = $this_page + 1;
+				?>
+
+					<li><a href="<?php echo $url . '&res_page=' . $next_page; ?>" aria-label="Next"><span aria-hidden="true" id="mx-Next">»</span></a></li>
+				<?php endif;?>
+			</ul>
+		</nav>
+		<!-- pagination -->
+
+	<?php }	
 }

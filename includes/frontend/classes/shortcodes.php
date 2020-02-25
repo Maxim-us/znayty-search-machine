@@ -118,6 +118,9 @@ class MXZSM_shortcodes
 
 			// $_get_ - use for query
 
+			// posts_per_page
+			$posts_per_page = 10;
+
 			ob_start();
 
 				// get region by id
@@ -135,14 +138,94 @@ class MXZSM_shortcodes
 			<div class="mx-search-result">
 				<?php
 
-					if( $row_region == NULL )
-						mxzsm_nothing_found( 'Область не знайдено!' );
+					$meta_query = array();
 
-					if( $row_city == NULL )
-						mxzsm_nothing_found( 'Місто не знайдено!' );
+					if( $row_region == NULL ) {
+
+						mxzsm_nothing_found( 'Область не знайдено!' );						
+
+					} else if( $row_city == NULL ) {
+
+						mxzsm_nothing_found( 'Місто не вказано!' );
+
+						$meta_query = array(
+							array(
+								'key' 		=> '_mxzsm_region_id',
+                                'value' 	=> $row_region->id
+                            )
+						);
+					} else {
+
+						$meta_query = array(
+							'relation' => 'BETWEEN',
+							array(
+								'key' 		=> '_mxzsm_region_id',
+                                'value' 	=> $row_region->id
+                            ),
+                            array(
+								'key' 		=> '_mxzsm_city_id',
+                                'value' 	=> $row_city->id
+                            )
+						);
+
+					}
 
 				?>
-				123
+				
+				<?php
+
+				$result_obj = new WP_Query(
+
+					array(
+						'post_type' 		=> 'mxzsm_objects', 
+						'posts_per_page' 	=> $posts_per_page,
+						'order' 			=> 'DESC',
+						'meta_query'		=> $meta_query,
+						'paged' 			=> $_get_['res_page']
+					)
+
+				);				
+
+				?>
+
+					<? if( $result_obj->have_posts() ) : ?>
+
+						<!-- result -->
+						<div class="mx-search-result-wrap">
+
+						<? while( $result_obj->have_posts() ) : $result_obj->the_post(); ?>
+
+							<div class="mx-search-result-item">
+							
+								<div class="mx-search-result-item-thumb">
+									<img src="<?php echo get_the_post_thumbnail_url( 'medium' ); ?>" alt="">
+								</div>
+
+								<div class="mx-search-result-item-desc">
+									<div class="mx-search-result-item-title">
+										<a href="<?php get_post_permalink(); ?>"><?php echo get_the_title(); ?></a>
+									</div>
+
+									<div class="mx-search-result-item-excerp">
+										<?php the_excerpt(); ?>
+									</div>
+								</div>
+
+							</div>							
+
+						<?php endwhile; ?> 
+
+						</div>
+
+						<?php mxzsm_navigation( 'mxzsm_objects', $posts_per_page, $meta_query ); ?>
+
+					<?php endif;?>
+
+				
+					
+					
+
+				
 			</div>
 
 			<?php return ob_get_clean();
