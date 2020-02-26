@@ -55,6 +55,11 @@ class MXZSM_Admin_Main
 			// get cities
 			MXZSM_Database_Talk::db_ajax();
 
+		// create new thumbnail's type
+		mxzsm_require_class_file_admin( 'image-size.php' );
+
+			MXZSM_Image_Size::znayty_thumbnail();
+
 	}
 
 	/*

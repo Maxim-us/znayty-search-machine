@@ -88,7 +88,7 @@ class MXZSMCPTclass
 		] );
 
 		// tags
-		register_taxonomy( 'mxzsm_objects_tags', [ 'mxzsm_objects' ], [ 
+		register_taxonomy( 'mxzsm_objects_keywords', [ 'mxzsm_objects' ], [ 
 			'label'                 => '', // определяется параметром $labels->name
 			'labels'                => [
 				'name'              => 'Ключове слово',

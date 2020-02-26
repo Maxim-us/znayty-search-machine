@@ -64,9 +64,11 @@ function mxzsm_get_regions() {
 function mxzsm_check_get_set_get( $_get ) {
 
 	$_get_ = array(
-		'region_id' => 0,
-		'city_id'	=> 0,
-		'res_page'	=> 1
+		'region_id' 	=> 0,
+		'city_id'		=> 0,
+		'res_page'		=> 1,
+		'cat_id' 		=> 0,
+		'key_word_id'	=> 0
 	);
 
 	foreach ( $_get as $key => $value ) {
@@ -226,10 +228,10 @@ function mxzsm_get_available_cities() {
 /*
 * Тavigation
 */
-function mxzsm_navigation( $custom_post, $count_posts_in_page, $meta_query ){
+function mxzsm_navigation( $custom_post, $count_posts_in_page, $meta_query, $tax_query ){
 
 	//get this page
-	$this_page = $_GET['res_page'];
+	$this_page = ! isset( $_GET['res_page'] ) ? 0 : $_GET['res_page'];
 
 	$this_page = (int) $this_page;
 
@@ -242,7 +244,10 @@ function mxzsm_navigation( $custom_post, $count_posts_in_page, $meta_query ){
 
 		array(
 			'post_type' 		=> 'mxzsm_objects',
-			'meta_query'		=> $meta_query
+			'meta_query'		=> $meta_query,
+
+			// terms
+			'tax_query' 		=> $tax_query
 		)
 
 	);
@@ -300,4 +305,70 @@ function mxzsm_navigation( $custom_post, $count_posts_in_page, $meta_query ){
 		<!-- pagination -->
 
 	<?php }	
+}
+
+/*
+* Get Term by term id
+*/
+function mxzsm_get_term_by_term_id( $term_id ) {
+
+	global $wpdb;
+
+	$terms_table = $wpdb->prefix . 'terms';
+
+	$term_row = $wpdb->get_row(
+
+		"SELECT term_id, name FROM $terms_table WHERE term_id = '" . $term_id . "'"
+
+	);
+
+	return $term_row->name;
+
+}
+
+/*
+* Get current url
+*/
+function mxzsm_get_current_url() {
+
+	$host = $_SERVER['HTTP_HOST'];
+
+	$path = $_SERVER['REQUEST_URI'];
+
+	$url = isset( $_SERVER["HTTPS"] ) ? 'https://' : 'http://' . $host . $path;
+
+	return $url;
+}
+
+/*
+* Create url for terms
+*/
+function mxzsm_create_url_for_terms( $get_key, $term_id ) {
+
+	$full_url = mxzsm_get_current_url();
+
+	// check terms key
+	preg_match( '/(&' . $get_key . '=\d+)/', $full_url, $matches_terms );
+
+	$clean_url = $full_url;
+
+	if( count( $matches_terms ) !== 0 ) {
+
+		$clean_url = str_replace( $matches_terms[0], '', $clean_url );
+
+	}
+
+	// check pagination key
+	preg_match( '/(&res_page=\d+)/', $full_url, $matches_pag );
+
+	if( count( $matches_pag ) !== 0 ) {
+
+		$clean_url = str_replace( $matches_pag[0], '', $clean_url );
+
+	}
+
+	$url = $clean_url . '&' . $get_key . '=' . $term_id . '&res_page=1';
+
+	return $url;
+
 }
