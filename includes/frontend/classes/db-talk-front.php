@@ -23,23 +23,31 @@ class MXZSM_Database_Talk_Front
 
 				$results = $wpdb->get_results( "SELECT id, city FROM $cities_table WHERE region_id = '" . $_POST['region_id'] . "'" );
 
-				// Get available cities
-				$available_city_ids = mxzsm_get_available_cities();
+				if( $_POST['get_all_cities'] !== 'true' ) {
 
-				// cleaned results
-				$cleaned_results = array();
+					// Get available cities
+					$available_city_ids = mxzsm_get_available_cities();
 
-				// clean result
-				foreach ( $results as $key => $value ) {
+					// cleaned results
+					$cleaned_results = array();
 
-					if( ! in_array( $value->id, $available_city_ids ) ) continue;
+					// clean result
+					foreach ( $results as $key => $value ) {
 
-					// set city id to the array
-					array_push( $cleaned_results, $value );
+						if( ! in_array( $value->id, $available_city_ids ) ) continue;
+
+						// set city id to the array
+						array_push( $cleaned_results, $value );
+
+					}
+
+					$json_code = json_encode( $cleaned_results );
+
+				} else {
+
+					$json_code = json_encode( $results );
 
 				}
-
-				$json_code = json_encode( $cleaned_results );
 
 				echo $json_code;
 

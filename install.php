@@ -11,6 +11,20 @@ class MXZSM_Basis_Plugin_Class
 
 	public static function activate()
 	{
+
+		global $wp_roles;
+
+		if( ! $wp_roles->is_role( 'mxzsm_contr_obj' ) ) {
+
+			add_role( 'mxzsm_contr_obj', 'Додавач Об\'єктів',
+				array(
+					'read'         => true,
+					'edit_posts'   => false,
+					'upload_files' => true,
+				)
+			);
+
+		}
 		
 	}
 

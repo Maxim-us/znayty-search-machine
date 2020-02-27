@@ -139,11 +139,14 @@ jQuery( document ).ready( function( $ ) {
 		// get cities from DB
 		function mxzsm_get_obj_of_cities_database( region_id ) {
 
+			var add_obj = mxzsm_app.regions_select.hasClass( 'mxzsm_add_obj_regions' );
+
 			var data = {
 
-				'action'	:  'mxzsm_get_cities_front',
-				'nonce'		: 	mxzsm_app.nonce,
-				'region_id'	: 	region_id
+				'action'			:  'mxzsm_get_cities_front',
+				'nonce'				: 	mxzsm_app.nonce,
+				'region_id'			: 	region_id,
+				'get_all_cities'	: 	add_obj
 
 			};
 
@@ -183,5 +186,35 @@ jQuery( document ).ready( function( $ ) {
 			} );
 
 		}
+
+	/*
+	* Add object 
+	*/
+		// media
+		$( '#mxzsm_add_obj_image' ).on( 'click', function( e ) {
+
+			e.preventDefault();
+
+	        var upload = wp.media( {
+
+		        title: 'Обрати зображення з комп\'ютера.',
+		        
+			    library: {
+			    	type: 'image'
+			    },
+
+		        multiple: false
+
+	        } ).on( 'select', function(){
+
+	            var select = upload.state().get( 'selection' );
+
+	            var attach = select.first().toJSON();
+
+	            console.log( attach );
+
+	        } ).open();
+
+		} );
 
 } );

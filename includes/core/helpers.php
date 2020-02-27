@@ -41,6 +41,15 @@ function mxzsm_nothing_found( $message ) {
 }
 
 /*
+* Alert
+*/
+function mxzsm_alert( $message ) {
+
+	echo '<div class="mxzsm_alert">' . $message . '</div>';
+
+}
+
+/*
 * Get regions result
 */
 function mxzsm_get_regions() {
@@ -110,6 +119,7 @@ function mxzsm_get_region_row_by_id( $region_id ) {
 
 	);
 
+	// return format: $row_region->region
 	return $row_region;
 
 }
@@ -149,6 +159,7 @@ function mxzsm_get_city_row_by_id( $city_id ) {
 
 	);
 
+	// return format: $row_region->city
 	return $row_city;
 
 }

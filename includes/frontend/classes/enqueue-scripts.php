@@ -31,6 +31,8 @@ class MXZSM_Enqueue_Scripts_Frontend
 			wp_enqueue_style( 'mxzsm_font_awesome', MXZSM_PLUGIN_URL . 'assets/font-awesome-4.6.3/css/font-awesome.min.css' );
 			
 			wp_enqueue_style( 'mxzsm_style', MXZSM_PLUGIN_URL . 'includes/frontend/assets/css/style.css', array( 'mxzsm_font_awesome' ), MXZSM_PLUGIN_VERSION, 'all' );
+
+			wp_enqueue_media();
 			
 			wp_enqueue_script( 'mxzsm_script', MXZSM_PLUGIN_URL . 'includes/frontend/assets/js/script.js', array( 'jquery' ), MXZSM_PLUGIN_VERSION, false );
 

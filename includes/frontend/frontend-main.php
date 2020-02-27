@@ -25,10 +25,24 @@ class MXZSM_FrontEnd_Main
 
 			MXZSM_Enqueue_Scripts_Frontend::mxzsm_register();
 
-		// shortcodes
-		mxzsm_require_class_file_frontend( 'shortcodes.php' );
+		/*
+		* Shortcodes
+		*/
+			// search form
+			mxzsm_require_class_file_frontend( 'shortcode-search-form.php' );
 
-			MXZSM_shortcodes::add_shorcodes();
+				MXZSM_Shortcodes_Search_Form::add_shorcode();
+
+			// search result
+			mxzsm_require_class_file_frontend( 'shortcode-search-result.php' );
+
+				MXZSM_Shortcode_Search_Result::add_shorcode();
+
+			// add new obj (for logged user)
+			mxzsm_require_class_file_frontend( 'shortcode-add-new-obj.php' );
+
+				MXZSM_Shortcode_Add_New_Obj::add_shorcode();
+
 
 		// ajax
 		mxzsm_require_class_file_frontend( 'db-talk-front.php' );
