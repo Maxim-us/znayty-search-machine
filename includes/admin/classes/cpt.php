@@ -46,7 +46,7 @@ class MXZSMCPTclass
 				'parent_item_colon'  => '',
 				'menu_name'          => 'Об\'єкти'
 
-			  ),
+			),
 			'public'             => true,
 			'publicly_queryable' => true,
 			'show_ui'            => true,
@@ -60,6 +60,19 @@ class MXZSMCPTclass
 			'supports'           => array( 'title', 'editor', 'author', 'thumbnail', 'excerpt', 'comments' )
 
 		) );
+
+		// new post status
+		register_post_status( 'verification', array(
+            'label'                     => _x( 'Verification ', 'post status label', 'bznrd' ),
+            'public'                    => true,
+            'label_count'               => _n_noop( 'Verification <span class="count">(%s)</span>', 'Verification <span class="count">(%s)</span>', 'plugin-domain' ),
+            'post_type'                 => array( 'mxzsm_objects' ),
+            'show_in_admin_all_list'    => true,
+            'show_in_admin_status_list' => true,
+            'show_in_metabox_dropdown'  => true,
+            'show_in_inline_dropdown'   => true,
+            'dashicon'                  => 'dashicons-businessman',
+        ) );
 
 		// taxonomy		
 		// category

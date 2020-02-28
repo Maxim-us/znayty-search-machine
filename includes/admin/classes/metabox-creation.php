@@ -29,7 +29,7 @@ class MXZSMMetaboxCreationClass
 
 
 		public static function mxzsm_meta_boxes()
-		{
+		{			
 
 			add_meta_box(
 				'mxzsm_meta_regions_cities',
@@ -39,8 +39,24 @@ class MXZSMMetaboxCreationClass
 				'normal'
 			);
 
+			global $post;
+
+			if( $post->post_status == 'verification' ) {
+
+				// add obj data
+				add_meta_box(
+					'mxzsm_meta_add_obj_data',
+					'Дані введені користувачем',
+					array( 'MXZSMMetaboxCreationClass', 'mxzsm_meta_box_add_obj_data_callback' ),
+					array( 'mxzsm_objects' ),
+					'normal'
+				);
+
+			}			
+
 		}
 
+		// regions / cities metadata
 		public static function mxzsm_meta_box_regions_callback( $post, $meta )
 		{
 
@@ -56,7 +72,9 @@ class MXZSMMetaboxCreationClass
 			$table_regions = $wpdb->prefix . 'regions';
 
 			$results_regions = $wpdb->get_results(
+
 				"SELECT id, region FROM $table_regions ORDER BY region"
+
 			);
 
 			$table_cities = $wpdb->prefix . 'cities';
@@ -153,4 +171,27 @@ class MXZSMMetaboxCreationClass
 			update_post_meta( $post_id, '_mxzsm_city_id', $city  );
 
 		}
+
+	// add obj from users
+	public static function mxzsm_meta_box_add_obj_data_callback( $post, $meta )
+	{
+
+		$users_categories = get_post_meta( $post->ID, '_mxzsm_add_obj_categories', true );
+
+		$users_keywords = get_post_meta( $post->ID, '_mxzsm_add_obj_keywords', true ); ?>
+
+		<p>
+			<label for="#"><b>Категорії об'єкта:</b></label><br>
+			<span><?php echo $users_categories; ?></span>
+		</p>
+
+		<p>
+			<label for="#"><b>Ключові слова об'єкта:</b></label><br>
+			<span><?php echo $users_keywords; ?></span>
+		</p>
+
+		<?php 
+
+	}
+
 }

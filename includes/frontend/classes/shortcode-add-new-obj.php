@@ -41,14 +41,15 @@ class MXZSM_Shortcode_Add_New_Obj
 				<!-- title -->
 				<div>
 					<label for="mxzsm_add_obj_title">Назва об'єкта:</label>
-					<input type="text" id="mxzsm_add_obj_title" />
+					<input type="text" id="mxzsm_add_obj_title" required="required" />
+					<small>Введіть назву об'єкта. Наприклад: <em>Кафе "Роксолана"</em></small>
 				</div>
 
 				<!-- editor -->
 				<div>
 					<label for="mxzsm_add_obj_editor">Опис об'єкта:</label><?php
 
-					wp_editor( 'content', 'mxzsm_add_obj_editor', array(
+					wp_editor( 'Опис об\'єкта', 'mxzsm_add_obj_editor', array(
 						'media_buttons' => false,
 						'textarea_name' => 'mxzsm_add_obj_textarea',
 						'editor_class' 	=> 'mxzsm_add_obj_content_editor',
@@ -104,14 +105,14 @@ class MXZSM_Shortcode_Add_New_Obj
 				<!-- categories of obj -->
 				<div>
 					<label for="mxzsm_add_obj_categories">Категорія об'єкта:</label>
-					<input type="text" id="mxzsm_add_obj_categories" />
+					<input type="text" id="mxzsm_add_obj_categories" required="required" />
 					<small>Введіть через кому категорії. Наприклад: <em>Кафе, Їдальня</em></small>
 				</div>
 
 				<!-- keywords of obj -->
 				<div>
 					<label for="mxzsm_add_obj_keywords">Мітки об'єкта:</label>
-					<input type="text" id="mxzsm_add_obj_keywords" />
+					<input type="text" id="mxzsm_add_obj_keywords" required="required" />
 					<small>Введіть через кому мітки. Наприклад: <em>їжа, корпоратив, вареники</em></small>
 				</div>
 
@@ -119,17 +120,20 @@ class MXZSM_Shortcode_Add_New_Obj
 				<div>
 					<label for="mxzsm_add_obj_image">Зображення об'єкта:</label>
 					<a href="#" id="mxzsm_add_obj_image">Обрати зображення</a>
+					<input type="hidden" id="mxzsm_add_obj_image_id" />
+					<div class="mxzsm_add_obj_image_preview"></div>
+				</div>
+
+				<input type="hidden" id="mxzsm_add_obj_nonce" value="<?php echo wp_create_nonce( 'mxzsm_add_obj_nonce_request' ); ?>" />
+
+				<div>
+					<input type="submit" value="Додати Об'єкт" />
 				</div>
 				
 			</form>
 
 
 			<?php 
-
-			// remove_role( 'mxzsm_contr_obj' );
-
-
-			// image
 
 			return ob_get_clean();
 

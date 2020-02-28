@@ -5,9 +5,19 @@ class MXZSM_Database_Talk_Front
 
 	public static function db_ajax() {
 
+		/*
+		* get cities
+		*/
 		add_action( 'wp_ajax_mxzsm_get_cities_front', array( 'MXZSM_Database_Talk_Front', 'get_cities' ) );
 
-		add_action( 'wp_ajax_nopriv_mxzsm_get_cities_front', array( 'MXZSM_Database_Talk_Front', 'get_cities' ) );
+			add_action( 'wp_ajax_nopriv_mxzsm_get_cities_front', array( 'MXZSM_Database_Talk_Front', 'get_cities' ) );
+
+		/*
+		* Add post
+		*/
+		add_action( 'wp_ajax_mxzsm_add_obj_front', array( 'MXZSM_Database_Talk_Front', 'add_new_obj' ) );
+
+			add_action( 'wp_ajax_nopriv_mxzsm_add_obj_front', array( 'MXZSM_Database_Talk_Front', 'add_new_obj' ) );
 
 	}
 
@@ -56,5 +66,49 @@ class MXZSM_Database_Talk_Front
 			wp_die();
 			
 		}
+
+	// add new object
+	public static function add_new_obj()
+	{
+
+		if( empty( $_POST['nonce'] ) ) wp_die();
+
+		if( wp_verify_nonce( $_POST['nonce'], 'mxzsm_add_obj_nonce_request' ) ) {
+
+			$post_ID = wp_insert_post( 
+
+				array(
+
+					'post_title' 	=> sanitize_text_field( $_POST['title'] ),
+					'post_content'	=> wp_kses_post( $_POST['content'] ),
+					'post_type' 	=> 'mxzsm_objects',
+					'post_status' 	=> 'verification'
+
+				)
+
+			);
+
+			// set region id
+			update_post_meta( $post_ID, '_mxzsm_region_id', sanitize_text_field( $_POST['region_id'] ) );
+
+			// set city id
+			update_post_meta( $post_ID, '_mxzsm_city_id', sanitize_text_field( $_POST['city_id'] ) );
+
+			// set categories
+			update_post_meta( $post_ID, '_mxzsm_add_obj_categories', sanitize_text_field( $_POST['categories'] ) );
+
+			// set keywords
+			update_post_meta( $post_ID, '_mxzsm_add_obj_keywords', sanitize_text_field( $_POST['keywords'] ) );
+
+			// insert thumbnail
+			set_post_thumbnail( $post_ID, sanitize_text_field( $_POST['img_id'] ) );
+
+			echo $post_ID;
+
+		}
+
+		wp_die();
+
+	}
 
 }
