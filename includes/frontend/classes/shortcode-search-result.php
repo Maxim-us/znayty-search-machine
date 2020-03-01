@@ -148,7 +148,8 @@ class MXZSM_Shortcode_Search_Result
 				$result_obj = new WP_Query(
 
 					array(
-						'post_type' 		=> 'mxzsm_objects', 
+						'post_type' 		=> 'mxzsm_objects',
+						'post_status'		=> 'publish',
 						'posts_per_page' 	=> $posts_per_page,
 						'order' 			=> 'DESC',
 						'meta_query'		=> $meta_query,

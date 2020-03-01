@@ -171,28 +171,38 @@ function mxzsm_get_available_regions() {
 
 	global $wpdb;
 
+	$posts_table = $wpdb->prefix . 'posts';
+
+	$posts_id_results = $wpdb->get_results(
+
+		"SELECT ID FROM $posts_table WHERE post_status = 'publish'"
+
+	);
+
 	$regions_array = array();
 
 	$postmeta_table = $wpdb->prefix . 'postmeta';
 
-	$region_id_results = $wpdb->get_results(
+	foreach ( $posts_id_results as $key => $value ) {
 
-		"SELECT meta_value FROM $postmeta_table WHERE meta_key = '_mxzsm_region_id'"
+		$region_id_row = $wpdb->get_row(
 
-	);
+			"SELECT meta_value FROM $postmeta_table
+				WHERE
+					post_id = $value->ID
+				AND
+					meta_key = '_mxzsm_region_id'"
+		);			
 
-	// if no regions - return
-	if( $region_id_results == NULL )
-		return $regions_array;
+		if( $region_id_row !== NULL ) {
 
-	// each row
-	foreach ( $region_id_results as $key => $value ) {
+			if( ! in_array( $region_id_row->meta_value, $regions_array ) ) {
 
-		if( in_array( $value->meta_value, $regions_array ) )
-			continue;
+				array_push( $regions_array, $region_id_row->meta_value );
 
-		// set region id to the array
-		array_push( $regions_array, $value->meta_value );
+			}
+
+		}
 
 	}
 
@@ -207,28 +217,38 @@ function mxzsm_get_available_cities() {
 
 	global $wpdb;
 
+	$posts_table = $wpdb->prefix . 'posts';
+
+	$posts_id_results = $wpdb->get_results(
+
+		"SELECT ID FROM $posts_table WHERE post_status = 'publish'"
+
+	);
+
 	$cities_array = array();
 
 	$postmeta_table = $wpdb->prefix . 'postmeta';
 
-	$cities_id_results = $wpdb->get_results(
+	foreach ( $posts_id_results as $key => $value ) {
 
-		"SELECT meta_value FROM $postmeta_table WHERE meta_key = '_mxzsm_city_id'"
+		$city_id_row = $wpdb->get_row(
 
-	);
+			"SELECT meta_value FROM $postmeta_table
+				WHERE
+					post_id = $value->ID
+				AND
+					meta_key = '_mxzsm_city_id'"
+		);			
 
-	// if no cities - return
-	if( $cities_id_results == NULL )
-		return $cities_array;
+		if( $city_id_row !== NULL ) {
 
-	// each row
-	foreach ( $cities_id_results as $key => $value ) {
+			if( ! in_array( $city_id_row->meta_value, $cities_array ) ) {
 
-		if( in_array( $value->meta_value, $cities_array ) )
-			continue;
+				array_push( $cities_array, $city_id_row->meta_value );
 
-		// set city id to the array
-		array_push( $cities_array, $value->meta_value );
+			}
+
+		}
 
 	}
 
@@ -256,6 +276,7 @@ function mxzsm_navigation( $custom_post, $count_posts_in_page, $meta_query, $tax
 		array(
 			'post_type' 		=> 'mxzsm_objects',
 			'meta_query'		=> $meta_query,
+			'post_status' 		=> 'publish',
 
 			// terms
 			'tax_query' 		=> $tax_query

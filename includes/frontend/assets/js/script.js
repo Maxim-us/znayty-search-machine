@@ -244,7 +244,7 @@ jQuery( document ).ready( function( $ ) {
 
 			}
 
-			content = mxzsm_builder_encode_html( content );
+			// content = mxzsm_builder_encode_html( content );
 
 			var form_data = {
 				action: 	'mxzsm_add_obj_front',
