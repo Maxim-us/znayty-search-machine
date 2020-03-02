@@ -100,10 +100,13 @@ class MXZSM_Database_Talk_Front
 			// set keywords
 			update_post_meta( $post_ID, '_mxzsm_add_obj_keywords', sanitize_text_field( $_POST['keywords'] ) );
 
+			// set address
+			update_post_meta( $post_ID, '_mxzsm_address_of_obj', sanitize_text_field( $_POST['address'] ) );
+
 			// insert thumbnail
 			set_post_thumbnail( $post_ID, sanitize_text_field( $_POST['img_id'] ) );
 
-			echo $post_ID;
+			echo gettype( $post_ID );
 
 		}
 

@@ -253,6 +253,7 @@ jQuery( document ).ready( function( $ ) {
 				content: 	content,
 				region_id: 	$( '#mxzsm_regions' ).val(),
 				city_id: 	$( '#mxzsm_cities' ).val(),
+				address: 	$( '#mxzsm_add_obj_address' ).val(),
 				categories: $( '#mxzsm_add_obj_categories' ).val(),
 				keywords: 	$( '#mxzsm_add_obj_keywords' ).val(),
 				img_url: 	$( '#mxzsm_add_obj_img' ).attr( 'src' ),
@@ -262,22 +263,49 @@ jQuery( document ).ready( function( $ ) {
 
 			jQuery.post( mxzsm_app.ajaxurl, form_data, function( response ) {
 
-				console.log( response );
+				if( response === 'integer' ) {
+
+					alert( 'Відправлено на модерацію. Дякуємо Вам!' );
+
+
+				} else {
+
+					alert( 'Виникла помилка! Звяжіться з нами.' );
+
+				}
+
+				$( '.mxzsm_users_obj_tabs_header' ).find( 'a' ).removeClass( 'mxzsm_active' );
+
+				$( '.mxzsm_users_obj_tab_item.verification' ).addClass( 'mxzsm_active' );
+
+				// 
+				$( '.mxzsm_users_obj_tabs_body' ).children( 'div' ).css( 'display', 'none' );
+
+				$( '.mxzsm_users_obj_tabs_body_verification' ).css( 'display', 'block' );
 
 			} );
 
 		} );
 
+	// tabs
+	$( '.mxzsm_users_obj_tabs_header' ).find( 'a' ).each( function() {
+
+		$( this ).on( 'click', function( e ) {
+
+			e.preventDefault();
+
+			$( '.mxzsm_users_obj_tabs_header' ).find( 'a' ).removeClass( 'mxzsm_active' );
+
+			var item_name = $( this ).attr( 'data-active-tab' );
+
+			$( this ).addClass( 'mxzsm_active' );
+
+			$( '.mxzsm_users_obj_tabs_body' ).children( 'div' ).css( 'display', 'none' );
+
+			$( '.mxzsm_users_obj_tabs_body_' + item_name ).css( 'display', 'block' );
+
+		} );
+		
+	} );
+
 } );
-
-// function
-function mxzsm_builder_encode_html( str ) {
-
-    return String( str )
-    .replace( /&/g, '&amp;' )
-    .replace( /</g, '&lt;' )
-    .replace( />/g, '&gt;' )
-    .replace( /\"/g, '&quot;' )
-    .replace( /\'/g, '&apos;' );
-
-}

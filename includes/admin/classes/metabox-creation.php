@@ -22,8 +22,11 @@ class MXZSMMetaboxCreationClass
 
 		add_action( 'add_meta_boxes', array( 'MXZSMMetaboxCreationClass', 'mxzsm_meta_boxes' ) );
 
-		// 
+		// save regions and cities
 		add_action( 'save_post_mxzsm_objects', array( 'MXZSMMetaboxCreationClass', 'mxzsm_meta_boxes_save' ) );
+
+		// save address
+		add_action( 'save_post_mxzsm_objects', array( 'MXZSMMetaboxCreationClass', 'mxzsm_meta_boxes_address_save' ) );
 
 	}
 
@@ -39,9 +42,17 @@ class MXZSMMetaboxCreationClass
 				'normal'
 			);
 
-			global $post;
+			add_meta_box(
+				'mxzsm_meta_address_of_obj',
+				'Адреса обєкта',
+				array( 'MXZSMMetaboxCreationClass', 'mxzsm_meta_address_of_obj_callback' ),
+				array( 'mxzsm_objects' ),
+				'normal'
+			);
 
-			if( $post->post_status == 'verification' ) {
+			// global $post;
+
+			// if( $post->post_status == 'verification' ) {
 
 				// add obj data
 				add_meta_box(
@@ -52,7 +63,23 @@ class MXZSMMetaboxCreationClass
 					'normal'
 				);
 
-			}			
+			// }			
+
+		}
+
+		// address
+		public static function mxzsm_meta_address_of_obj_callback( $post, $meta )
+		{
+
+			// check nonce
+			wp_nonce_field( 'mxzsm_meta_box_address_action', 'mxzsm_meta_box_address_nonce' );
+
+			$address = get_post_meta( $post->ID, '_mxzsm_address_of_obj', true );
+
+			echo '<p>
+				<label for="#"></label><br>
+				<input type="text" name="mxzsm_address_of_obj" id="mxzsm_address_of_obj" value="' . $address . '" />
+			</p>';
 
 		}
 
@@ -178,7 +205,11 @@ class MXZSMMetaboxCreationClass
 
 		$users_categories = get_post_meta( $post->ID, '_mxzsm_add_obj_categories', true );
 
-		$users_keywords = get_post_meta( $post->ID, '_mxzsm_add_obj_keywords', true ); ?>
+		$users_keywords = get_post_meta( $post->ID, '_mxzsm_add_obj_keywords', true );
+
+		$address = get_post_meta( $post->ID, '_mxzsm_address_of_obj', true );
+
+		?>
 
 		<p>
 			<label for="#"><b>Категорії об'єкта:</b></label><br>
@@ -190,7 +221,35 @@ class MXZSMMetaboxCreationClass
 			<span><?php echo $users_keywords; ?></span>
 		</p>
 
+		<p>
+			<label for="#"><b>Адреса об'єкта:</b></label><br>
+			<span><?php echo $address; ?></span>
+		</p>
+
 		<?php 
+
+	}
+
+	// save address
+	public static function mxzsm_meta_boxes_address_save( $post_id )
+	{
+
+		if ( ! isset( $_POST['mxzsm_meta_box_address_nonce'] ) ) 
+				return;
+
+		if ( ! wp_verify_nonce( $_POST['mxzsm_meta_box_address_nonce'], 'mxzsm_meta_box_address_action') )
+			return;
+
+		if ( defined('DOING_AUTOSAVE') && DOING_AUTOSAVE ) 
+			return;
+
+		if( ! current_user_can( 'edit_post', $post_id ) )
+			return;
+
+		// mxzsm_address_of_obj
+		$address = sanitize_text_field( $_POST['mxzsm_address_of_obj'] );
+
+		update_post_meta( $post_id, '_mxzsm_address_of_obj', $address  );
 
 	}
 
