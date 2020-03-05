@@ -16,9 +16,11 @@ class MXZSM_Shortcode_Search_Result
 			if( count( $_GET ) == 0 ) return;
 			
 			// check $_GET			
-			$_get_ = mxzsm_check_get_set_get( $_GET );
+			$_get_ = mxzsm_check_get_set_get( $_GET );					
 
-			if( $_get_['region_id'] == 0 ) return;			
+			if( $_get_['region_id'] == '0' ) return;
+
+			if( $_get_['region_id'] > 27 ) return;
 
 			// $_get_ - use for query
 
@@ -48,7 +50,9 @@ class MXZSM_Shortcode_Search_Result
 
 					if( $row_region == NULL ) {
 
-						mxzsm_nothing_found( 'Область не знайдено!' );						
+						// mxzsm_nothing_found( 'Область не знайдено!' );
+						// show all results
+						$meta_query = array();
 
 					} else if( $row_city == NULL ) {
 
@@ -171,6 +175,7 @@ class MXZSM_Shortcode_Search_Result
 							<!-- system results ... -->
 							<?php MXZSM_Shortcode_Search_Result::search_system_info( array(
 
+								'row_region'	=> $row_region,
 								'row_city' 		=> $row_city,
 								'result_obj'	=> $result_obj,
 								'region_id' 	=> $_get_['region_id'],
@@ -211,59 +216,75 @@ class MXZSM_Shortcode_Search_Result
 		*/
 		public static function search_system_info( $args ) { ?>
 
-			<ul class="mx-search-system-info">
+			<div class="alert alert-secondary mx-search-system-info-wrap">
 
-				<!-- region -->
-				<li>
-					<!-- <span>Область:</span> -->
-					<span><?php echo mxzsm_get_region_row_by_id( $args['region_id'] )->region; ?></span>
-				</li>
+			<h5>Результат пошуку:</h5>
 
-				<!-- cities -->
-				<?php if( $args['row_city'] == NULL ) : ?>
+				<ul class="mx-search-system-info">
 
-					<li>
-						<span>Результати по населених пунктах</span>
-					</li>
-
-				<?php else : ?>
-
-					<li>
-						<span>Населений п-т:</span>
-						<span><?php echo mxzsm_get_city_row_by_id( $args['city_id'] )->city; ?></span>
-					</li>
-
-				<?php endif; ?>
-
-				<!-- categoty -->
-				<?php if( $args['cat_id'] !== 0 ) : ?>
-
-					<?php if( count( $args['result_obj']->posts ) !== 0 ) : ?>
+					<!-- region -->
+					<?php if( $args['row_region'] !== NULL ) : ?>
 
 						<li>
-							<span>Категорія об'єкту:</span>
-							<span><?php echo mxzsm_get_term_by_term_id( $args['cat_id'] ); ?></span>
+							<!-- <span>Область:</span> -->
+							<span><?php echo mxzsm_get_region_row_by_id( $args['region_id'] )->region; ?></span>
+						</li>
+
+					<?php else : ?>
+
+						<li>
+							<span>Вся Україна</span>
+						</li>
+
+					<?php endif ?>
+
+					<!-- cities -->
+					<?php if( $args['row_city'] == NULL ) : ?>
+
+						<li>
+							<span>Результати по всіх населених пунктах</span>
+						</li>
+
+					<?php else : ?>
+
+						<li>
+							<span>Населений п-т:</span>
+							<span><?php echo mxzsm_get_city_row_by_id( $args['city_id'] )->city; ?></span>
 						</li>
 
 					<?php endif; ?>
 
-				<?php endif; ?>
+					<!-- categoty -->
+					<?php if( $args['cat_id'] !== 0 ) : ?>
 
-				<!-- keyword -->
-				<?php if( $args['key_word_id'] !== 0 ) : ?>
+						<?php if( count( $args['result_obj']->posts ) !== 0 ) : ?>
 
-					<?php if( count( $args['result_obj']->posts ) !== 0 ) : ?>
+							<li>
+								<span>Категорія об'єкту:</span>
+								<span><?php echo mxzsm_get_term_by_term_id( $args['cat_id'] ); ?></span>
+							</li>
 
-						<li>
-							<span>Ключове слово:</span>
-							<span><?php echo mxzsm_get_term_by_term_id( $args['key_word_id'] ); ?></span>
-						</li>
+						<?php endif; ?>
 
 					<?php endif; ?>
 
-				<?php endif; ?>
+					<!-- keyword -->
+					<?php if( $args['key_word_id'] !== 0 ) : ?>
 
-			</ul>
+						<?php if( count( $args['result_obj']->posts ) !== 0 ) : ?>
+
+							<li>
+								<span>Ключове слово:</span>
+								<span><?php echo mxzsm_get_term_by_term_id( $args['key_word_id'] ); ?></span>
+							</li>
+
+						<?php endif; ?>
+
+					<?php endif; ?>
+
+				</ul>
+
+			</div>
 
 		<?php }
 
@@ -276,73 +297,105 @@ class MXZSM_Shortcode_Search_Result
 
 			?>
 
-			<div class="mx-search-result-item" style="border-bottom: 2px solid #333;">
-			
-				<div class="mx-search-result-item-thumb">
-					<img src="<?php echo $the_thumbnail; ?>" width="50px" alt="" />
-				</div>
+			<div class="mx-search-result-wrap">
 
-				<div class="mx-search-result-item-desc">
-					<div class="mx-search-result-item-title">
-						<a href="<?php get_post_permalink(); ?>"><?php echo get_the_title(); ?></a>
+				<div class="mx-search-result-item">
+				
+					<div class="mx-search-result-item-thumb">
+
+						<a href="<?php echo get_post_permalink(); ?>">
+							<img src="<?php echo $the_thumbnail; ?>" class="" alt="" />
+						</a>
+
+						<!-- autor -->
+						<div class="mx-search-result-item-meta-data-autor">
+							
+							<span>Автор:</span>
+							<?php echo get_the_author(); ?>
+
+						</div>
+
 					</div>
 
-					<div class="mx-search-result-item-excerp">
-						<?php the_excerpt(); ?>
+					<div class="mx-search-result-item-desc">
+						<div class="mx-search-result-item-title">
+							<a href="<?php echo get_post_permalink(); ?>"><?php echo get_the_title(); ?></a>
+						</div>
+
+						<div class="mx-search-result-item-excerp">
+							<?php the_excerpt(); ?>
+						</div>						
+
 					</div>
 
 					<!-- meta data -->
 					<!-- keywords -->
-					<?php $keywords = get_the_terms( get_the_ID(), 'mxzsm_objects_keywords' ); ?>
+					<div class="mx-meta-keywords-data">
 
-					<?php if( $keywords ) : ?>
+						<?php $keywords = get_the_terms( get_the_ID(), 'mxzsm_objects_keywords' ); ?>
 
-						<div class="mx-search-result-item-meta-data-keywords">
-							<span>Мітки:</span>
+						<?php if( $keywords ) : ?>
 
-								<ul>
+							<div class="mx-search-result-item-meta-data-keywords">
+								<span>Мітки:</span>
 
-								<?php foreach ( $keywords as $key => $value ) { ?>
+									<ul>
 
-									<li><a href="<?php echo mxzsm_create_url_for_terms( 'key_word_id', $value->term_id ); ?>"><?php echo $value->name; ?></a></li>
+									<?php foreach ( $keywords as $key => $value ) { ?>
 
-								<?php } ?>
+										<li><a href="<?php echo mxzsm_create_url_for_terms( 'key_word_id', $value->term_id ); ?>"><?php echo $value->name; ?></a></li>
 
-							</ul>
+									<?php } ?>
+
+								</ul>
+							</div>
+
+						<?php endif; ?>
+
+						<!-- categories -->
+						<?php $categories = get_the_terms( get_the_ID(), 'mxzsm_objects_category' ); ?>
+
+						<?php if( $categories ) : ?>
+
+							<div class="mx-search-result-item-meta-data-categories">
+
+								<span>Категорії:</span>
+
+									<ul>
+
+									<?php foreach ( $categories as $key => $value ) { ?>
+
+										<li>
+											<a href="<?php echo mxzsm_create_url_for_terms( 'cat_id', $value->term_id ); ?>"><?php echo $value->name; ?></a>
+										</li>
+
+									<?php } ?>
+
+								</ul>
+								
+							</div>
+
+						<?php endif; ?>	
+
+					</div>
+					<!--  -->
+
+					<!-- region / city -->
+					<?php
+						$region_data = mxzsm_get_region_by_post_id( get_the_ID() );	
+
+						$city_data = mxzsm_get_city_by_post_id( get_the_ID() );
+					?>
+					<div class="mx-result-region-city-wrap">
+
+						<div class="mx-result-region">
+							<a href="<?php echo mxzsm_create_url_for_regions( $region_data['region_id'] ); ?>"><?php echo $region_data['region_name']; ?></a>
 						</div>
 
-					<?php endif; ?>
-
-					<!-- categories -->
-					<?php $categories = get_the_terms( get_the_ID(), 'mxzsm_objects_category' ); ?>
-
-					<?php if( $categories ) : ?>
-
-						<div class="mx-search-result-item-meta-data-categories">
-							<span>Категорії:</span>
-
-								<ul>
-
-								<?php foreach ( $categories as $key => $value ) { ?>
-
-									<li>
-										<a href="<?php echo mxzsm_create_url_for_terms( 'cat_id', $value->term_id ); ?>"><?php echo $value->name; ?></a>
-									</li>
-
-								<?php } ?>
-
-							</ul>
-							
+						<div class="mx-result-city">
+							<a href="<?php echo mxzsm_create_url_for_city( $city_data['city_id'], $region_data['region_id'] ); ?>"><?php echo $city_data['city_name']; ?></a>
 						</div>
-
-					<?php endif; ?>
-
-					<!-- autor -->
-					<div class="mx-search-result-item-meta-data-autor">
 						
-						<span>Автор:</span>
-						<?php echo get_the_author(); ?>
-
 					</div>
 
 				</div>

@@ -30,7 +30,7 @@ class MXZSM_Shortcodes_Search_Form
 
 				<div class="mx-search-by-cities">
 					
-					<h3>Пошук Об'єкта</h3>
+					<!-- <h3>Пошук Об'єктів</h3> -->
 
 					<!-- regions -->
 					<div class="mxzsm_regions">

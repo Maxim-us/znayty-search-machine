@@ -45,7 +45,7 @@ function mxzsm_nothing_found( $message ) {
 */
 function mxzsm_alert( $message ) {
 
-	echo '<div class="mxzsm_alert">' . $message . '</div>';
+	echo '<div class="mxzsm_alert alert alert-primary" role="alert">' . $message . '</div>';
 
 }
 
@@ -89,7 +89,7 @@ function mxzsm_check_get_set_get( $_get ) {
 		$_get_[$key] = $value;
 
 		// val to int
-		if( $value !== '' ) {
+		if( $value !== '' AND $value !== 'full' ) {
 
 			$val = intval( $value );
 
@@ -402,5 +402,119 @@ function mxzsm_create_url_for_terms( $get_key, $term_id ) {
 	$url = $clean_url . '&' . $get_key . '=' . $term_id . '&res_page=1';
 
 	return $url;
+
+}
+
+/*
+* Create url for regions
+*/
+function mxzsm_create_url_for_regions( $region_id ) {
+
+	$full_url = mxzsm_get_current_url();
+
+	// check terms key
+	preg_match( '/(\?.*)/', $full_url, $matches_terms );
+
+	$clean_url = $full_url;
+
+	$clean_url = str_replace( $matches_terms[0], '', $clean_url );	
+
+	$url = $clean_url . '?region_id=' . $region_id;
+
+	return $url;
+
+}
+
+/*
+* Create url for city
+*/
+function mxzsm_create_url_for_city( $city_id, $region_id ) {
+
+	$full_url = mxzsm_get_current_url();
+
+	// check terms key
+	preg_match( '/(\?.*)/', $full_url, $matches_terms );
+
+	$clean_url = $full_url;
+
+	$clean_url = str_replace( $matches_terms[0], '', $clean_url );	
+
+	$url = $clean_url . '?region_id=' . $region_id . '&city_id=' . $city_id;
+
+	return $url;
+
+}
+
+/*
+* Get region by post ID
+*/
+function mxzsm_get_region_by_post_id( $post_id ) {
+
+	$region_data = array(
+
+		'region_id' 	=> 0,
+		'region_name'	=> ''
+
+	);
+
+	global $wpdb;
+
+	$postmeta_table = $wpdb->prefix . 'postmeta';
+
+	$region_id_row = $wpdb->get_row(
+
+		"SELECT meta_value FROM $postmeta_table
+			WHERE
+				post_id = $post_id
+			AND
+				meta_key = '_mxzsm_region_id'"
+	);
+
+	$region_id = $region_id_row->meta_value;
+
+	$region_row = mxzsm_get_region_row_by_id( $region_id );
+
+	$region_data['region_id'] = $region_row->id;
+
+	$region_data['region_name'] = $region_row->region;
+
+	return $region_data;
+
+}
+
+/*
+* Get city by post ID
+*/
+function mxzsm_get_city_by_post_id( $post_id ) {
+
+	$city_data = array(
+
+		'city_id' 	=> 0,
+		'city_name'	=> ''
+
+	);
+
+	global $wpdb;
+
+	$postmeta_table = $wpdb->prefix . 'postmeta';
+
+	$city_id_row = $wpdb->get_row(
+
+		"SELECT meta_value FROM $postmeta_table
+			WHERE
+				post_id = $post_id
+			AND
+				meta_key = '_mxzsm_city_id'"
+	);
+
+	$city_id = $city_id_row->meta_value;
+
+	$city_row = mxzsm_get_city_row_by_id( $city_id );
+
+	$city_data['city_id'] = $city_row->id;
+
+	$city_data['city_name'] = $city_row->city;
+
+	return $city_data;
 
 }

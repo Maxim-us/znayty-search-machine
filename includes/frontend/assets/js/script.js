@@ -288,6 +288,17 @@ jQuery( document ).ready( function( $ ) {
 		} );
 
 	// tabs
+	// activate public posts tab
+	if( mxGetURLParameter( 'active_item' ) ) {
+
+		$( '.mxzsm_users_obj_tab_item' ).removeClass( 'mxzsm_active' );
+		$( '.mxzsm_users_obj_tab_item.my-public-obj' ).addClass( 'mxzsm_active' );
+
+		$( '.mxzsm_users_obj_tabs_body' ).children( 'div' ).css( 'display', 'none' );
+		$( '.mxzsm_users_obj_tabs_body_my_objs' ).css( 'display', 'block' );
+
+	}
+
 	$( '.mxzsm_users_obj_tabs_header' ).find( 'a' ).each( function() {
 
 		$( this ).on( 'click', function( e ) {
@@ -309,3 +320,22 @@ jQuery( document ).ready( function( $ ) {
 	} );
 
 } );
+
+// functions
+function mxGetURLParameter( sParam ) {
+
+    var sPageURL = window.location.search.substring(1);
+
+    var sURLVariables = sPageURL.split('&');
+
+    for (var i = 0; i < sURLVariables.length; i++) {
+
+        var sParameterName = sURLVariables[i].split('=');
+
+        if (sParameterName[0] == sParam) {
+
+            return sParameterName[1];
+
+        }
+    }
+}

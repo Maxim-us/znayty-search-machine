@@ -21,7 +21,7 @@ class MXZSM_Shortcode_Add_New_Obj
 			// if user logged in
 			if( ! is_user_logged_in() ) {
 
-				mxzsm_alert( 'Вам потрібно увійти в систему щоб додати новий об\'єкт.' );
+				mxzsm_alert( 'Вам потрібно <a href="/my-account/">увійти в систему</a> щоб додати новий об\'єкт.' );
 
 				return;
 			}
@@ -78,7 +78,7 @@ class MXZSM_Shortcode_Add_New_Obj
 						<a href="#" class="mxzsm_users_obj_tab_item verification" data-active-tab="verification">На модерації (<?php echo count( $result_obj_v->posts ); ?>)</a>
 					</li>
 					<li>
-						<a href="#" class="mxzsm_users_obj_tab_item" data-active-tab="my_objs">Мої опубліковані об'єкти (<?php echo count( $results_posts_p ); ?>)</a>
+						<a href="#" class="mxzsm_users_obj_tab_item my-public-obj" data-active-tab="my_objs">Мої опубліковані об'єкти (<?php echo count( $results_posts_p ); ?>)</a>
 					</li>
 				</ul>
 
@@ -255,7 +255,7 @@ class MXZSM_Shortcode_Add_New_Obj
 						<tr>
 							<td>
 								Жодного об'єкта на модерації.
-								<a href="#" class="mxzsm__add_obj_empty_link">Додати об'єкт</a>
+								<a href="/add-new-object/" class="mxzsm__add_obj_empty_link">Додати об'єкт</a>
 							</td>
 						</tr>
 					<?php endif; ?>
@@ -298,7 +298,7 @@ class MXZSM_Shortcode_Add_New_Obj
 						<tr>
 							<td>
 								Жодного опублікованого об'єкта.
-								<a href="#" class="mxzsm__add_obj_empty_link">Додати об'єкт</a>
+								<a href="/add-new-object/" class="mxzsm__add_obj_empty_link">Додати об'єкт</a>
 							</td>
 						</tr>
 					<?php endif; ?>
