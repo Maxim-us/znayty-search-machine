@@ -52,11 +52,21 @@ jQuery( document ).ready( function( $ ) {
 
 		e.preventDefault();
 
+		var search_res_slug = $( this ).attr( 'data-search-result-slug' );
+
+		var search_slug = '';
+
+		if( search_res_slug !== undefined ) {
+
+			search_slug = '/' + search_res_slug + '/';
+
+		}
+
 		var region_id = mxzsm_app.regions_select.val();
 
 		var city_id = mxzsm_app.cities_select.val();
 
-		window.location.href = '?region_id=' + region_id + '&city_id=' + city_id;
+		window.location.href = search_slug + '?region_id=' + region_id + '&city_id=' + city_id + '#mx_search_system_info';
 
 	} );
 

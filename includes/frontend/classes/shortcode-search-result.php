@@ -216,7 +216,7 @@ class MXZSM_Shortcode_Search_Result
 		*/
 		public static function search_system_info( $args ) { ?>
 
-			<div class="alert alert-secondary mx-search-system-info-wrap">
+			<div class="alert alert-secondary mx-search-system-info-wrap" id="mx_search_system_info">
 
 			<h5>Результат пошуку:</h5>
 

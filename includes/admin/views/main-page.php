@@ -1,7 +1,7 @@
 <h2>Shortcodes:</h2>
 <p>
 	<span>Search Form:</span><br>
-	[mxzsm_search_form]
+	[mxzsm_search_form search_result_slug='search-page'] (search_result_slug='search-page' - optional)
 </p>
 
 <p>

@@ -11,7 +11,7 @@ class MXZSM_Shortcodes_Search_Form
 
 	}
 
-		public static function search_form() {
+		public static function search_form( $atts ) {
 
 			ob_start();
 
@@ -28,7 +28,7 @@ class MXZSM_Shortcodes_Search_Form
 
 			?>
 
-				<div class="mx-search-by-cities">
+				<div class="mx-search-by-cities bg-light p-5">
 					
 					<!-- <h3>Пошук Об'єктів</h3> -->
 
@@ -39,7 +39,7 @@ class MXZSM_Shortcodes_Search_Form
 
 						<select name="mxzsm_regions" id="mxzsm_regions" required="required">
 
-							<option value=""></option>
+							<option value="">Область не вибрана</option>
 
 							<?php foreach ( $results_regions as $key => $value ) : ?>
 
@@ -60,13 +60,13 @@ class MXZSM_Shortcodes_Search_Form
 					?>
 					<div class="mxzsm_cities" <?php echo count( $cities ) == 0 ? 'style="display: none;"' : ''; ?>>
 
-						<h4>Оберіть місто:</h4>
+						<h4>Оберіть населений пункт:</h4>
 
 						<select name="mxzsm_cities" id="mxzsm_cities">
 							
 							<?php if( count( $cities ) !== 0 ) : ?>
 
-								<option value=""></option>
+								<option value="">Результат по всіх н-п області</option>
 
 								<?php foreach ( $cities as $key => $value ) : ?>
 
@@ -82,8 +82,6 @@ class MXZSM_Shortcodes_Search_Form
 
 					</div>
 
-					<br>
-
 					<?php
 
 						$region = mxzsm_get_region_row_by_id( $_get_['region_id'] );
@@ -91,8 +89,16 @@ class MXZSM_Shortcodes_Search_Form
 					?>
 
 					<div class="mx-znayty-submit-button-wrap" <?php echo $region == NULL ? 'style="display: none;"' : ''; ?>>
+
+						<?php if( isset( $atts['search_result_slug'] ) ) : ?>
 						
-						<button id="mx_znayty_submit_button">Знайти</button>
+							<button id="mx_znayty_submit_button" data-search-result-slug="<?php echo $atts['search_result_slug']; ?>">Знайти</button>
+
+						<?php else : ?>
+
+							<button id="mx_znayty_submit_button">Знайти</button>
+
+						<?php endif; ?>
 
 					</div>
 
