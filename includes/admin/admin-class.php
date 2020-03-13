@@ -92,7 +92,7 @@ class MXZSM_Admin_Main
 	* Routes collection
 	*/
 	public function mxzsm_routes_collection()
-	{
+	{		
 
 		// main menu item
 		MXZSM_Route::mxzsm_get( 'MXZSM_Main_Page_Controller', 'index', '', [
@@ -100,24 +100,7 @@ class MXZSM_Admin_Main
 			'menu_title' => 'City Lists'
 		] );
 
-		// // sub menu item
-		// MXZSM_Route::mxzsm_get( 'MXZSM_Main_Page_Controller', 'submenu', '', [
-		// 	'page_title' => 'Sub Menu title',
-		// 	'menu_title' => 'Sub menu'
-		// ], 'sub_menu' );
-
-		// // hide menu item
-		// MXZSM_Route::mxzsm_get( 'MXZSM_Main_Page_Controller', 'hidemenu', 'NULL', [
-		// 	'page_title' => 'Hidden Menu title',
-		// ], 'hide_menu' );
-
-		// // sub settings menu item
-		// MXZSM_Route::mxzsm_get( 'MXZSM_Main_Page_Controller', 'settings_menu_item_action', 'NULL', [
-		// 	'menu_title' => 'Settings Item',
-		// 	'page_title' => 'Title of settings page'
-		// ], 'settings_menu_item', true );
-
-	}
+	}		
 
 }
 

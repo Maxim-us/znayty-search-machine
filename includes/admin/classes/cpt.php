@@ -29,6 +29,16 @@ class MXZSMCPTclass
 	*/
 	public static function mxzsm_custom_init()
 	{
+
+		$count_v_posts = self::mxzsm_count_of_verification_posts();
+
+		$_menu_title = 'Об\'єкти';
+
+		if( $count_v_posts !== false ) {
+
+			$_menu_title =  'Об\'єкти (' . $count_v_posts . ')';
+
+		}
 		
 		register_post_type( 'mxzsm_objects', array(
 
@@ -44,7 +54,7 @@ class MXZSMCPTclass
 				'not_found'          =>  'Об\'єкт не знайдено',
 				'not_found_in_trash' => 'Об\'єкт не знайдено в кошику',
 				'parent_item_colon'  => '',
-				'menu_name'          => 'Об\'єкти'
+				'menu_name'          => $_menu_title
 
 			),
 			'public'             => true,
@@ -132,5 +142,32 @@ class MXZSMCPTclass
 		}
 
 	}
+
+		/**
+		*	count of verification posts
+		*/
+		public static function mxzsm_count_of_verification_posts()
+		{
+
+			global $wpdb;
+
+			$count_of_posts = false;
+
+			$posts_table = $wpdb->prefix . 'posts';
+
+			$posts_results = $wpdb->get_results( 
+				"SELECT ID FROM $posts_table
+					WHERE post_status = 'verification'"
+			);
+
+			if( count( $posts_results ) > 0 ) {
+
+				$count_of_posts = count( $posts_results );
+
+			}
+
+			return $count_of_posts;
+
+		}
 
 }

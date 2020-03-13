@@ -35,7 +35,8 @@ class MXZSM_Route_Registrar
 		'capability' 	=> 'manage_options',
 		'menu_slug' 	=> MXZSM_MAIN_MENU_SLUG,
 		'dashicons' 	=> 'dashicons-image-filter',
-		'position' 		=> 111
+		'position' 		=> 111,
+		'awaiting_mod'  => false
 	];
 
 	/**
@@ -172,8 +173,17 @@ class MXZSM_Route_Registrar
 	public function mxzsm_create_admin_main_menu()
 	{
 
-		add_menu_page( __( $this->properties['page_title'], 'mxzsm-domain' ),
-			 __( $this->properties['menu_title'], 'mxzsm-domain' ),
+		$_menu_title = __( $this->properties['menu_title'], 'mxzsm-domain' );
+
+		if( $this->properties['awaiting_mod'] !== false ) {
+
+			$_menu_title =  __( $this->properties['menu_title'], 'mxzsm-domain' ) . '<span class="awaiting-mod count-' . $this->properties['awaiting_mod'] . '"><span class="pending-count" aria-hidden="true">' . $this->properties['awaiting_mod'] . '</span></span>';
+
+		}
+
+		add_menu_page( 
+			 __( $this->properties['page_title'], 'mxzsm-domain' ),
+			 $_menu_title,
 			 $this->properties['capability'],
 			 $this->slug,
 			 array( $this, 'mxzsm_view_connector' ),

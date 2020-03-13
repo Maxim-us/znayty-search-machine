@@ -48,6 +48,11 @@ function mxzsm_alert( $message ) {
 	echo '<div class="mxzsm_alert alert alert-primary" role="alert">' . $message . '</div>';
 
 }
+	function mxzsm_alert_success( $message ) {
+
+		echo '<div class="mxzsm_alert alert alert-success" role="alert">' . $message . '</div>';
+
+	}
 
 /*
 * Get regions result
