@@ -311,8 +311,24 @@ class MXZSM_Shortcode_Search_Result
 						<div class="mx-search-result-item-meta-data-autor">
 							
 							<span>Автор:</span>
-							<?php echo get_the_author(); ?>
+							<?php echo get_the_author(); ?>							
 
+						</div>
+
+						<!-- date -->
+						<div class="mx-search-result-item-meta-data-date">
+							
+							<?php $time_string = esc_attr( get_the_date() );
+
+							$posted_on = sprintf(
+								/* translators: %s: post date. */
+								esc_html_x( 'Опубліковано: %s', 'post date', 'znayty-search-machine' ),
+								$time_string
+							);
+
+							echo '<span class="posted-on">' . $posted_on . '</span>'; ?>
+
+							
 						</div>
 
 					</div>
@@ -331,6 +347,9 @@ class MXZSM_Shortcode_Search_Result
 					<!-- meta data -->
 					<!-- keywords -->
 					<div class="mx-meta-keywords-data">
+
+						<!-- add extra items -->
+						<?php do_action( 'mx_list_of_obj_meta_data' ); ?>
 
 						<?php $keywords = get_the_terms( get_the_ID(), 'mxzsm_objects_keywords' ); ?>
 

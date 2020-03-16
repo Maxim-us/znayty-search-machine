@@ -27,11 +27,11 @@ class MXZSM_Shortcode_Add_New_Obj
 			}
 
 			// if user has "mxzsm_contr_obj" role
-			$user_role = wp_get_current_user()->roles[0];			
+			$user_role = wp_get_current_user()->roles[0];
 
 			if( $user_role !== 'mxzsm_contr_obj' AND $user_role !== 'administrator' ) {
 
-				mxzsm_alert( 'Вам потрібно підтвердити свою електронну пошту.' );
+				mxzsm_alert( 'Вам потрібно підтвердити свою електронну пошту.<br>Також, Ви можете написати нам через нашу електронну адресу: znayty@mail.re' );
 
 				return;
 			}
@@ -85,9 +85,23 @@ class MXZSM_Shortcode_Add_New_Obj
 				<div class="mxzsm_users_obj_tabs_body">
 
 					<!-- add obj -->
-					<div class="mxzsm_users_obj_tabs_body_add_form"><?php
-						MXZSM_Shortcode_Add_New_Obj::add_obj_form();
-					?></div>
+					<div class="mxzsm_users_obj_tabs_body_add_form">
+
+						<?php $count_of_v_posts = 2; ?>
+
+						<?php if( count( $result_obj_v->posts ) < $count_of_v_posts ) : ?>
+							
+							<?php
+								MXZSM_Shortcode_Add_New_Obj::add_obj_form();
+							?>
+
+						<?php else : ?>
+
+							<h4 style="text-align: center;">Ви відправили <?php echo $count_of_v_posts; ?> об'єкта на модерацію. Після затвердження, Ви зможете надістати ще. <br> Дякуємо Вам!</h4>
+
+						<?php endif; ?>
+
+					</div>
 
 					<!-- obj verification -->
 					<div class="mxzsm_users_obj_tabs_body_verification" style="display: none;"><?php

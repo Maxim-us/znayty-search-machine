@@ -22,6 +22,9 @@ class MXZSMCPTclass
 
 		add_action( 'init', array( 'MXZSMCPTclass', 'mxzsm_custom_init' ) );
 
+		// publish post
+		add_action( 'edit_post_mxzsm_objects', array( 'MXZSMCPTclass', 'mxzsm_send_email_to_the_user_publish_post' ), 20, 2 );
+
 	}
 
 	/*
@@ -73,9 +76,9 @@ class MXZSMCPTclass
 
 		// new post status
 		register_post_status( 'verification', array(
-            'label'                     => _x( 'Verification ', 'post status label', 'bznrd' ),
+            'label'                     => _x( 'На підтвердження ', 'post status label', 'bznrd' ),
             'public'                    => true,
-            'label_count'               => _n_noop( 'Verification <span class="count">(%s)</span>', 'Verification <span class="count">(%s)</span>', 'plugin-domain' ),
+            'label_count'               => _n_noop( 'На підтвердження <span class="count">(%s)</span>', 'На підтвердження <span class="count">(%s)</span>', 'plugin-domain' ),
             'post_type'                 => array( 'mxzsm_objects' ),
             'show_in_admin_all_list'    => true,
             'show_in_admin_status_list' => true,
@@ -169,5 +172,26 @@ class MXZSMCPTclass
 			return $count_of_posts;
 
 		}
+
+	/*
+	*	Send email to the user, when object will be publish
+	*/
+	public static function mxzsm_send_email_to_the_user_publish_post( $post_id, $post )
+	{
+
+		$email = 'user@mail.ru';
+
+		$header  = 'From: Знайти сервіс <support@znayty.com.ua>' . "\r\n";
+		$header .= 'Reply-To: support@znayty.com.ua' . "\r\n";
+
+		$header .= "Content-Type: text/html; charset=UTF-8\r\n";
+		
+		$subject = 'Ваш об\'єкт опубліковано!';
+
+		$message = 'Ваш об\'єкт опубліковано. Ви можете його переглянути тут: <a href="' . $post->guid . '">' . $post->guid . '</a>';
+
+		wp_mail( $email, $subject, $message, $header );
+
+	}
 
 }

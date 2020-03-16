@@ -277,21 +277,15 @@ jQuery( document ).ready( function( $ ) {
 
 					alert( 'Відправлено на модерацію. Дякуємо Вам!' );
 
+					document.location.reload();
+
 
 				} else {
 
 					alert( 'Виникла помилка! Звяжіться з нами.' );
 
 				}
-
-				$( '.mxzsm_users_obj_tabs_header' ).find( 'a' ).removeClass( 'mxzsm_active' );
-
-				$( '.mxzsm_users_obj_tab_item.verification' ).addClass( 'mxzsm_active' );
-
-				// 
-				$( '.mxzsm_users_obj_tabs_body' ).children( 'div' ).css( 'display', 'none' );
-
-				$( '.mxzsm_users_obj_tabs_body_verification' ).css( 'display', 'block' );
+				
 
 			} );
 

@@ -106,6 +106,17 @@ class MXZSM_Database_Talk_Front
 			// insert thumbnail
 			set_post_thumbnail( $post_ID, sanitize_text_field( $_POST['img_id'] ) );
 
+			// send email to admin
+			$email = get_user_by( 'ID', 1 )->user_email;
+
+			$subject = 'Додано новий об\'єкт!';
+
+			$message = 'Щойно користувач додав новий об\'єкт. Необхідна модерація.';
+
+			$headers = 'From: Знайти робот <robot@znayty.com.ua>' . "\r\n";
+
+			wp_mail( $email, $subject, $message, $headers );
+
 			echo gettype( $post_ID );
 
 		}
