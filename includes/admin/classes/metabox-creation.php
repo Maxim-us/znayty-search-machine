@@ -28,6 +28,9 @@ class MXZSMMetaboxCreationClass
 		// save address
 		add_action( 'save_post_mxzsm_objects', array( 'MXZSMMetaboxCreationClass', 'mxzsm_meta_boxes_address_save' ) );
 
+		// save coordinates
+		add_action( 'save_post_mxzsm_objects', array( 'MXZSMMetaboxCreationClass', 'mxzsm_meta_boxes_coordinates_save' ) );
+
 	}
 
 
@@ -63,7 +66,35 @@ class MXZSMMetaboxCreationClass
 					'normal'
 				);
 
-			// }			
+			// }
+
+			add_meta_box(
+				'mxzsm_meta_coordinates_of_obj',
+				'Координати об\'єкта',
+				array( 'MXZSMMetaboxCreationClass', 'mxzsm_meta_coordinates_of_obj_callback' ),
+				array( 'mxzsm_objects' ),
+				'normal'
+			);		
+
+		}
+
+		// coordinated
+		public static function mxzsm_meta_coordinates_of_obj_callback( $post, $meta )
+		{
+
+			$latitude = get_post_meta( $post->ID, '_mxzsm_obj_latitude', true );
+
+			$longitude = get_post_meta( $post->ID, '_mxzsm_obj_longitude', true );
+
+			echo '<p>
+				<label for="#">Latitude</label><br>
+				<input type="text" name="mxzsm_latitude_of_obj" id="mxzsm_latitude_of_obj" value="' . $latitude . '" />
+			</p>';
+
+			echo '<p>
+				<label for="#">Longitude</label><br>
+				<input type="text" name="mxzsm_longitude_of_obj" id="mxzsm_longitude_of_obj" value="' . $longitude . '" />
+			</p>';
 
 		}
 
@@ -209,6 +240,10 @@ class MXZSMMetaboxCreationClass
 
 		$address = get_post_meta( $post->ID, '_mxzsm_address_of_obj', true );
 
+		$latitude = get_post_meta( $post->ID, '_mxzsm_obj_latitude', true );
+
+		$longitude = get_post_meta( $post->ID, '_mxzsm_obj_longitude', true );
+
 		?>
 
 		<p>
@@ -224,6 +259,12 @@ class MXZSMMetaboxCreationClass
 		<p>
 			<label for="#"><b>Адреса об'єкта:</b></label><br>
 			<span><?php echo $address; ?></span>
+		</p>
+
+		<p>
+			<label for="#"><b>Координати об'єкта:</b></label><br>
+			<span>Latitude: <?php echo $latitude; ?></span><br>
+			<span>Longitude: <?php echo $longitude; ?></span>
 		</p>
 
 		<?php 
@@ -250,6 +291,31 @@ class MXZSMMetaboxCreationClass
 		$address = sanitize_text_field( $_POST['mxzsm_address_of_obj'] );
 
 		update_post_meta( $post_id, '_mxzsm_address_of_obj', $address  );
+
+	}
+
+	public static function mxzsm_meta_boxes_coordinates_save( $post_id )
+	{
+
+		if ( ! isset( $_POST['mxzsm_meta_box_address_nonce'] ) ) 
+				return;
+
+		if ( ! wp_verify_nonce( $_POST['mxzsm_meta_box_address_nonce'], 'mxzsm_meta_box_address_action') )
+			return;
+
+		if ( defined('DOING_AUTOSAVE') && DOING_AUTOSAVE ) 
+			return;
+
+		if( ! current_user_can( 'edit_post', $post_id ) )
+			return;
+
+		$latitude = sanitize_text_field( $_POST['mxzsm_latitude_of_obj'] );
+
+			update_post_meta( $post_id, '_mxzsm_obj_latitude', $latitude  );
+
+		$longitude = sanitize_text_field( $_POST['mxzsm_longitude_of_obj'] );
+
+			update_post_meta( $post_id, '_mxzsm_obj_longitude', $longitude  );		
 
 	}
 

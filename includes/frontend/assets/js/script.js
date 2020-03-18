@@ -227,6 +227,12 @@ jQuery( document ).ready( function( $ ) {
 
 	            $( '#mxzsm_add_obj_image_id' ).val( attach.id );
 
+	         //    $( '#mxzsm_add_obj_image' ).hide();
+
+	         //    $( '#mx_delete_image' ).show();
+
+	        	// console.log( attach.id );
+
 	        } ).open();
 
 		} );
@@ -268,7 +274,11 @@ jQuery( document ).ready( function( $ ) {
 				keywords: 	$( '#mxzsm_add_obj_keywords' ).val(),
 				img_url: 	$( '#mxzsm_add_obj_img' ).attr( 'src' ),
 				img_id: 	$( '#mxzsm_add_obj_image_id' ).val(),
-				nonce: 		$( '#mxzsm_add_obj_nonce' ).val()
+				nonce: 		$( '#mxzsm_add_obj_nonce' ).val(),
+
+				// map data
+				obj_latitude: $( '#mx_obj_latitude' ).val(),
+				obj_longitude: $( '#mx_obj_longitude' ).val()
 			};
 
 			jQuery.post( mxzsm_app.ajaxurl, form_data, function( response ) {

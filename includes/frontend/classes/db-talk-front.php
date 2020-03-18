@@ -103,6 +103,13 @@ class MXZSM_Database_Talk_Front
 			// set address
 			update_post_meta( $post_ID, '_mxzsm_address_of_obj', sanitize_text_field( $_POST['address'] ) );
 
+			// google map
+			// set latitude
+			update_post_meta( $post_ID, '_mxzsm_obj_latitude', sanitize_text_field( $_POST['obj_latitude'] ) );
+
+			// set longitude
+			update_post_meta( $post_ID, '_mxzsm_obj_longitude', sanitize_text_field( $_POST['obj_longitude'] ) );			
+
 			// insert thumbnail
 			set_post_thumbnail( $post_ID, sanitize_text_field( $_POST['img_id'] ) );
 

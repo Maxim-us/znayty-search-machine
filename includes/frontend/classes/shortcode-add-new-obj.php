@@ -63,6 +63,7 @@ class MXZSM_Shortcode_Add_New_Obj
 					WHERE
 						post_author = $user_id
 						AND post_status = 'publish'
+						AND post_type = 'mxzsm_objects'
 					ORDER BY post_title"
 
 			); ?>
@@ -142,14 +143,14 @@ class MXZSM_Shortcode_Add_New_Obj
 			<form id="mxzsm_add_obj">
 
 				<!-- title -->
-				<div>
+				<div class="mx_add_obj_fields">
 					<label for="mxzsm_add_obj_title">Назва об'єкта:</label>
 					<input type="text" id="mxzsm_add_obj_title" required="required" />
 					<small>Введіть назву об'єкта. Наприклад: <em>Кафе "Роксолана"</em></small>
 				</div>
 
 				<!-- editor -->
-				<div>
+				<div class="mx_add_obj_fields">
 					<label for="mxzsm_add_obj_editor">Опис об'єкта:</label><?php
 
 					wp_editor( 'Опис об\'єкта', 'mxzsm_add_obj_editor', array(
@@ -176,7 +177,7 @@ class MXZSM_Shortcode_Add_New_Obj
 					);
 
 				?>
-				<div>
+				<div class="mx_add_obj_fields">
 					<!-- regions -->
 					<div class="mxzsm_regions">
 
@@ -206,34 +207,106 @@ class MXZSM_Shortcode_Add_New_Obj
 				</div>
 
 				<!-- categories of obj -->
-				<div>
+				<div class="mx_add_obj_fields">
 					<label for="mxzsm_add_obj_categories">Категорія об'єкта:</label>
 					<input type="text" id="mxzsm_add_obj_categories" required="required" />
 					<small>Введіть через кому категорії. Наприклад: <em>Кафе, Їдальня</em></small>
 				</div>
 
 				<!-- keywords of obj -->
-				<div>
+				<div class="mx_add_obj_fields">
 					<label for="mxzsm_add_obj_keywords">Мітки об'єкта:</label>
 					<input type="text" id="mxzsm_add_obj_keywords" required="required" />
 					<small>Введіть через кому мітки. Наприклад: <em>їжа, корпоратив, вареники</em></small>
 				</div>
 
 				<!-- address of obj -->
-				<div>
+				<div class="mx_add_obj_fields">
 					<label for="mxzsm_add_obj_address">Адреса об'єкта:</label>
 					<input type="text" id="mxzsm_add_obj_address" required="required" />
 					<small>Введіть адресу об'єкта. Наприклад: <em>Місто Київ, вул. Головна, буд. 120</em></small>
 				</div>
 
 				<!-- object image -->
-				<div>
+				<div class="mx_add_obj_fields">
 					<label for="mxzsm_add_obj_image">Зображення об'єкта:</label>
 					<a href="#" id="mxzsm_add_obj_image">Обрати зображення</a>
+					<!-- <a href="#" id="mx_delete_image" style="display: none;">Замінити зображення</a> -->
 					<input type="hidden" id="mxzsm_add_obj_image_id" />
 					<div class="mxzsm_add_obj_image_preview"></div>
 				</div>
 				<br>
+
+				<!-- map -->
+				<div class="mx_add_obj_fields">
+					<label for="#">Вкажіть координати об'єкта:</label>
+					<div class="form-group row">
+						<div class="col-6">
+							<input type="text" id="mx_obj_latitude" value="" readonly />
+						</div>
+						<div class="col-6">
+							<input type="text" id="mx_obj_longitude" value="" readonly />
+						</div>
+					</div>
+					<small>Вам потрібно просто клацнути по карті в місці, де розміщений Ваш об'єкт.</small>
+				</div>
+
+				<style>
+			      #map {
+			        height: 700px;
+			      }
+			    </style>
+				<script async defer
+			    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCM_MT4-9Hzyqvn_JiRpf1cgYg8-VLG2hM&callback=initMap">
+			    </script>
+				<div id="map" class="mx_add_obj_fields"></div>
+			    <script>
+			    	var markers = [];
+
+				    function initMap() {
+
+				        var mxLatlng = {lat: 49.577, lng: 31.458};
+
+				        var map = new google.maps.Map(document.getElementById('map'), {
+				        	zoom: 7,
+				        	center: mxLatlng
+				        });
+
+				        map.addListener('click', function( e ) {
+			        	
+				        	for( i=0; i<markers.length; i++ ){
+
+						        markers[i].setMap(null);
+
+						    }
+
+						    markers = [];
+
+				        	var latitude = e.latLng.lat();
+
+						    var longitude = e.latLng.lng();
+
+						    var markerLatlng = {
+						    	lat: latitude,
+						    	lng: longitude
+						    };
+
+						    var marker = new google.maps.Marker({
+					          position: markerLatlng,
+					          map: map
+					        });
+
+					        markers.push( marker );
+
+					        document.getElementById( 'mx_obj_latitude' ).setAttribute( 'value', latitude );
+
+					        document.getElementById( 'mx_obj_longitude' ).setAttribute( 'value', longitude )	         
+
+				        } );
+
+				    }
+			    </script>
+
 
 				<input type="hidden" id="mxzsm_add_obj_nonce" value="<?php echo wp_create_nonce( 'mxzsm_add_obj_nonce_request' ); ?>" />
 
