@@ -38,6 +38,9 @@ class MXZSM_FrontEnd_Main
 
 				MXZSM_Shortcode_Search_Result::add_shorcode();
 
+				// add actions
+				MXZSM_Shortcode_Search_Result::add_actions();
+
 			// add new obj (for logged user)
 			mxzsm_require_class_file_frontend( 'shortcode-add-new-obj.php' );
 

@@ -10,6 +10,42 @@ class MXZSM_Shortcode_Search_Result
 
 	}
 
+	public static function add_actions()
+	{
+
+		// 'mx_search_result_item_thumb_area'
+			// add thumbnail
+			add_action( 'mx_search_result_item_thumb_area', array( 'MXZSM_Shortcode_Search_Result', 'mx_add_thumbnail' ), 10 );
+
+			// add thumbnail
+			add_action( 'mx_search_result_item_thumb_area', array( 'MXZSM_Shortcode_Search_Result', 'mx_add_author' ), 20 );
+
+			// add date
+			add_action( 'mx_search_result_item_thumb_area', array( 'MXZSM_Shortcode_Search_Result', 'mx_add_date' ), 30 );
+
+		// 'mx_search_result_item_desc_area'
+			// add title
+			add_action( 'mx_search_result_item_desc_area', array( 'MXZSM_Shortcode_Search_Result', 'mx_add_title' ), 10 );
+
+			// add excerpt
+			add_action( 'mx_search_result_item_desc_area', array( 'MXZSM_Shortcode_Search_Result', 'mx_add_excerpt' ), 20 );
+
+		// 'mx_list_of_obj_meta_data'
+			// add keywords
+			add_action( 'mx_list_of_obj_meta_data', array( 'MXZSM_Shortcode_Search_Result', 'mx_add_keywords' ), 20 );
+
+			// add categories
+			add_action( 'mx_list_of_obj_meta_data', array( 'MXZSM_Shortcode_Search_Result', 'mx_add_categories' ), 30 );
+
+		// 'mx_search_result_item_footer'
+			// add region and city
+			add_action( 'mx_search_result_item_footer', array( 'MXZSM_Shortcode_Search_Result', 'mx_region_and_city' ), 10 );
+			
+
+
+
+	}
+
 		// search result
 		public static function search_result() {
 
@@ -291,11 +327,8 @@ class MXZSM_Shortcode_Search_Result
 		/*
 		* Search result item
 		*/
-		public static function search_result_item() {
-
-			$the_thumbnail = get_the_post_thumbnail_url( get_the_ID(), 'znayty-thumbnail' ) == false ? MXZSM_PLUGIN_URL . 'includes/frontend/assets/img/empty-thum.png' : get_the_post_thumbnail_url( get_the_ID(), 'znayty-thumbnail' );
-
-			?>
+		public static function search_result_item()
+		{ ?>
 
 			<div class="mx-search-result-wrap">
 
@@ -303,44 +336,13 @@ class MXZSM_Shortcode_Search_Result
 				
 					<div class="mx-search-result-item-thumb">
 
-						<a href="<?php echo get_post_permalink(); ?>">
-							<img src="<?php echo $the_thumbnail; ?>" class="" alt="" />
-						</a>
-
-						<!-- autor -->
-						<div class="mx-search-result-item-meta-data-autor">
-							
-							<span>Автор:</span>
-							<?php echo get_the_author(); ?>							
-
-						</div>
-
-						<!-- date -->
-						<div class="mx-search-result-item-meta-data-date">
-							
-							<?php $time_string = esc_attr( get_the_date() );
-
-							$posted_on = sprintf(
-								/* translators: %s: post date. */
-								esc_html_x( 'Опубліковано: %s', 'post date', 'znayty-search-machine' ),
-								$time_string
-							);
-
-							echo '<span class="posted-on">' . $posted_on . '</span>'; ?>
-
-							
-						</div>
+						<?php do_action( 'mx_search_result_item_thumb_area' ); ?>
 
 					</div>
 
 					<div class="mx-search-result-item-desc">
-						<div class="mx-search-result-item-title">
-							<a href="<?php echo get_post_permalink(); ?>"><?php echo get_the_title(); ?></a>
-						</div>
 
-						<div class="mx-search-result-item-excerp">
-							<?php the_excerpt(); ?>
-						</div>						
+						<?php do_action( 'mx_search_result_item_desc_area' ); ?>		
 
 					</div>
 
@@ -351,71 +353,15 @@ class MXZSM_Shortcode_Search_Result
 						<!-- add extra items -->
 						<?php do_action( 'mx_list_of_obj_meta_data' ); ?>
 
-						<?php $keywords = get_the_terms( get_the_ID(), 'mxzsm_objects_keywords' ); ?>
-
-						<?php if( $keywords ) : ?>
-
-							<div class="mx-search-result-item-meta-data-keywords">
-								<span>Мітки:</span>
-
-									<ul>
-
-									<?php foreach ( $keywords as $key => $value ) { ?>
-
-										<li><a href="<?php echo mxzsm_create_url_for_terms( 'key_word_id', $value->term_id ); ?>"><?php echo $value->name; ?></a></li>
-
-									<?php } ?>
-
-								</ul>
-							</div>
-
-						<?php endif; ?>
-
-						<!-- categories -->
-						<?php $categories = get_the_terms( get_the_ID(), 'mxzsm_objects_category' ); ?>
-
-						<?php if( $categories ) : ?>
-
-							<div class="mx-search-result-item-meta-data-categories">
-
-								<span>Категорії:</span>
-
-									<ul>
-
-									<?php foreach ( $categories as $key => $value ) { ?>
-
-										<li>
-											<a href="<?php echo mxzsm_create_url_for_terms( 'cat_id', $value->term_id ); ?>"><?php echo $value->name; ?></a>
-										</li>
-
-									<?php } ?>
-
-								</ul>
-								
-							</div>
-
-						<?php endif; ?>	
-
 					</div>
 					<!--  -->
 
-					<!-- region / city -->
-					<?php
-						$region_data = mxzsm_get_region_by_post_id( get_the_ID() );	
+					<!-- result footer -->
+					<div class="mx-result-footer">
 
-						$city_data = mxzsm_get_city_by_post_id( get_the_ID() );
-					?>
-					<div class="mx-result-region-city-wrap">
+						<?php do_action( 'mx_search_result_item_footer' ); ?>
 
-						<div class="mx-result-region">
-							<a href="<?php echo mxzsm_create_url_for_regions( $region_data['region_id'] ); ?>"><?php echo $region_data['region_name']; ?></a>
-						</div>
-
-						<div class="mx-result-city">
-							<a href="<?php echo mxzsm_create_url_for_city( $city_data['city_id'], $region_data['region_id'] ); ?>"><?php echo $city_data['city_name']; ?></a>
-						</div>
-						
-					</div>
+					</div>					
 
 				</div>
 
@@ -423,4 +369,185 @@ class MXZSM_Shortcode_Search_Result
 
 		<?php }
 
+	/**
+	*	Add actions
+	*/
+
+	/*
+	* 'mx_search_result_item_thumb_area'
+	*/
+		// thumbnail
+		public static function mx_add_thumbnail()
+		{ 
+
+			$the_thumbnail = get_the_post_thumbnail_url( get_the_ID(), 'znayty-thumbnail' ) == false ? MXZSM_PLUGIN_URL . 'includes/frontend/assets/img/empty-thum.png' : get_the_post_thumbnail_url( get_the_ID(), 'znayty-thumbnail' );
+
+			?>
+			<a href="<?php echo get_post_permalink(); ?>">
+				<img src="<?php echo $the_thumbnail; ?>" class="" alt="" />
+			</a>
+
+		<?php } 
+
+		// author
+		public static function mx_add_author()
+		{ ?>
+
+			<!-- autor -->
+			<div class="mx-search-result-item-meta-data-autor">
+				
+				<span>Автор:</span>
+
+				<?php
+
+					$author_first_name = get_the_author_meta( 'first_name' );
+
+					$author_last_name = get_the_author_meta( 'last_name' );
+
+					if( $author_first_name !== '' ) {
+
+						echo $author_first_name . ' ' . $author_last_name;
+
+					} else {
+
+						echo get_the_author();
+
+					}
+
+				?>
+
+			</div>
+
+		<?php }
+
+		// add date
+		public static function mx_add_date()
+		{ ?>
+
+			<!-- date -->
+			<div class="mx-search-result-item-meta-data-date">
+				
+				<?php $time_string = esc_attr( get_the_date() );
+
+				$posted_on = sprintf(
+					/* translators: %s: post date. */
+					esc_html_x( 'Опубліковано: %s', 'post date', 'znayty-search-machine' ),
+					$time_string
+				);
+
+				echo '<span class="posted-on">' . $posted_on . '</span>'; ?>
+				
+			</div>
+
+		<?php }
+
+	/*
+	* 'mx_search_result_item_desc_area'
+	*/
+		// add title
+		public static function mx_add_title()
+		{ ?>
+
+			<div class="mx-search-result-item-title">
+				<a href="<?php echo get_post_permalink(); ?>"><?php echo get_the_title(); ?></a>
+			</div>
+
+		<?php }
+
+		// add excerpt
+		public static function mx_add_excerpt()
+		{ ?>
+
+			<div class="mx-search-result-item-excerp">
+				<?php the_excerpt(); ?>
+			</div>	
+
+		<?php }
+
+	/*
+	* 'mx_list_of_obj_meta_data'
+	*/
+		// add keywords
+		public static function mx_add_keywords()
+		{ ?>
+
+			<?php $keywords = get_the_terms( get_the_ID(), 'mxzsm_objects_keywords' ); ?>
+
+			<?php if( $keywords ) : ?>
+
+				<div class="mx-search-result-item-meta-data-keywords">
+					<span>Мітки:</span>
+
+						<ul>
+
+						<?php foreach ( $keywords as $key => $value ) { ?>
+
+							<li><a href="<?php echo mxzsm_create_url_for_terms( 'key_word_id', $value->term_id ); ?>"><?php echo $value->name; ?></a></li>
+
+						<?php } ?>
+
+					</ul>
+				</div>
+
+			<?php endif; ?>
+
+		<?php }
+
+		// add keywords
+		public static function mx_add_categories()
+		{ ?>
+
+			<!-- categories -->
+			<?php $categories = get_the_terms( get_the_ID(), 'mxzsm_objects_category' ); ?>
+
+			<?php if( $categories ) : ?>
+
+				<div class="mx-search-result-item-meta-data-categories">
+
+					<span>Категорії:</span>
+
+						<ul>
+
+						<?php foreach ( $categories as $key => $value ) { ?>
+
+							<li>
+								<a href="<?php echo mxzsm_create_url_for_terms( 'cat_id', $value->term_id ); ?>"><?php echo $value->name; ?></a>
+							</li>
+
+						<?php } ?>
+
+					</ul>
+					
+				</div>
+
+			<?php endif; ?>	
+
+		<?php }
+
+	/*
+	* 'mx_search_result_item_footer'
+	*/
+		// add region and city
+		public static function mx_region_and_city()
+		{ ?>
+
+			<!-- region / city -->
+			<?php
+				$region_data = mxzsm_get_region_by_post_id( get_the_ID() );	
+
+				$city_data = mxzsm_get_city_by_post_id( get_the_ID() );
+			?>
+			<div class="mx-result-region-city-wrap">
+
+				<div class="mx-result-region">
+					<a href="<?php echo mxzsm_create_url_for_regions( $region_data['region_id'] ); ?>"><?php echo $region_data['region_name']; ?></a>
+				</div>
+
+				<div class="mx-result-city">
+					<a href="<?php echo mxzsm_create_url_for_city( $city_data['city_id'], $region_data['region_id'] ); ?>"><?php echo $city_data['city_name']; ?></a>
+				</div>
+				
+			</div>
+
+		<?php }
 }
