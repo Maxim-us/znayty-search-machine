@@ -144,14 +144,14 @@ class MXZSM_Shortcode_Add_New_Obj
 
 				<!-- title -->
 				<div class="mx_add_obj_fields">
-					<label for="mxzsm_add_obj_title">Назва об'єкта:</label>
+					<label for="mxzsm_add_obj_title">Назва об'єкта: <span class="mxzsm_required">*</span></label>
 					<input type="text" id="mxzsm_add_obj_title" required="required" />
 					<small>Введіть назву об'єкта. Наприклад: <em>Кафе "Роксолана"</em></small>
 				</div>
 
 				<!-- editor -->
 				<div class="mx_add_obj_fields">
-					<label for="mxzsm_add_obj_editor">Опис об'єкта:</label><?php
+					<label for="mxzsm_add_obj_editor">Опис об'єкта: <span class="mxzsm_required">*</span></label><?php
 
 					wp_editor( 'Опис об\'єкта', 'mxzsm_add_obj_editor', array(
 						'media_buttons' => false,
@@ -181,7 +181,7 @@ class MXZSM_Shortcode_Add_New_Obj
 					<!-- regions -->
 					<div class="mxzsm_regions">
 
-						<label for="mxzsm_regions">Оберіть область:</label>
+						<label for="mxzsm_regions">Оберіть область: <span class="mxzsm_required">*</span></label>
 
 						<select name="mxzsm_regions" class="mxzsm_add_obj_regions" id="mxzsm_regions" required="required">
 
@@ -199,7 +199,7 @@ class MXZSM_Shortcode_Add_New_Obj
 					<!-- cities -->
 					<div class="mxzsm_cities" style="display: none;">
 
-						<label for="mxzsm_cities">Оберіть місто:</label>
+						<label for="mxzsm_cities">Оберіть місто: <span class="mxzsm_required">*</span></label>
 
 						<select name="mxzsm_cities" id="mxzsm_cities" required="required"></select>
 
@@ -208,23 +208,70 @@ class MXZSM_Shortcode_Add_New_Obj
 
 				<!-- categories of obj -->
 				<div class="mx_add_obj_fields">
-					<label for="mxzsm_add_obj_categories">Категорія об'єкта:</label>
+					<label for="mxzsm_add_obj_categories">Категорія об'єкта: <span class="mxzsm_required">*</span></label>
 					<input type="text" id="mxzsm_add_obj_categories" required="required" />
 					<small>Введіть через кому категорії. Наприклад: <em>Кафе, Їдальня</em></small>
 				</div>
 
 				<!-- keywords of obj -->
 				<div class="mx_add_obj_fields">
-					<label for="mxzsm_add_obj_keywords">Мітки об'єкта:</label>
+					<label for="mxzsm_add_obj_keywords">Мітки об'єкта: <span class="mxzsm_required">*</span></label>
 					<input type="text" id="mxzsm_add_obj_keywords" required="required" />
 					<small>Введіть через кому мітки. Наприклад: <em>їжа, корпоратив, вареники</em></small>
 				</div>
 
 				<!-- address of obj -->
 				<div class="mx_add_obj_fields">
-					<label for="mxzsm_add_obj_address">Адреса об'єкта:</label>
+					<label for="mxzsm_add_obj_address">Адреса об'єкта: <span class="mxzsm_required">*</span></label>
 					<input type="text" id="mxzsm_add_obj_address" required="required" />
 					<small>Введіть адресу об'єкта. Наприклад: <em>Місто Київ, вул. Головна, буд. 120</em></small>
+				</div>
+
+				<!-- website of obj -->
+				<div class="mx_add_obj_fields">
+					<label for="mxzsm_add_obj_website">Вебсайт об'єкта:</label>
+					<input type="url" id="mxzsm_add_obj_website" />
+					<small>Вебсайт об'єкта (якщо він є). Наприклад: <em>https://domain.com.ua</em></small>
+				</div>
+
+				<!-- email of obj -->
+				<div class="mx_add_obj_fields">
+					<label for="mxzsm_add_obj_email">Електронна адреса об'єкта:</label>
+					<input type="email" id="mxzsm_add_obj_email" />
+					<small>Електронна адреса об'єкта (якщо вона є). Наприклад: <em>my_magazyn@gmail.com</em></small>
+				</div>
+
+				<!-- phone of obj -->
+				<div class="mx_add_obj_fields">
+					<label for="mxzsm_add_obj_phone">Телефон об'єкта:</label>
+					<input type="tel" id="mxzsm_add_obj_phone" />
+					<small>Телефон об'єкта (якщо він є). Наприклад: <em>097 00 000 00</em></small>
+				</div>
+
+				<!-- against covid -->
+				<div class="mx_add_obj_fields mx_checkbox_area">
+					<h6>Чи допомагає цей об'єкт подолати Коронавірус (COVID-19)?:</h6>
+					<input type="checkbox" id="mxzsm_add_obj_against_covid" /> <label for="mxzsm_add_obj_against_covid">Так, допомагає</label>
+					<input type="text" id="mx_against_covid_details" style="display: none;" placeholder="Як саме?" />
+				</div>
+
+				<!-- service type -->
+				<div class="mx_add_obj_fields mx_checkbox_area">
+
+					<h6>Режим роботи:</h6>
+
+					<div>
+						<input type="checkbox" id="mxzsm_add_obj_service_type_normal_mode" checked/> <label for="mxzsm_add_obj_service_type_normal_mode">Звичайний режим</label>
+					</div>
+
+					<div>
+						<input type="checkbox" id="mxzsm_add_obj_service_type_takeaway" /> <label for="mxzsm_add_obj_service_type_takeaway">Торгівля на виніс</label>
+					</div>
+
+					<div>
+						<input type="checkbox" id="mxzsm_add_obj_service_type_delivery" /> <label for="mxzsm_add_obj_service_type_delivery">Є доставка додому</label>
+					</div>
+					
 				</div>
 
 				<!-- object image -->
@@ -234,18 +281,18 @@ class MXZSM_Shortcode_Add_New_Obj
 					<!-- <a href="#" id="mx_delete_image" style="display: none;">Замінити зображення</a> -->
 					<input type="hidden" id="mxzsm_add_obj_image_id" />
 					<div class="mxzsm_add_obj_image_preview"></div>
-				</div>
-				<br>
+				</div>	
 
+				<br>
 				<!-- map -->
 				<div class="mx_add_obj_fields">
 					<label for="#">Вкажіть координати об'єкта:</label>
 					<div class="form-group row">
 						<div class="col-6">
-							<input type="text" id="mx_obj_latitude" value="" readonly />
+							<input type="text" id="mx_obj_latitude" value=""  />
 						</div>
 						<div class="col-6">
-							<input type="text" id="mx_obj_longitude" value="" readonly />
+							<input type="text" id="mx_obj_longitude" value=""  />
 						</div>
 					</div>
 					<small>Вам потрібно просто клацнути по карті в місці, де розміщений Ваш об'єкт.</small>

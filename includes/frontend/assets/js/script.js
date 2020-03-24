@@ -260,7 +260,35 @@ jQuery( document ).ready( function( $ ) {
 
 			}
 
-			// content = mxzsm_builder_encode_html( content );
+			// against covid
+			var against_covid = '';
+			if( $( '#mxzsm_add_obj_against_covid' ).prop( 'checked' ) ) {
+
+				against_covid = $( '#mx_against_covid_details' ).val();
+
+			}
+
+			// service type
+			var service_type_normal_mode = '';
+			if( $( '#mxzsm_add_obj_service_type_normal_mode' ).prop( 'checked' ) ) {
+
+				service_type_normal_mode = 1;
+
+			}
+
+			var service_type_takeaway = '';
+			if( $( '#mxzsm_add_obj_service_type_takeaway' ).prop( 'checked' ) ) {
+
+				service_type_takeaway = 1;
+
+			}
+
+			var service_type_delivery = '';
+			if( $( '#mxzsm_add_obj_service_type_delivery' ).prop( 'checked' ) ) {
+
+				service_type_delivery = 1;
+
+			}
 
 			var form_data = {
 				action: 	'mxzsm_add_obj_front',
@@ -278,10 +306,30 @@ jQuery( document ).ready( function( $ ) {
 
 				// map data
 				obj_latitude: $( '#mx_obj_latitude' ).val(),
-				obj_longitude: $( '#mx_obj_longitude' ).val()
+				obj_longitude: $( '#mx_obj_longitude' ).val(),
+
+				// website
+				obj_website: $( '#mxzsm_add_obj_website' ).val(),
+
+				// email
+				obj_email: $( '#mxzsm_add_obj_email' ).val(),
+
+				// against covid
+				obj_against_covid: against_covid,
+
+				// service type
+				normal_mode: service_type_normal_mode,
+				takeaway: service_type_takeaway,
+				delivery: service_type_delivery,
+
+				// phone
+				obj_phone: $( '#mxzsm_add_obj_phone' ).val()
+
 			};
 
 			jQuery.post( mxzsm_app.ajaxurl, form_data, function( response ) {
+
+				console.log( response );
 
 				if( response === 'integer' ) {
 
@@ -292,7 +340,7 @@ jQuery( document ).ready( function( $ ) {
 
 				} else {
 
-					alert( 'Виникла помилка! Звяжіться з нами.' );
+					alert( 'Виникла помилка! Зв\'яжіться з нами.' );
 
 				}
 				
@@ -331,6 +379,21 @@ jQuery( document ).ready( function( $ ) {
 
 		} );
 		
+	} );
+
+	// covid area
+	$( '#mxzsm_add_obj_against_covid' ).on( 'change', function() {
+
+		if( $( this ).prop( 'checked' ) ) {
+
+			$( '#mx_against_covid_details' ).show( 'fast' );
+
+		} else {
+
+			$( '#mx_against_covid_details' ).hide( 'fast' );
+
+		}
+
 	} );
 
 } );

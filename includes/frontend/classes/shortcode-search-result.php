@@ -18,19 +18,22 @@ class MXZSM_Shortcode_Search_Result
 			add_action( 'mx_search_result_item_thumb_area', array( 'MXZSM_Shortcode_Search_Result', 'mx_add_thumbnail' ), 10 );
 
 			// add thumbnail
-			add_action( 'mx_search_result_item_thumb_area', array( 'MXZSM_Shortcode_Search_Result', 'mx_add_author' ), 20 );
+			// add_action( 'mx_search_result_item_thumb_area', array( 'MXZSM_Shortcode_Search_Result', 'mx_add_author' ), 20 );
 
 			// add date
-			add_action( 'mx_search_result_item_thumb_area', array( 'MXZSM_Shortcode_Search_Result', 'mx_add_date' ), 30 );
+			// add_action( 'mx_search_result_item_thumb_area', array( 'MXZSM_Shortcode_Search_Result', 'mx_add_date' ), 30 );
 
 		// 'mx_search_result_item_desc_area'
 			// add title
 			add_action( 'mx_search_result_item_desc_area', array( 'MXZSM_Shortcode_Search_Result', 'mx_add_title' ), 10 );
 
 			// add excerpt
-			add_action( 'mx_search_result_item_desc_area', array( 'MXZSM_Shortcode_Search_Result', 'mx_add_excerpt' ), 20 );
+			// add_action( 'mx_search_result_item_desc_area', array( 'MXZSM_Shortcode_Search_Result', 'mx_add_excerpt' ), 20 );
 
 		// 'mx_list_of_obj_meta_data'
+			// add phone number
+			add_action( 'mx_list_of_obj_meta_data', array( 'MXZSM_Shortcode_Search_Result', 'mx_add_phone_number' ), 20 );
+
 			// add keywords
 			add_action( 'mx_list_of_obj_meta_data', array( 'MXZSM_Shortcode_Search_Result', 'mx_add_keywords' ), 20 );
 
@@ -38,11 +41,13 @@ class MXZSM_Shortcode_Search_Result
 			add_action( 'mx_list_of_obj_meta_data', array( 'MXZSM_Shortcode_Search_Result', 'mx_add_categories' ), 30 );
 
 		// 'mx_search_result_item_footer'
+
+			// add list of icons
+			add_action( 'mx_search_result_item_footer', array( 'MXZSM_Shortcode_Search_Result', 'mx_list_of_icons' ), 10 );
+
 			// add region and city
 			add_action( 'mx_search_result_item_footer', array( 'MXZSM_Shortcode_Search_Result', 'mx_region_and_city' ), 10 );
 			
-
-
 
 	}
 
@@ -330,10 +335,10 @@ class MXZSM_Shortcode_Search_Result
 		public static function search_result_item()
 		{ ?>
 
-			<div class="mx-search-result-wrap">
+			<div class="mx-search-result-item">
 
-				<div class="mx-search-result-item">
-				
+				<div>				
+			
 					<div class="mx-search-result-item-thumb">
 
 						<?php do_action( 'mx_search_result_item_thumb_area' ); ?>
@@ -361,7 +366,7 @@ class MXZSM_Shortcode_Search_Result
 
 						<?php do_action( 'mx_search_result_item_footer' ); ?>
 
-					</div>					
+					</div>
 
 				</div>
 
@@ -380,7 +385,7 @@ class MXZSM_Shortcode_Search_Result
 		public static function mx_add_thumbnail()
 		{ 
 
-			$the_thumbnail = get_the_post_thumbnail_url( get_the_ID(), 'znayty-thumbnail' ) == false ? MXZSM_PLUGIN_URL . 'includes/frontend/assets/img/empty-thum.png' : get_the_post_thumbnail_url( get_the_ID(), 'znayty-thumbnail' );
+			$the_thumbnail = get_the_post_thumbnail_url( get_the_ID(), 'znayty-thumbnail' ) == false ? MXZSM_PLUGIN_URL . 'includes/frontend/assets/img/empty-thum_list.jpg' : get_the_post_thumbnail_url( get_the_ID(), 'znayty-thumbnail' );
 
 			?>
 			<a href="<?php echo get_post_permalink(); ?>">
@@ -467,6 +472,15 @@ class MXZSM_Shortcode_Search_Result
 	/*
 	* 'mx_list_of_obj_meta_data'
 	*/
+		// add phone number
+		public static function mx_add_phone_number()
+		{ ?>
+
+			<div class="mx_add_phone_number">
+				<i class="fa fa-phone"></i> - 097 86 23 320
+			</div>
+
+		<?php }
 		// add keywords
 		public static function mx_add_keywords()
 		{ ?>
@@ -527,6 +541,25 @@ class MXZSM_Shortcode_Search_Result
 	/*
 	* 'mx_search_result_item_footer'
 	*/
+
+		// add list of icons
+		public static function mx_list_of_icons()
+		{ ?>
+
+			<div class="mx_list_of_icons">
+
+				<?php $url = get_post_permalink(); ?>
+				
+				<a href="<?php echo $url; ?>" title="Відео"><i class="fa fa-youtube"></i></a>
+				<a href="<?php echo $url; ?>#map" title="Точка на мапі"><i class="fa fa-map-marker"></i></a>
+				<a href="<?php echo $url; ?>" title="Електронна адреса"><i class="fa fa-envelope-o"></i></a>
+				<a href="<?php echo $url; ?>" title="Вебсайт"><i class="fa fa-globe"></i></a>
+				<a href="<?php echo $url; ?>" title="Телефон"><i class="fa fa-phone"></i></a>
+	
+			</div>
+
+		<?php }
+
 		// add region and city
 		public static function mx_region_and_city()
 		{ ?>

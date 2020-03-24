@@ -31,6 +31,21 @@ class MXZSMMetaboxCreationClass
 		// save coordinates
 		add_action( 'save_post_mxzsm_objects', array( 'MXZSMMetaboxCreationClass', 'mxzsm_meta_boxes_coordinates_save' ) );
 
+		// save website
+		add_action( 'save_post_mxzsm_objects', array( 'MXZSMMetaboxCreationClass', 'mxzsm_meta_boxes_website_save' ) );
+
+		// save email
+		add_action( 'save_post_mxzsm_objects', array( 'MXZSMMetaboxCreationClass', 'mxzsm_meta_boxes_email_save' ) );
+
+		// against covid
+		add_action( 'save_post_mxzsm_objects', array( 'MXZSMMetaboxCreationClass', 'mxzsm_meta_boxes_against_covid_save' ) );
+		
+		// service type
+		add_action( 'save_post_mxzsm_objects', array( 'MXZSMMetaboxCreationClass', 'mxzsm_meta_boxes_service_type_normal_mode_save' ) );
+
+		// phone
+		add_action( 'save_post_mxzsm_objects', array( 'MXZSMMetaboxCreationClass', 'mxzsm_meta_boxes_phone_save' ) );
+
 	}
 
 
@@ -68,13 +83,59 @@ class MXZSMMetaboxCreationClass
 
 			// }
 
+			// coordinates
 			add_meta_box(
 				'mxzsm_meta_coordinates_of_obj',
 				'Координати об\'єкта',
 				array( 'MXZSMMetaboxCreationClass', 'mxzsm_meta_coordinates_of_obj_callback' ),
 				array( 'mxzsm_objects' ),
 				'normal'
-			);		
+			);
+
+			// website
+			add_meta_box(
+				'mxzsm_meta_website_of_obj',
+				'Вебсайт об\'єкта',
+				array( 'MXZSMMetaboxCreationClass', 'mxzsm_meta_website_of_obj_callback' ),
+				array( 'mxzsm_objects' ),
+				'normal'
+			);
+
+			// email
+			add_meta_box(
+				'mxzsm_meta_email_of_obj',
+				'Електронна пошта об\'єкта',
+				array( 'MXZSMMetaboxCreationClass', 'mxzsm_meta_email_of_obj_callback' ),
+				array( 'mxzsm_objects' ),
+				'normal'
+			);
+
+			// against covid
+			add_meta_box(
+				'mxzsm_meta_against_covid_of_obj',
+				'Чи допомагає цей об\'єкт подолати Коронавірус (COVID-19)?:',
+				array( 'MXZSMMetaboxCreationClass', 'mxzsm_meta_against_covid_of_obj_callback' ),
+				array( 'mxzsm_objects' ),
+				'normal'
+			);
+			
+			// service type
+			add_meta_box(
+				'mxzsm_meta_service_type_of_obj',
+				'Режим роботи:',
+				array( 'MXZSMMetaboxCreationClass', 'mxzsm_meta_service_type_of_obj_callback' ),
+				array( 'mxzsm_objects' ),
+				'normal'
+			);
+
+			// phone
+			add_meta_box(
+				'mxzsm_meta_phone_of_obj',
+				'Телефон:',
+				array( 'MXZSMMetaboxCreationClass', 'mxzsm_meta_phone_of_obj_callback' ),
+				array( 'mxzsm_objects' ),
+				'normal'
+			);
 
 		}
 
@@ -256,7 +317,7 @@ class MXZSMMetaboxCreationClass
 			<span><?php echo $users_keywords; ?></span>
 		</p>
 
-		<p>
+		<!-- <p>
 			<label for="#"><b>Адреса об'єкта:</b></label><br>
 			<span><?php echo $address; ?></span>
 		</p>
@@ -265,7 +326,7 @@ class MXZSMMetaboxCreationClass
 			<label for="#"><b>Координати об'єкта:</b></label><br>
 			<span>Latitude: <?php echo $latitude; ?></span><br>
 			<span>Longitude: <?php echo $longitude; ?></span>
-		</p>
+		</p> -->
 
 		<?php 
 
@@ -318,5 +379,238 @@ class MXZSMMetaboxCreationClass
 			update_post_meta( $post_id, '_mxzsm_obj_longitude', $longitude  );		
 
 	}
+
+	// website
+	public static function mxzsm_meta_website_of_obj_callback( $post, $meta )
+	{
+
+		// check nonce
+		wp_nonce_field( 'mxzsm_meta_box_website_action', 'mxzsm_meta_box_website_nonce' );
+
+		$website = get_post_meta( $post->ID, '_mxzsm_obj_website', true );
+
+		echo '<p>
+			<label for="#"></label>
+			<input type="url" name="mxzsm_obj_website" id="mxzsm_obj_website" value="' . $website . '" />
+		</p>';
+
+	}
+
+		// save website meta
+		public static function mxzsm_meta_boxes_website_save( $post_id )
+		{
+
+			if ( ! isset( $_POST['mxzsm_meta_box_website_nonce'] ) ) 
+				return;
+
+			if ( ! wp_verify_nonce( $_POST['mxzsm_meta_box_website_nonce'], 'mxzsm_meta_box_website_action') )
+				return;
+
+			if ( defined('DOING_AUTOSAVE') && DOING_AUTOSAVE ) 
+				return;
+
+			if( ! current_user_can( 'edit_post', $post_id ) )
+				return;
+
+			// mxzsm_regions
+			$website = esc_url_raw( $_POST['mxzsm_obj_website'] );
+
+			update_post_meta( $post_id, '_mxzsm_obj_website', $website  );
+
+		}
+
+	// email
+	public static function mxzsm_meta_email_of_obj_callback( $post, $meta )
+	{
+
+		// check nonce
+		wp_nonce_field( 'mxzsm_meta_box_email_action', 'mxzsm_meta_box_email_nonce' );
+
+		$email = get_post_meta( $post->ID, '_mxzsm_obj_email', true );
+
+		echo '<p>
+			<label for="#"></label>
+			<input type="email" name="mxzsm_obj_email" id="mxzsm_obj_email" value="' . $email . '" />
+		</p>';
+
+	}
+
+		public static function mxzsm_meta_boxes_email_save( $post_id )
+		{
+
+			if ( ! isset( $_POST['mxzsm_meta_box_email_nonce'] ) ) 
+				return;
+
+			if ( ! wp_verify_nonce( $_POST['mxzsm_meta_box_email_nonce'], 'mxzsm_meta_box_email_action') )
+				return;
+
+			if ( defined('DOING_AUTOSAVE') && DOING_AUTOSAVE ) 
+				return;
+
+			if( ! current_user_can( 'edit_post', $post_id ) )
+				return;
+
+			// mxzsm_regions
+			$email = sanitize_email( $_POST['mxzsm_obj_email'] );
+
+			update_post_meta( $post_id, '_mxzsm_obj_email', $email  );
+
+		}
+
+	// against covid
+	public static function mxzsm_meta_against_covid_of_obj_callback( $post, $meta )
+	{
+
+		// check nonce
+		wp_nonce_field( 'mxzsm_meta_box_against_covid_action', 'mxzsm_meta_box_against_covid_nonce' );
+
+		$against_covid = get_post_meta( $post->ID, '_mxzsm_obj_against_covid', true );
+
+		echo '<p>
+			<label for="#"></label>
+			<input type="text" name="mxzsm_obj_against_covid" id="mxzsm_obj_against_covid" value="' . $against_covid . '" />
+		</p>';
+
+	}
+
+		public static function mxzsm_meta_boxes_against_covid_save( $post_id )
+		{
+
+			if ( ! isset( $_POST['mxzsm_meta_box_against_covid_nonce'] ) ) 
+				return;
+
+			if ( ! wp_verify_nonce( $_POST['mxzsm_meta_box_against_covid_nonce'], 'mxzsm_meta_box_against_covid_action') )
+				return;
+
+			if ( defined('DOING_AUTOSAVE') && DOING_AUTOSAVE ) 
+				return;
+
+			if( ! current_user_can( 'edit_post', $post_id ) )
+				return;
+
+			// 
+			$against_covid = sanitize_text_field( $_POST['mxzsm_obj_against_covid'] );
+
+			update_post_meta( $post_id, '_mxzsm_obj_against_covid', $against_covid  );
+
+		}
+
+	// service type
+	public static function mxzsm_meta_service_type_of_obj_callback( $post, $meta )
+	{
+
+		// check nonce
+		wp_nonce_field( 'mxzsm_meta_box_service_type_action', 'mxzsm_meta_box_service_type_nonce' );
+
+		$normal_mode = get_post_meta( $post->ID, '_mxzsm_obj_service_type_normal_mode', true );
+
+		$takeaway = get_post_meta( $post->ID, '_mxzsm_obj_service_type_takeaway', true );
+
+		$delivery = get_post_meta( $post->ID, '_mxzsm_obj_service_type_delivery', true );
+
+		?>
+		<div>
+			<input type="checkbox" id="mxzsm_add_obj_service_type_normal_mode" name="mxzsm_add_obj_service_type_normal_mode" value="<?php echo $normal_mode == 1 ? '1' : ''; ?>" <?php echo $normal_mode == 1 ? 'checked' : ''; ?> /> <label for="mxzsm_add_obj_service_type_normal_mode">Звичайний режим</label>
+		</div>
+
+		<div>
+			<input type="checkbox" id="mxzsm_add_obj_service_type_takeaway" name="mxzsm_add_obj_service_type_takeaway" value="<?php echo $takeaway == 1 ? '1' : ''; ?>" <?php echo $takeaway == 1 ? 'checked' : ''; ?> /> <label for="mxzsm_add_obj_service_type_takeaway">Торгівля на виніс</label>
+		</div>
+
+		<div>
+			<input type="checkbox" id="mxzsm_add_obj_service_type_delivery" name="mxzsm_add_obj_service_type_delivery" value="<?php echo $delivery == 1 ? '1' : ''; ?>" <?php echo $delivery == 1 ? 'checked' : ''; ?> /> <label for="mxzsm_add_obj_service_type_delivery">Є доставка додому</label>
+		</div>
+
+		<?php 
+
+	}
+
+		public static function mxzsm_meta_boxes_service_type_normal_mode_save( $post_id )
+		{
+
+			if ( ! isset( $_POST['mxzsm_meta_box_service_type_nonce'] ) ) 
+				return;
+
+			if ( ! wp_verify_nonce( $_POST['mxzsm_meta_box_service_type_nonce'], 'mxzsm_meta_box_service_type_action') )
+				return;
+
+			if ( defined('DOING_AUTOSAVE') && DOING_AUTOSAVE ) 
+				return;
+
+			if( ! current_user_can( 'edit_post', $post_id ) )
+				return;
+
+			// 
+			$normal_mode = '';			
+
+				if( isset( $_POST['mxzsm_add_obj_service_type_normal_mode'] ) ) {
+
+					$normal_mode = 1;
+
+				}
+
+				update_post_meta( $post_id, '_mxzsm_obj_service_type_normal_mode', $normal_mode  );
+
+			// 
+			$takeaway = '';			
+
+				if( isset( $_POST['mxzsm_add_obj_service_type_takeaway'] ) ) {
+
+					$takeaway = 1;
+
+				}
+
+				update_post_meta( $post_id, '_mxzsm_obj_service_type_takeaway', $takeaway  );
+
+			// 
+			$delivery = '';			
+
+				if( isset( $_POST['mxzsm_add_obj_service_type_delivery'] ) ) {
+
+					$delivery = 1;
+
+				}
+
+				update_post_meta( $post_id, '_mxzsm_obj_service_type_delivery', $delivery  );			
+
+		}
+
+	// phone
+	public static function mxzsm_meta_phone_of_obj_callback( $post, $meta )
+	{
+
+		// check nonce
+		wp_nonce_field( 'mxzsm_meta_box_phone_action', 'mxzsm_meta_box_phone_nonce' );
+
+		$phone = get_post_meta( $post->ID, '_mxzsm_obj_phone', true );
+
+		echo '<p>
+			<label for="#"></label>
+			<input type="text" name="mxzsm_obj_phone" id="mxzsm_obj_phone" value="' . $phone . '" />
+		</p>';
+
+	}
+
+		public static function mxzsm_meta_boxes_phone_save( $post_id )
+		{
+
+			if ( ! isset( $_POST['mxzsm_meta_box_phone_nonce'] ) ) 
+				return;
+
+			if ( ! wp_verify_nonce( $_POST['mxzsm_meta_box_phone_nonce'], 'mxzsm_meta_box_phone_action') )
+				return;
+
+			if ( defined('DOING_AUTOSAVE') && DOING_AUTOSAVE ) 
+				return;
+
+			if( ! current_user_can( 'edit_post', $post_id ) )
+				return;
+
+			// 
+			$phone = sanitize_text_field( $_POST['mxzsm_obj_phone'] );
+
+			update_post_meta( $post_id, '_mxzsm_obj_phone', $phone  );
+
+		}
 
 }

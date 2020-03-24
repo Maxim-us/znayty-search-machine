@@ -374,7 +374,7 @@ function mxzsm_get_current_url() {
 
 	$url = isset( $_SERVER["HTTPS"] ) ? 'https://' : 'http://' . $host . $path;
 
-	return $url;
+	return $url . $host . $path;
 }
 
 /*
@@ -521,5 +521,44 @@ function mxzsm_get_city_by_post_id( $post_id ) {
 	$city_data['city_name'] = $city_row->city;
 
 	return $city_data;
+
+}
+
+// count of views of obj (12 sec)
+function mxzsm_count_of_views_of_obj( $post_id ) {
+
+	wp_nonce_field( 'count_of_views_of_obj_action', 'count_of_views_of_obj_nonce' );
+
+	?>
+		<script>
+
+			jQuery( document ).ready( function( $ ) {
+
+				setTimeout( function() {
+
+					var ajaxurl = '<?php echo admin_url( 'admin-ajax.php' ); ?>';
+
+					var data = {
+
+						'action'		:  'mxzsm_count_of_views_of_obj',
+						'nonce'			: 	$( '#count_of_views_of_obj_nonce' ).val(),
+						'post_id' 		: '<?php echo $post_id; ?>'
+
+					};
+
+					// $.ajax
+					jQuery.post( ajaxurl, data, function( response ) {
+
+						$( '.mx_count_of_views' ).find( 'span' ).text( response );
+
+					} );
+
+				}, 12000 );				
+
+			} );
+
+		</script>
+
+	<?php	
 
 }
