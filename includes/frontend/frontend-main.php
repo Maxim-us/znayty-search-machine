@@ -52,7 +52,41 @@ class MXZSM_FrontEnd_Main
 
 			// get cities
 			MXZSM_Database_Talk_Front::db_ajax();
+
+
+		/**
+		* Advertisement
+		*/
+
+			// enqueue_scripts
+			mxzsm_require_class_file_frontend( 'advertisement/enqueue-scripts-adv.php' );
+
+				MXZSM_Enqueue_Scripts_Frontend_Adv::mxzsm_register();
+
+			// helpers
+			mxzsm_require_class_file_frontend( 'advertisement/helpers-adv.php' );
 		
+			// search form
+			mxzsm_require_class_file_frontend( 'advertisement/shortcode-displat-adv.php' );
+
+				MXZSM_Shortcodes_Display_Adv::add_adv_shorcode();
+
+			// add new need
+			mxzsm_require_class_file_frontend( 'advertisement/shortcode-add-new-need.php' );
+
+				MXZSM_Shortcode_Add_New_Need::add_shorcode();
+
+			// search form
+			mxzsm_require_class_file_frontend( 'advertisement/shortcode-search-form-adv.php' );
+
+				MXZSM_Shortcodes_Search_Form_Adv::add_shorcode();
+
+			// ajax
+			mxzsm_require_class_file_frontend( 'advertisement/db-talk-front_adv.php' );
+
+				// get cities
+				MXZSM_Database_Talk_Front_Adv::db_ajax();
+
 
 	}
 

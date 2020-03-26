@@ -290,6 +290,10 @@ jQuery( document ).ready( function( $ ) {
 
 			}
 
+			// keywords
+			var keywords_string = $( '#mxzsm_add_obj_keywords' ).val();
+			keywords_string = keywords_string.toLowerCase();
+
 			var form_data = {
 				action: 	'mxzsm_add_obj_front',
 
@@ -299,7 +303,7 @@ jQuery( document ).ready( function( $ ) {
 				city_id: 	$( '#mxzsm_cities' ).val(),
 				address: 	$( '#mxzsm_add_obj_address' ).val(),
 				categories: $( '#mxzsm_add_obj_categories' ).val(),
-				keywords: 	$( '#mxzsm_add_obj_keywords' ).val(),
+				keywords: 	keywords_string,
 				img_url: 	$( '#mxzsm_add_obj_img' ).attr( 'src' ),
 				img_id: 	$( '#mxzsm_add_obj_image_id' ).val(),
 				nonce: 		$( '#mxzsm_add_obj_nonce' ).val(),
@@ -323,7 +327,10 @@ jQuery( document ).ready( function( $ ) {
 				delivery: service_type_delivery,
 
 				// phone
-				obj_phone: $( '#mxzsm_add_obj_phone' ).val()
+				obj_phone: $( '#mxzsm_add_obj_phone' ).val(),
+
+				// video youtube
+				obj_video_youtube: $( '#mxzsm_add_obj_video_youtube' ).val(),
 
 			};
 

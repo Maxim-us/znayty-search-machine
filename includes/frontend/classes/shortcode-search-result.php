@@ -474,10 +474,16 @@ class MXZSM_Shortcode_Search_Result
 	*/
 		// add phone number
 		public static function mx_add_phone_number()
-		{ ?>
+		{ 
+
+			$phone = get_post_meta( get_the_ID(), '_mxzsm_obj_phone', true );
+
+			if( $phone == '' ) return;
+
+			?>
 
 			<div class="mx_add_phone_number">
-				<i class="fa fa-phone"></i> - 097 86 23 320
+				<i class="fa fa-phone"></i> - <?php echo $phone; ?>
 			</div>
 
 		<?php }
@@ -555,6 +561,9 @@ class MXZSM_Shortcode_Search_Result
 				<a href="<?php echo $url; ?>" title="Електронна адреса"><i class="fa fa-envelope-o"></i></a>
 				<a href="<?php echo $url; ?>" title="Вебсайт"><i class="fa fa-globe"></i></a>
 				<a href="<?php echo $url; ?>" title="Телефон"><i class="fa fa-phone"></i></a>
+				<a href="<?php echo $url; ?>" title="Є доставка"><i class="fa fa-truck"></i></a>
+				<a href="<?php echo $url; ?>" title="Цей об'єкт допомагає подолати Коронавірус (COVID-19)"><i class="fa fa-bug"></i></a>
+							
 	
 			</div>
 

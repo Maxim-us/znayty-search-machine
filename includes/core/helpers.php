@@ -279,7 +279,7 @@ function mxzsm_navigation( $custom_post, $count_posts_in_page, $meta_query, $tax
 	$post_type_res = new WP_Query(
 
 		array(
-			'post_type' 		=> 'mxzsm_objects',
+			'post_type' 		=> $custom_post,
 			'meta_query'		=> $meta_query,
 			'post_status' 		=> 'publish',
 
@@ -549,7 +549,11 @@ function mxzsm_count_of_views_of_obj( $post_id ) {
 					// $.ajax
 					jQuery.post( ajaxurl, data, function( response ) {
 
-						$( '.mx_count_of_views' ).find( 'span' ).text( response );
+						if( response !== '' ) {
+
+							$( '.mx_count_of_views' ).find( 'span' ).text( response );
+
+						}						
 
 					} );
 

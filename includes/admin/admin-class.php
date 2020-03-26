@@ -30,7 +30,6 @@ class MXZSM_Admin_Main
 
 		MXZSM_Enqueue_Scripts::mxzsm_register();
 
-
 		// CPT class
 		mxzsm_require_class_file_admin( 'cpt.php' );
 
@@ -59,6 +58,19 @@ class MXZSM_Admin_Main
 		mxzsm_require_class_file_admin( 'image-size.php' );
 
 			MXZSM_Image_Size::znayty_thumbnail();
+
+		/**
+		* Advertisement
+		*/
+			// CPT
+			mxzsm_require_class_file_admin( 'advertisement/adv-cpt.php' );
+
+			MXZSMADVCPTclass::createAdvCPT();
+
+			// metabox
+			mxzsm_require_class_file_admin( 'advertisement/adv-metabox-creation.php' );
+
+			MXZSMADVMetaboxCreationClass::createMetaBox();
 
 	}
 

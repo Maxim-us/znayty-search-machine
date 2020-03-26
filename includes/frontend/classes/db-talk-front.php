@@ -138,6 +138,10 @@ class MXZSM_Database_Talk_Front
 					update_post_meta( $post_ID, '_mxzsm_obj_service_type_takeaway', sanitize_text_field( $_POST['takeaway'] ) );
 
 					update_post_meta( $post_ID, '_mxzsm_obj_service_type_delivery', sanitize_text_field( $_POST['delivery'] ) );
+
+				// video from youtube
+				update_post_meta( $post_ID, '_mxzsm_obj_video_youtube', esc_url_raw( $_POST['obj_video_youtube'] ) );
+
 				
 				// insert thumbnail
 				if( $_POST['img_id'] !== '' ) {

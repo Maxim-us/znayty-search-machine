@@ -46,6 +46,9 @@ class MXZSMMetaboxCreationClass
 		// phone
 		add_action( 'save_post_mxzsm_objects', array( 'MXZSMMetaboxCreationClass', 'mxzsm_meta_boxes_phone_save' ) );
 
+		// video
+		add_action( 'save_post_mxzsm_objects', array( 'MXZSMMetaboxCreationClass', 'mxzsm_meta_boxes_youtube_save' ) );	
+
 	}
 
 
@@ -56,7 +59,7 @@ class MXZSMMetaboxCreationClass
 				'mxzsm_meta_regions_cities',
 				'Обрати область та населений п-т',
 				array( 'MXZSMMetaboxCreationClass', 'mxzsm_meta_box_regions_callback' ),
-				array( 'mxzsm_objects' ),
+				array( 'mxzsm_objects', 'mxzsm_adv_need' ),
 				'normal'
 			);
 
@@ -133,6 +136,15 @@ class MXZSMMetaboxCreationClass
 				'mxzsm_meta_phone_of_obj',
 				'Телефон:',
 				array( 'MXZSMMetaboxCreationClass', 'mxzsm_meta_phone_of_obj_callback' ),
+				array( 'mxzsm_objects', 'mxzsm_adv_need' ),
+				'normal'
+			);
+
+			// youtube
+			add_meta_box(
+				'mxzsm_meta_youtube',
+				'Відео:',
+				array( 'MXZSMMetaboxCreationClass', 'mxzsm_meta_youtube_of_obj_callback' ),
 				array( 'mxzsm_objects' ),
 				'normal'
 			);
@@ -610,6 +622,48 @@ class MXZSMMetaboxCreationClass
 			$phone = sanitize_text_field( $_POST['mxzsm_obj_phone'] );
 
 			update_post_meta( $post_id, '_mxzsm_obj_phone', $phone  );
+
+		}
+
+	// youtube
+	public static function mxzsm_meta_youtube_of_obj_callback( $post, $meta )
+	{
+
+		// check nonce
+		wp_nonce_field( 'mxzsm_meta_box_youtube_action', 'mxzsm_meta_box_youtube_nonce' );
+
+		$video = get_post_meta( $post->ID, '_mxzsm_obj_video_youtube', true );
+
+		preg_match( '/.*\?v=(.*)&?/', $video, $matches ); 
+
+		echo '<p>
+			<label for="#"></label>
+			<input type="url" name="mxzsm_obj_youtube" id="mxzsm_obj_youtube" value="' . $video . '" />
+		</p>';
+
+		echo '<iframe width="560" height="315" src="https://www.youtube.com/embed/' . $matches[1] . '?controls=0" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>';
+
+	}
+
+		public static function mxzsm_meta_boxes_youtube_save( $post_id )
+		{
+
+			if ( ! isset( $_POST['mxzsm_meta_box_youtube_nonce'] ) ) 
+				return;
+
+			if ( ! wp_verify_nonce( $_POST['mxzsm_meta_box_youtube_nonce'], 'mxzsm_meta_box_youtube_action') )
+				return;
+
+			if ( defined('DOING_AUTOSAVE') && DOING_AUTOSAVE ) 
+				return;
+
+			if( ! current_user_can( 'edit_post', $post_id ) )
+				return;
+
+			// 
+			$video = sanitize_text_field( $_POST['mxzsm_obj_youtube'] );
+
+			update_post_meta( $post_id, '_mxzsm_obj_video_youtube', $video  );
 
 		}
 

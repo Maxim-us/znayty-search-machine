@@ -31,7 +31,7 @@ class MXZSM_Shortcode_Add_New_Obj
 
 			if( $user_role !== 'mxzsm_contr_obj' AND $user_role !== 'administrator' ) {
 
-				mxzsm_alert( 'Вам потрібно підтвердити свою електронну пошту.<br>Також, Ви можете написати нам через нашу електронну адресу: znayty@mail.re' );
+				mxzsm_alert( 'Вам потрібно підтвердити свою електронну пошту.<br>Також, Ви можете написати нам через нашу електронну адресу: support@znayty.in.ua' );
 
 				return;
 			}
@@ -224,7 +224,7 @@ class MXZSM_Shortcode_Add_New_Obj
 				<div class="mx_add_obj_fields">
 					<label for="mxzsm_add_obj_address">Адреса об'єкта: <span class="mxzsm_required">*</span></label>
 					<input type="text" id="mxzsm_add_obj_address" required="required" />
-					<small>Введіть адресу об'єкта. Наприклад: <em>Місто Київ, вул. Головна, буд. 120</em></small>
+					<small>Введіть адресу об'єкта. Наприклад: <em>м. Київ, вул. Головна, буд. 120</em></small>
 				</div>
 
 				<!-- website of obj -->
@@ -272,6 +272,13 @@ class MXZSM_Shortcode_Add_New_Obj
 						<input type="checkbox" id="mxzsm_add_obj_service_type_delivery" /> <label for="mxzsm_add_obj_service_type_delivery">Є доставка додому</label>
 					</div>
 					
+				</div>
+
+				<!-- video from youtube -->
+				<div class="mx_add_obj_fields">
+					<label for="mxzsm_add_obj_video_youtube">Відео з YouTube:</label>
+					<input type="url" id="mxzsm_add_obj_video_youtube" />
+					<small>Відео з YouTube (якщо воно є). Наприклад: <em>https://www.youtube.com/watch?v=96kmU6xM6iY</em></small>
 				</div>
 
 				<!-- object image -->
