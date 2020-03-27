@@ -59,7 +59,7 @@ class MXZSMMetaboxCreationClass
 				'mxzsm_meta_regions_cities',
 				'Обрати область та населений п-т',
 				array( 'MXZSMMetaboxCreationClass', 'mxzsm_meta_box_regions_callback' ),
-				array( 'mxzsm_objects', 'mxzsm_adv_need' ),
+				array( 'mxzsm_objects' ),
 				'normal'
 			);
 
@@ -136,7 +136,7 @@ class MXZSMMetaboxCreationClass
 				'mxzsm_meta_phone_of_obj',
 				'Телефон:',
 				array( 'MXZSMMetaboxCreationClass', 'mxzsm_meta_phone_of_obj_callback' ),
-				array( 'mxzsm_objects', 'mxzsm_adv_need' ),
+				array( 'mxzsm_objects' ),
 				'normal'
 			);
 
@@ -634,14 +634,21 @@ class MXZSMMetaboxCreationClass
 
 		$video = get_post_meta( $post->ID, '_mxzsm_obj_video_youtube', true );
 
-		preg_match( '/.*\?v=(.*)&?/', $video, $matches ); 
+		if( $video !== '' ) {
 
-		echo '<p>
-			<label for="#"></label>
-			<input type="url" name="mxzsm_obj_youtube" id="mxzsm_obj_youtube" value="' . $video . '" />
-		</p>';
+			preg_match( '/.*\?v=(.*)&?/', $video, $matches ); 
 
-		echo '<iframe width="560" height="315" src="https://www.youtube.com/embed/' . $matches[1] . '?controls=0" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>';
+		}
+			echo '<p>
+				<label for="#"></label>
+				<input type="url" name="mxzsm_obj_youtube" id="mxzsm_obj_youtube" value="' . $video . '" />
+			</p>';
+
+		if( $video !== '' ) {
+			
+			echo '<iframe width="560" height="315" src="https://www.youtube.com/embed/' . $matches[1] . '?controls=0" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>';
+
+		}
 
 	}
 
@@ -658,6 +665,9 @@ class MXZSMMetaboxCreationClass
 				return;
 
 			if( ! current_user_can( 'edit_post', $post_id ) )
+				return;
+
+			if ( ! isset( $_POST['mxzsm_obj_youtube'] ) ) 
 				return;
 
 			// 

@@ -65,27 +65,47 @@ class MXZSM_FrontEnd_Main
 
 			// helpers
 			mxzsm_require_class_file_frontend( 'advertisement/helpers-adv.php' );
-		
-			// search form
-			mxzsm_require_class_file_frontend( 'advertisement/shortcode-displat-adv.php' );
-
-				MXZSM_Shortcodes_Display_Adv::add_adv_shorcode();
-
-			// add new need
-			mxzsm_require_class_file_frontend( 'advertisement/shortcode-add-new-need.php' );
-
-				MXZSM_Shortcode_Add_New_Need::add_shorcode();
-
-			// search form
-			mxzsm_require_class_file_frontend( 'advertisement/shortcode-search-form-adv.php' );
-
-				MXZSM_Shortcodes_Search_Form_Adv::add_shorcode();
 
 			// ajax
 			mxzsm_require_class_file_frontend( 'advertisement/db-talk-front_adv.php' );
 
 				// get cities
 				MXZSM_Database_Talk_Front_Adv::db_ajax();
+		
+			/*** Need ***/
+				// display
+				mxzsm_require_class_file_frontend( 'advertisement/need/shortcode-display-adv-need.php' );
+
+					MXZSM_Shortcodes_Display_Adv_Need::add_adv_shorcode();
+
+				// add new need
+				mxzsm_require_class_file_frontend( 'advertisement/need/shortcode-add-new-need.php' );
+
+					MXZSM_Shortcode_Add_New_Need::add_shorcode();
+
+				// search form
+				mxzsm_require_class_file_frontend( 'advertisement/need/shortcode-search-form-adv-need.php' );
+
+					MXZSM_Shortcodes_Search_Form_Adv::add_shorcode();
+
+			/*** Proposal ***/
+				// display
+				mxzsm_require_class_file_frontend( 'advertisement/proposal/shortcode-display-adv-prop.php' );
+
+					MXZSM_Shortcodes_Display_Adv_Prop::add_adv_shorcode();
+
+				// add new prop
+				mxzsm_require_class_file_frontend( 'advertisement/proposal/shortcode-add-new-prop.php' );
+
+					MXZSM_Shortcode_Add_New_Prop::add_shorcode();
+
+				// search form
+				mxzsm_require_class_file_frontend( 'advertisement/proposal/shortcode-search-form-adv-prop.php' );
+
+					MXZSM_Shortcodes_Search_Form_Adv_Prop::add_shorcode();
+
+
+				
 
 
 	}

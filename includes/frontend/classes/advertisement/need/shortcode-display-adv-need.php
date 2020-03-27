@@ -3,14 +3,14 @@
 // Exit if accessed directly
 if ( ! defined( 'ABSPATH' ) ) exit;
 
-class MXZSM_Shortcodes_Display_Adv
+class MXZSM_Shortcodes_Display_Adv_Need
 {
 
 	static public function add_adv_shorcode()
 	{
 
 		// 
-		add_shortcode( 'mxzsm_advertisement_display', array( 'MXZSM_Shortcodes_Display_Adv', 'mxzsm_advertisement_display' ) );
+		add_shortcode( 'mxzsm_advertisement_display_need', array( 'MXZSM_Shortcodes_Display_Adv_Need', 'mxzsm_advertisement_display' ) );
 
 	}
 
@@ -54,7 +54,7 @@ class MXZSM_Shortcodes_Display_Adv
 
 					$meta_query = array(
 						array(
-							'key' 		=> '_mxzsm_region_id',
+							'key' 		=> '_mxzsm_region_id_adv_need', 
                             'value' 	=> $row_region->id
                         )
 					);
@@ -63,11 +63,11 @@ class MXZSM_Shortcodes_Display_Adv
 					$meta_query = array(
 						'relation' => 'BETWEEN',
 						array(
-							'key' 		=> '_mxzsm_region_id',
+							'key' 		=> '_mxzsm_region_id_adv_need',
                             'value' 	=> $row_region->id
                         ),
                         array(
-							'key' 		=> '_mxzsm_city_id',
+							'key' 		=> '_mxzsm_city_id_adv_need',
                             'value' 	=> $row_city->id
                         )
 					);
@@ -106,7 +106,7 @@ class MXZSM_Shortcodes_Display_Adv
 					<div class="mx-search-result-wrap_add">
 
 						<!-- system results ... -->
-						<?php MXZSM_Shortcodes_Display_Adv::adv_search_system_info( array(
+						<?php MXZSM_Shortcodes_Display_Adv_Need::adv_search_system_info( array(
 
 							'row_region'	=> $row_region,
 							'row_city' 		=> $row_city,
@@ -123,7 +123,7 @@ class MXZSM_Shortcodes_Display_Adv
 							<!-- search result loop ... -->
 							<?php while( $result_adv->have_posts() ) : $result_adv->the_post(); ?>
 
-								<?php MXZSM_Shortcodes_Display_Adv::adv_search_result_item(); ?>
+								<?php MXZSM_Shortcodes_Display_Adv_Need::adv_search_result_item(); ?>
 
 							<?php endwhile; ?> 
 							<!-- ... search result loop -->
@@ -229,13 +229,16 @@ class MXZSM_Shortcodes_Display_Adv
 						<?php $categories = get_the_terms( get_the_ID(), 'mxzsm_adv_category' ); ?>
 
 						<ul>
+
+							<?php if( $categories ) : ?>
 							
-							<?php foreach ( $categories as $key => $value ) {
+								<?php foreach ( $categories as $key => $value ) {
 
-								echo  '<li><a href="#">' . $value->name . '</a></li>';
+									echo  '<li><a href="#">' . $value->name . '</a></li>';
 
-							} ?>
+								} ?>
 
+							<?php endif; ?>
 
 						</ul>
 
@@ -271,8 +274,27 @@ class MXZSM_Shortcodes_Display_Adv
 						
 					</div>
 
+					<div class="mx-adv_search_result_item_region_wrap">
+
+						<?php
+							$region_data = mxzsm_get_region_by_post_id_adv_need( get_the_ID() );	
+
+							$city_data = mxzsm_get_city_by_post_id_adv_need( get_the_ID() );
+
+						?>
+
+						<div class="mx-adv_search_result_item_region">
+							<?php echo $region_data['region_name']; ?>
+						</div>
+
+						<div class="mx-adv_search_result_item_city">
+							<?php echo $city_data['city_name']; ?>
+						</div>
+						
+					</div>
+
 					<div class="mx-adv_search_result_item_date">
-						25.03.20
+						<?php echo get_the_date( 'd.m.Y' ); ?>
 					</div>
 
 				</div>

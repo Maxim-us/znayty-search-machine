@@ -6,7 +6,7 @@ class MXZSM_Shortcodes_Search_Form_Adv
 	public static function add_shorcode() {
 
 		// search form
-		add_shortcode( 'mxzsm_search_form_adv', array( 'MXZSM_Shortcodes_Search_Form_Adv', 'search_form' ) );
+		add_shortcode( 'mxzsm_search_form_adv_need', array( 'MXZSM_Shortcodes_Search_Form_Adv', 'search_form' ) );
 
 
 	}
@@ -21,10 +21,10 @@ class MXZSM_Shortcodes_Search_Form_Adv
 				$results_regions = mxzsm_get_regions();
 
 				// array of available region ids
-				$available_region_ids = mxzsm_get_available_regions();
+				$available_region_ids = mxzsm_get_available_regions_adv_need();
 
 				// Get available cities
-				$available_city_ids = mxzsm_get_available_cities();
+				$available_city_ids = mxzsm_get_available_cities_adv_need();
 
 			?>
 
@@ -37,7 +37,7 @@ class MXZSM_Shortcodes_Search_Form_Adv
 
 						<h4>Оберіть область:</h4>
 
-						<select name="mxzsm_regions" id="mxzsm_regions" required="required">
+						<select name="mxzsm_regions" id="mxzsm_regions_adv_need" required="required">
 
 							<option value="">Область не вибрана</option>
 
@@ -62,7 +62,7 @@ class MXZSM_Shortcodes_Search_Form_Adv
 
 						<h4>Оберіть населений пункт:</h4>
 
-						<select name="mxzsm_cities" id="mxzsm_cities">
+						<select name="mxzsm_cities" id="mxzsm_cities_adv_need">
 							
 							<?php if( count( $cities ) !== 0 ) : ?>
 
@@ -92,11 +92,11 @@ class MXZSM_Shortcodes_Search_Form_Adv
 
 						<?php if( isset( $atts['search_result_slug'] ) ) : ?>
 						
-							<button id="mx_znayty_submit_button" data-search-result-slug="<?php echo $atts['search_result_slug']; ?>">Знайти</button>
+							<button id="mx_znayty_submit_button_adv_need" data-search-result-slug="<?php echo $atts['search_result_slug']; ?>">Знайти</button>
 
 						<?php else : ?>
 
-							<button id="mx_znayty_submit_button">Знайти</button>
+							<button id="mx_znayty_submit_button_adv_need">Знайти</button>
 
 						<?php endif; ?>
 

@@ -62,15 +62,29 @@ class MXZSM_Admin_Main
 		/**
 		* Advertisement
 		*/
-			// CPT
-			mxzsm_require_class_file_admin( 'advertisement/adv-cpt.php' );
+			
+			/*** Need ***/
+				// CPT
+				mxzsm_require_class_file_admin( 'advertisement/need/adv-cpt.php' );
 
-			MXZSMADVCPTclass::createAdvCPT();
+					MXZSMADVCPTclass::createAdvCPT();
 
-			// metabox
-			mxzsm_require_class_file_admin( 'advertisement/adv-metabox-creation.php' );
+				// metabox
+				mxzsm_require_class_file_admin( 'advertisement/need/adv-metabox-creation.php' );
 
-			MXZSMADVMetaboxCreationClass::createMetaBox();
+					MXZSMADVMetaboxCreationClass::createMetaBox();
+
+			/*** Proposal ***/
+				// CPT
+				mxzsm_require_class_file_admin( 'advertisement/proposal/adv-cpt-prop.php' );
+
+					MXZSMADVCPTclassProp::createAdvCPT();
+
+				// metabox
+				mxzsm_require_class_file_admin( 'advertisement/proposal/adv-metabox-creation-prop.php' );
+
+					MXZSMADVMetaboxCreationClassProp::createMetaBox();
+				
 
 	}
 

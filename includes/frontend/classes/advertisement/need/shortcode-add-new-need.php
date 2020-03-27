@@ -135,7 +135,7 @@ class MXZSM_Shortcode_Add_New_Need
 
 				<!-- editor -->
 				<div class="mx_add_obj_fields">
-					<label for="mxzsm_add_obj_editor">Опис об'єкта: <span class="mxzsm_required">*</span></label>
+					<label for="mxzsm_add_obj_editor">Опис: <span class="mxzsm_required">*</span></label>
 
 					<textarea name="mxzsm_add_obj_editor" id="mxzsm_add_obj_editor" cols="30" rows="10"></textarea>
 
@@ -161,7 +161,7 @@ class MXZSM_Shortcode_Add_New_Need
 
 						<label for="mxzsm_regions_adv">Оберіть область: <span class="mxzsm_required">*</span></label>
 
-						<select name="mxzsm_regions" class="mxzsm_add_obj_regions" id="mxzsm_regions_adv" required="required">
+						<select name="mxzsm_regions" class="mxzsm_add_obj_regions" id="mxzsm_regions_adv_need" required="required">
 
 							<option value=""></option>
 
@@ -179,7 +179,7 @@ class MXZSM_Shortcode_Add_New_Need
 
 						<label for="mxzsm_cities_adv">Оберіть місто: <span class="mxzsm_required">*</span></label>
 
-						<select name="mxzsm_cities" id="mxzsm_cities_adv" required="required"></select>
+						<select name="mxzsm_cities" id="mxzsm_cities_adv_need" required="required"></select>
 
 					</div>
 				</div>

@@ -555,15 +555,66 @@ class MXZSM_Shortcode_Search_Result
 			<div class="mx_list_of_icons">
 
 				<?php $url = get_post_permalink(); ?>
-				
-				<a href="<?php echo $url; ?>" title="Відео"><i class="fa fa-youtube"></i></a>
-				<a href="<?php echo $url; ?>#map" title="Точка на мапі"><i class="fa fa-map-marker"></i></a>
-				<a href="<?php echo $url; ?>" title="Електронна адреса"><i class="fa fa-envelope-o"></i></a>
-				<a href="<?php echo $url; ?>" title="Вебсайт"><i class="fa fa-globe"></i></a>
-				<a href="<?php echo $url; ?>" title="Телефон"><i class="fa fa-phone"></i></a>
-				<a href="<?php echo $url; ?>" title="Є доставка"><i class="fa fa-truck"></i></a>
-				<a href="<?php echo $url; ?>" title="Цей об'єкт допомагає подолати Коронавірус (COVID-19)"><i class="fa fa-bug"></i></a>
-							
+
+				<?php
+
+					$latitude = get_post_meta( get_the_ID(), '_mxzsm_obj_latitude', true );
+
+					$website = get_post_meta( get_the_ID(), '_mxzsm_obj_website', true );
+
+					$email = get_post_meta( get_the_ID(), '_mxzsm_obj_email', true );
+
+					$against_covid = get_post_meta( get_the_ID(), '_mxzsm_obj_against_covid', true );
+
+					$delivery = get_post_meta( get_the_ID(), '_mxzsm_obj_service_type_delivery', true );
+
+					$phone = get_post_meta( get_the_ID(), '_mxzsm_obj_phone', true );
+
+					$youtube = get_post_meta( get_the_ID(), '_mxzsm_obj_video_youtube', true );
+
+				?>
+
+				<?php if( $latitude !== '' ) : ?>
+
+					<a href="<?php echo $url; ?>#mx_obj_map" title="Точка на мапі"><i class="fa fa-map-marker"></i></a>
+
+				<?php endif;  ?>
+
+				<?php if( $youtube !== '' ) : ?>
+
+					<a href="<?php echo $url; ?>#mx_youtube_video" title="Відео"><i class="fa fa-youtube"></i></a>
+
+				<?php endif;  ?>
+
+				<?php if( $website !== '' ) : ?>
+
+					<a href="<?php echo $url; ?>" title="Вебсайт"><i class="fa fa-globe"></i></a>
+
+				<?php endif;  ?>
+
+				<?php if( $email !== '' ) : ?>
+
+					<a href="<?php echo $url; ?>" title="Електронна адреса"><i class="fa fa-envelope-o"></i></a>
+
+				<?php endif;  ?>
+
+				<?php if( $phone !== '' ) : ?>
+
+					<a href="<?php echo $url; ?>" title="Телефон"><i class="fa fa-phone"></i></a>
+
+				<?php endif; ?>
+
+				<?php if( $delivery !== '' ) : ?>
+
+					<a href="<?php echo $url; ?>" title="Є доставка"><i class="fa fa-truck"></i></a>
+
+				<?php endif; ?>
+
+				<?php if( $against_covid !== '' ) : ?>
+
+					<a href="<?php echo $url; ?>" title="Цей об'єкт допомагає подолати Коронавірус (COVID-19)"><i class="fa fa-bug"></i></a>
+
+				<?php endif;  ?>
 	
 			</div>
 

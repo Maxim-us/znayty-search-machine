@@ -6,11 +6,11 @@ jQuery( document ).ready( function( $ ) {
 	var mxzsm_app = {
 
 		// regions
-		'regions_select' 	: 	$( '#mxzsm_regions_adv' ),
+		'regions_select' 	: 	$( '#mxzsm_regions_adv_need' ),
 
 		// cities
 		'cities_select_wrap': 	$( '.mxzsm_cities' ),
-		'cities_select' 	: 	$( '#mxzsm_cities_adv' ),
+		'cities_select' 	: 	$( '#mxzsm_cities_adv_need' ),
 
 		// regions_data
 		'regions_data'		:  mxzsm_data_obj_front.regions,
@@ -28,7 +28,7 @@ jQuery( document ).ready( function( $ ) {
 		// search button wrap
 		'search_button_wrap': $( '.mx-znayty-submit-button-wrap' ),
 
-		'search_button'		: $( '#mx_znayty_submit_button_adv' )
+		'search_button'		: $( '#mx_znayty_submit_button_adv_need' )
 	}; 
 	
 	/*
@@ -153,7 +153,7 @@ jQuery( document ).ready( function( $ ) {
 
 			var data = {
 
-				'action'			:  'mxzsm_get_cities_front_adv',
+				'action'			:  'mxzsm_get_cities_front_adv_need',
 				'nonce'				: 	mxzsm_app.nonce,
 				'region_id'			: 	region_id,
 				'get_all_cities'	: 	add_obj
@@ -209,12 +209,12 @@ jQuery( document ).ready( function( $ ) {
 			var content = $( '#mxzsm_add_obj_editor' ).val();
 
 			var form_data = {
-				action: 	'mxzsm_add_obj_front_adv',
+				action: 	'mxzsm_add_obj_front_adv_need',
 
 				title: 		$( '#mxzsm_add_obj_title' ).val(),
 				content: 	content,
-				region_id: 	$( '#mxzsm_regions_adv' ).val(),
-				city_id: 	$( '#mxzsm_cities_adv' ).val(),
+				region_id: 	$( '#mxzsm_regions_adv_need' ).val(),
+				city_id: 	$( '#mxzsm_cities_adv_need' ).val(),
 				categories: $( '#mxzsm_add_obj_categories' ).val(),
 
 				nonce: 		$( '#mxzsm_add_obj_nonce' ).val(),
@@ -248,5 +248,20 @@ jQuery( document ).ready( function( $ ) {
 			} );
 
 		} );
+
+	// excerpt
+	$( '.mx-adv_search_result_item_text p' ).each( function() {
+
+		var _text = $( this ).text();
+
+		if( _text.length >= 60 ) {
+
+			_text = _text.slice( 0, 60 );
+
+			$( this ).text( _text + ' ...' );
+
+		}
+
+	} );
 
 } );
