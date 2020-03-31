@@ -28,7 +28,7 @@ function mx_hide_social( $url ) {
 
 	} else {
 
-		echo '<div class="mx-phone-social" title="Щоб побачити лінк - авторизуйтесь!"><a href="' . $url . '" target="_blank" rel="ugc nofollow">' . $url . '</a></div>';
+		echo '<div class="mx-phone-social" title="Щоб побачити лінк - авторизуйтесь!"><a href="' . $url . '" target="_blank" rel="ugc nofollow">Соц. мережа</a></div>';
 
 	}	
 

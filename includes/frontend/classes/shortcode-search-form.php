@@ -80,6 +80,10 @@ class MXZSM_Shortcodes_Search_Form
 
 						</select>
 
+						<div class="mx-loading-panel" style="display: none;">
+							<img src="<?php echo MXZSM_PLUGIN_URL . 'includes/frontend/assets/img/loading.gif'; ?>" alt="">
+						</div>
+
 					</div>
 
 					<?php

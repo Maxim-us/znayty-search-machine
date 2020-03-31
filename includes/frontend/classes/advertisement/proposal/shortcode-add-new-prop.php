@@ -181,6 +181,10 @@ class MXZSM_Shortcode_Add_New_Prop
 
 						<select name="mxzsm_cities" id="mxzsm_cities_adv_prop" required="required"></select>
 
+						<div class="mx-loading-panel" style="display: none;">
+							<img src="<?php echo MXZSM_PLUGIN_URL . 'includes/frontend/assets/img/loading.gif'; ?>" alt="">
+						</div>
+
 					</div>
 				</div>
 
@@ -208,6 +212,11 @@ class MXZSM_Shortcode_Add_New_Prop
 					<label for="mxzsm_add_obj_phone">Ваш телефон: <span class="mxzsm_required">*</span></label>
 					<input type="tel" id="mxzsm_add_obj_phone"  required="required"/>
 					<small>Ваш телефон. Наприклад: <em>097 00 000 00</em></small>
+				
+					<div class="mx-hide-phone-button" style="display: none;">
+						<input type="checkbox" id="mxzsm_hide_phone_number" />
+						<label for="mxzsm_hide_phone_number">Не показувати номер телефону.</label>
+					</div>
 				</div>
 
 				<!-- need social -->
@@ -243,7 +252,7 @@ class MXZSM_Shortcode_Add_New_Prop
 			<table>
 				<thead>
 					<tr>
-						<th>Назва об'єкта</th>
+						<th>Назва</th>
 					</tr>
 				</thead>
 				<tbody>
@@ -259,8 +268,8 @@ class MXZSM_Shortcode_Add_New_Prop
 					<?php else : ?>
 						<tr>
 							<td>
-								Жодного оголошення на модерації.
-								<a href="/dodaty-ogoloshennya-meni-potribno/" class="mxzsm__add_obj_empty_link">Додати об'єкт</a>
+								Жодного опублікованого оголошення.
+								<a href="/dodaty-ogoloshennya-ya-proponuyu/" class="mxzsm__add_obj_empty_link">Додати оголошення</a>
 							</td>
 						</tr>
 					<?php endif; ?>
@@ -286,7 +295,7 @@ class MXZSM_Shortcode_Add_New_Prop
 			<table>
 				<thead>
 					<tr>
-						<th>Назва об'єкта</th>
+						<th>Назва</th>
 					</tr>
 				</thead>
 				<tbody>
@@ -302,8 +311,8 @@ class MXZSM_Shortcode_Add_New_Prop
 					<?php else : ?>
 						<tr>
 							<td>
-								Жодного опублікованого об'єкта.
-								<a href="/add-new-object/" class="mxzsm__add_obj_empty_link">Додати об'єкт</a>
+								Жодного опублікованого оголошення.
+								<a href="/dodaty-ogoloshennya-ya-proponuyu/" class="mxzsm__add_obj_empty_link">Додати оголошення</a>
 							</td>
 						</tr>
 					<?php endif; ?>

@@ -38,6 +38,8 @@ jQuery( document ).ready( function( $ ) {
 
 		var region_id = $( this ).val();
 
+		$( '.mx-loading-panel' ).show();
+
 		mxzsm_get_cities_by_region( region_id );
 
 		// search button show
@@ -186,6 +188,8 @@ jQuery( document ).ready( function( $ ) {
 		// build select element
 		function mxzsm_build_select_element( region_id ) {
 
+			$( '.mx-loading-panel' ).hide( 'fast' );
+
 			mxzsm_app.cities_select.append( '<option value=""></option>' );
 
 			$.each( mxzsm_app.regions_data['region_' + region_id].cities, function( i, v ) {
@@ -242,23 +246,25 @@ jQuery( document ).ready( function( $ ) {
 
 			e.preventDefault();
 
-			var content = tinymce.get( 'mxzsm_add_obj_editor' ).getContent();
+			// var content = tinymce.get( 'mxzsm_add_obj_editor' ).getContent();
 
-			var js_script = content.match( /(<script>.+<\/script>)/gi );
+			// var js_script = content.match( /(<script>.+<\/script>)/gi );
 
-			if( js_script !== null ) {
+			// if( js_script !== null ) {
 
-				content = content.replace( js_script[0], '' );
+			// 	content = content.replace( js_script[0], '' );
 
-			}
+			// }
 
-			js_script = content.match( /(&lt;script&gt;.+&lt;\/script&gt;)/gi );
+			// js_script = content.match( /(&lt;script&gt;.+&lt;\/script&gt;)/gi );
 
-			if( js_script !== null ) {
+			// if( js_script !== null ) {
 
-				content = content.replace( js_script[0], '' );
+			// 	content = content.replace( js_script[0], '' );
 
-			}
+			// }
+
+			var content = $( '#mxzsm_add_obj_editor' ).val();
 
 			// against covid
 			var against_covid = '';

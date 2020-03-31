@@ -483,7 +483,7 @@ class MXZSM_Shortcode_Search_Result
 			?>
 
 			<div class="mx_add_phone_number">
-				<i class="fa fa-phone"></i> - <?php echo $phone; ?>
+				<i class="fa fa-phone"></i> <?php mx_hide_phone( $phone ); ?>
 			</div>
 
 		<?php }

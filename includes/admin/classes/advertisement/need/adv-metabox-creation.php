@@ -7,7 +7,7 @@ class MXZSMADVMetaboxCreationClass
 {
 
 	/*
-	* MXZSMMetaboxCreationClass constructor
+	* MXZSMADVMetaboxCreationClass constructor
 	*/
 	public function __construct()
 	{		
@@ -30,6 +30,9 @@ class MXZSMADVMetaboxCreationClass
 
 		// phone
 		add_action( 'save_post_mxzsm_adv_need', array( 'MXZSMADVMetaboxCreationClass', 'mxzsm_meta_boxes_phone_save' ) );
+
+		// hide phone
+		add_action( 'save_post_mxzsm_adv_need', array( 'MXZSMADVMetaboxCreationClass', 'mxzsm_meta_boxes_hide_phone_save' ) );
 	}
 
 
@@ -64,7 +67,16 @@ class MXZSMADVMetaboxCreationClass
 			add_meta_box(
 				'mxzsm_meta_phone_of_obj_need',
 				'Телефон:',
-				array( 'MXZSMMetaboxCreationClass', 'mxzsm_meta_phone_of_obj_callback' ),
+				array( 'MXZSMADVMetaboxCreationClass', 'mxzsm_meta_phone_of_obj_callback' ),
+				array( 'mxzsm_adv_need' ),
+				'normal'
+			);
+
+			// hide phone
+			add_meta_box(
+				'mxzsm_meta_hide_phone_of_obj_need',
+				'Приховати телефон:',
+				array( 'MXZSMADVMetaboxCreationClass', 'mxzsm_meta_hide_phone_of_obj_callback' ),
 				array( 'mxzsm_adv_need' ),
 				'normal'
 			);
@@ -290,6 +302,55 @@ class MXZSMADVMetaboxCreationClass
 			$phone = sanitize_text_field( $_POST['mxzsm_obj_phone'] );
 
 			update_post_meta( $post_id, '_mxzsm_obj_phone', $phone  );
+
+		}
+
+	// hide phone
+	public static function mxzsm_meta_hide_phone_of_obj_callback( $post, $meta )
+	{
+
+		// check nonce
+		wp_nonce_field( 'mxzsm_meta_box_hide_phone_action', 'mxzsm_meta_box_hide_phone_nonce' );
+
+		$hide_phone = get_post_meta( $post->ID, '_mxzsm_hide_phone', true );
+
+		?>
+
+		<p>			
+			<input type="checkbox" name="mxzsm_hide_phone" id="mxzsm_hide_phone" <?php echo $hide_phone == '1' ? 'checked' : ''; ?> />
+			<label for="mxzsm_hide_phone">Показувати номер</label>
+		</p>
+		<?php
+
+	}
+
+		// save hide phone
+		
+		public static function mxzsm_meta_boxes_hide_phone_save( $post_id )
+		{
+
+			if ( ! isset( $_POST['mxzsm_meta_box_hide_phone_nonce'] ) ) 
+				return;
+
+			if ( ! wp_verify_nonce( $_POST['mxzsm_meta_box_hide_phone_nonce'], 'mxzsm_meta_box_hide_phone_action') )
+				return;
+
+			if ( defined('DOING_AUTOSAVE') && DOING_AUTOSAVE ) 
+				return;
+
+			if( ! current_user_can( 'edit_post', $post_id ) )
+				return;
+
+			// 
+			$hide_phone = 0;
+
+			if( isset( $_POST['mxzsm_hide_phone'] ) ) {
+
+				$hide_phone = 1;
+
+			}
+
+			update_post_meta( $post_id, '_mxzsm_hide_phone', $hide_phone  );
 
 		}
 

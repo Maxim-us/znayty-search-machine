@@ -124,6 +124,9 @@ class MXZSM_Database_Talk_Front_Adv
 				// phone
 				update_post_meta( $post_ID, '_mxzsm_obj_phone', sanitize_text_field( $_POST['obj_phone'] ) );
 
+				// hide phone
+				update_post_meta( $post_ID, '_mxzsm_hide_phone', sanitize_text_field( $_POST['hide_phone'] ) );
+
 				// social
 				update_post_meta( $post_ID, '_mxzsm_user_social', esc_url_raw( $_POST['obj_social'] ) );
 		
@@ -232,6 +235,9 @@ class MXZSM_Database_Talk_Front_Adv
 
 				// phone
 				update_post_meta( $post_ID, '_mxzsm_obj_phone', sanitize_text_field( $_POST['obj_phone'] ) );
+
+				// hide phone
+				update_post_meta( $post_ID, '_mxzsm_hide_phone', sanitize_text_field( $_POST['hide_phone'] ) );
 
 				// social
 				update_post_meta( $post_ID, '_mxzsm_user_social', esc_url_raw( $_POST['obj_social'] ) );

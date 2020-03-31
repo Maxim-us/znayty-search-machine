@@ -262,15 +262,27 @@ class MXZSM_Shortcodes_Display_Adv_Need
 						<?php the_excerpt(); ?>
 					</div>
 
+					<?php 
+						$hide_hone = get_post_meta( get_the_ID(), '_mxzsm_hide_phone', true );
+					?>					
+
 					<div class="mx-adv_search_result_item_contact">
 
-						<?php
+						<?php if( $hide_hone !== '0' ) : ?>
 
-						$phone = get_post_meta( get_the_ID(), '_mxzsm_obj_phone', true );
+							<?php $phone = get_post_meta( get_the_ID(), '_mxzsm_obj_phone', true ); ?>
 
-						?>
+							<i class="fa fa-phone"></i> <?php mx_hide_phone( $phone ); ?>
 
-						<i class="fa fa-phone"></i> <?php mx_hide_phone( $phone ); ?>
+						<?php else : ?>
+
+							<?php $social = get_post_meta( get_the_ID(), '_mxzsm_user_social', true ); 
+
+							?>
+
+							<i class="fa fa-group"></i> <?php mx_hide_social( $social ); ?>
+
+						<?php endif; ?> 
 						
 					</div>
 

@@ -181,6 +181,10 @@ class MXZSM_Shortcode_Add_New_Need
 
 						<select name="mxzsm_cities" id="mxzsm_cities_adv_need" required="required"></select>
 
+						<div class="mx-loading-panel" style="display: none;">
+							<img src="<?php echo MXZSM_PLUGIN_URL . 'includes/frontend/assets/img/loading.gif'; ?>" alt="">
+						</div>
+
 					</div>
 				</div>
 
@@ -208,13 +212,18 @@ class MXZSM_Shortcode_Add_New_Need
 					<label for="mxzsm_add_obj_phone">Ваш телефон: <span class="mxzsm_required">*</span></label>
 					<input type="tel" id="mxzsm_add_obj_phone"  required="required"/>
 					<small>Ваш телефон. Наприклад: <em>097 00 000 00</em></small>
+					
+					<div class="mx-hide-phone-button" style="display: none;">
+						<input type="checkbox" id="mxzsm_hide_phone_number" />
+						<label for="mxzsm_hide_phone_number">Не показувати номер телефону.</label>
+					</div>
 				</div>
 
 				<!-- need social -->
 				<div class="mx_add_obj_fields">
 					<label for="mxzsm_add_need_social">Профіль в соціальный мережі:</label>
 					<input type="tel" id="mxzsm_add_need_social" />
-					<small>Ви можете вказати посилання на Ваш профіль в соціальній мережі.</small>
+					<small>Ви можете вказати посилання на Ваш профіль в соціальній мережі.</small>					
 				</div>
 
 				<input type="hidden" id="mxzsm_add_obj_nonce" value="<?php echo wp_create_nonce( 'mxzsm_add_obj_nonce_request' ); ?>" />
@@ -234,7 +243,7 @@ class MXZSM_Shortcode_Add_New_Need
 			<table>
 				<thead>
 					<tr>
-						<th>Назва об'єкта</th>
+						<th>Назва</th>
 					</tr>
 				</thead>
 				<tbody>
@@ -250,8 +259,8 @@ class MXZSM_Shortcode_Add_New_Need
 					<?php else : ?>
 						<tr>
 							<td>
-								Жодного оголошення на модерації.
-								<a href="/dodaty-ogoloshennya-meni-potribno/" class="mxzsm__add_obj_empty_link">Додати об'єкт</a>
+								Жодного опублікованого оголошення.
+								<a href="/dodaty-ogoloshennya-meni-potribno/" class="mxzsm__add_obj_empty_link">Додати оголошення</a>
 							</td>
 						</tr>
 					<?php endif; ?>
@@ -277,7 +286,7 @@ class MXZSM_Shortcode_Add_New_Need
 			<table>
 				<thead>
 					<tr>
-						<th>Назва об'єкта</th>
+						<th>Назва</th>
 					</tr>
 				</thead>
 				<tbody>
@@ -293,8 +302,8 @@ class MXZSM_Shortcode_Add_New_Need
 					<?php else : ?>
 						<tr>
 							<td>
-								Жодного опублікованого об'єкта.
-								<a href="/add-new-object/" class="mxzsm__add_obj_empty_link">Додати об'єкт</a>
+								Жодного опублікованого оголошення.
+								<a href="/dodaty-ogoloshennya-meni-potribno/" class="mxzsm__add_obj_empty_link">Додати оголошення</a>
 							</td>
 						</tr>
 					<?php endif; ?>

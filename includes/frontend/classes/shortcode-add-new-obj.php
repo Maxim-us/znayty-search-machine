@@ -151,17 +151,22 @@ class MXZSM_Shortcode_Add_New_Obj
 
 				<!-- editor -->
 				<div class="mx_add_obj_fields">
-					<label for="mxzsm_add_obj_editor">Опис об'єкта: <span class="mxzsm_required">*</span></label><?php
+					<label for="mxzsm_add_obj_editor">Опис об'єкта: <span class="mxzsm_required">*</span></label>
 
-					wp_editor( 'Опис об\'єкта', 'mxzsm_add_obj_editor', array(
-						'media_buttons' => false,
-						'textarea_name' => 'mxzsm_add_obj_textarea',
-						'editor_class' 	=> 'mxzsm_add_obj_content_editor',
-						'quicktags'		=> false
-					) );
+					<textarea name="mxzsm_add_obj_editor" id="mxzsm_add_obj_editor" cols="30" rows="10"></textarea>
 
-					
-				?></div>
+					<?php 
+
+						// wp_editor( 'Опис об\'єкта', 'mxzsm_add_obj_editor', array(
+						// 	'media_buttons' => false,
+						// 	'textarea_name' => 'mxzsm_add_obj_textarea',
+						// 	'editor_class' 	=> 'mxzsm_add_obj_content_editor',
+						// 	'quicktags'		=> false
+						// ) );
+
+						
+					?>
+			</div>
 
 				<!-- regions / cities -->
 				<?php
@@ -203,6 +208,10 @@ class MXZSM_Shortcode_Add_New_Obj
 
 						<select name="mxzsm_cities" id="mxzsm_cities" required="required"></select>
 
+						<div class="mx-loading-panel" style="display: none;">
+							<img src="<?php echo MXZSM_PLUGIN_URL . 'includes/frontend/assets/img/loading.gif'; ?>" alt="">
+						</div>
+
 					</div>
 				</div>
 
@@ -222,8 +231,8 @@ class MXZSM_Shortcode_Add_New_Obj
 
 				<!-- address of obj -->
 				<div class="mx_add_obj_fields">
-					<label for="mxzsm_add_obj_address">Адреса об'єкта: <span class="mxzsm_required">*</span></label>
-					<input type="text" id="mxzsm_add_obj_address" required="required" />
+					<label for="mxzsm_add_obj_address">Адреса об'єкта:</label>
+					<input type="text" id="mxzsm_add_obj_address"/>
 					<small>Введіть адресу об'єкта. Наприклад: <em>м. Київ, вул. Головна, буд. 120</em></small>
 				</div>
 

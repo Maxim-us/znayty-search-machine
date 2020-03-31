@@ -38,6 +38,8 @@ jQuery( document ).ready( function( $ ) {
 
 		var region_id = $( this ).val();
 
+		$( '.mx-loading-panel' ).show();
+
 		mxzsm_get_cities_by_region_adv( region_id );
 
 		// search button show
@@ -186,6 +188,8 @@ jQuery( document ).ready( function( $ ) {
 		// build select element
 		function mxzsm_build_select_element( region_id ) {
 
+			$( '.mx-loading-panel' ).hide();
+
 			mxzsm_app.cities_select.append( '<option value=""></option>' );
 
 			$.each( mxzsm_app.regions_data['region_' + region_id].cities, function( i, v ) {
@@ -201,12 +205,38 @@ jQuery( document ).ready( function( $ ) {
 	* Add object 
 	*/		
 
+		// change social
+		$( '#mxzsm_add_prop_social' ).on( 'change', function() {
+
+			var _val = $( this ).val();
+
+			if( _val === '' ) {
+
+				$( '.mx-hide-phone-button' ).hide();
+
+			} else {
+
+				$( '.mx-hide-phone-button' ).show();
+
+			}
+
+		} );
+
 		// submit form
 		$( '#mxzsm_add_prop' ).on( 'submit', function( e ) {
 
 			e.preventDefault();
 
 			var content = $( '#mxzsm_add_obj_editor' ).val();
+
+			// hide phone
+			var hide_phone = 0;
+
+			if( $( '#mxzsm_hide_phone_number' ).prop( 'checked' ) ) {
+
+				hide_phone = 1;
+
+			}
 
 			var form_data = {
 				action: 	'mxzsm_add_obj_front_adv_prop',
@@ -224,6 +254,7 @@ jQuery( document ).ready( function( $ ) {
 
 				// phone
 				obj_phone: $( '#mxzsm_add_obj_phone' ).val(),
+				hide_phone: hide_phone,
 
 				// social
 				obj_social: $( '#mxzsm_add_prop_social' ).val(),
