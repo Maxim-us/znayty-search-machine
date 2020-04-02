@@ -318,7 +318,7 @@ class MXZSMADVMetaboxCreationClass
 
 		<p>			
 			<input type="checkbox" name="mxzsm_hide_phone" id="mxzsm_hide_phone" <?php echo $hide_phone == '1' ? 'checked' : ''; ?> />
-			<label for="mxzsm_hide_phone">Показувати номер</label>
+			<label for="mxzsm_hide_phone">Приховати номер</label>
 		</p>
 		<?php
 

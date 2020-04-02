@@ -11,7 +11,7 @@ function mx_hide_phone( $phone ) {
 
 	} else {
 
-		echo $phone;
+		echo '<a href="tel:' . $phone . '" target="_blank">' . $phone . '</a>';
 
 	}	
 
@@ -28,7 +28,7 @@ function mx_hide_social( $url ) {
 
 	} else {
 
-		echo '<div class="mx-phone-social" title="Щоб побачити лінк - авторизуйтесь!"><a href="' . $url . '" target="_blank" rel="ugc nofollow">Соц. мережа</a></div>';
+		echo '<div class="mx-phone-social" title="Щоб побачити лінк - авторизуйтесь!"><a href="' . $url . '" target="_blank" rel="ugc nofollow">Профіль продавця</a></div>';
 
 	}	
 

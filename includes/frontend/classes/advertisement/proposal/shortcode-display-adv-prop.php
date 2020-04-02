@@ -76,6 +76,23 @@ class MXZSM_Shortcodes_Display_Adv_Prop
 
 				$tax_query = array();
 
+				if( $_get_['cat_id'] !== 0 ) {
+
+
+					$tax_query = array(
+
+						array(
+
+							'taxonomy' => 'mxzsm_adv_category_prop',
+							'field'    => 'id',
+							'terms'    => $_get_['cat_id']
+
+						)
+
+					);
+
+				}
+
 				$result_adv = new WP_Query( 
 
 					array(
@@ -90,7 +107,7 @@ class MXZSM_Shortcodes_Display_Adv_Prop
 						'tax_query' 		=> $tax_query
 					)
 
-				);
+				);				
 
 			?>
 
@@ -154,7 +171,7 @@ class MXZSM_Shortcodes_Display_Adv_Prop
 		*/
 		public static function adv_search_system_info( $args ) { ?>
 
-			<div class="alert alert-secondary mx-search-system-info-wrap" id="mx_adv_search_system_info">
+			<div class="alert alert-secondary mx-search-system-info-wrap" id="mx_search_system_info"><!-- mx_adv_search_system_info -->
 
 			<h5>Результат пошуку:</h5>
 
@@ -234,7 +251,7 @@ class MXZSM_Shortcodes_Display_Adv_Prop
 							
 								<?php foreach ( $categories as $key => $value ) {
 
-									echo  '<li><a href="#">' . $value->name . '</a></li>';
+									echo  '<li><a href="' . mxzsm_create_url_for_terms( 'cat_id', $value->term_id ) . '">' . $value->name . '</a></li>';
 
 								} ?>
 
@@ -251,8 +268,10 @@ class MXZSM_Shortcodes_Display_Adv_Prop
 					<div class="mx-adv-thumbnail">
 
 						<?php if( $thumbnail ) : ?>
-						
-							<img src="<?php echo $thumbnail; ?>" alt="">
+
+							<a href="<?php echo get_the_permalink(); ?>">						
+								<img src="<?php echo $thumbnail; ?>" alt="" />
+							</a>
 
 						<?php endif; ?>
 
@@ -275,7 +294,7 @@ class MXZSM_Shortcodes_Display_Adv_Prop
 
 					<div class="mx-adv_search_result_item_contact">
 
-						<?php if( $hide_hone !== '0' ) : ?>
+						<?php if( $hide_hone !== '1' ) : ?>
 
 							<?php $phone = get_post_meta( get_the_ID(), '_mxzsm_obj_phone', true ); ?>
 
@@ -314,6 +333,23 @@ class MXZSM_Shortcodes_Display_Adv_Prop
 
 					<div class="mx-adv_search_result_item_date">
 						<?php echo get_the_date( 'd.m.Y' ); ?>
+					</div>
+
+					<div class="mx-adv_search_result_item_meta">
+						
+						<!-- views -->
+						<?php $count_of_views = mx_get_count_of_views( get_the_ID() ) == '' ? 0 : mx_get_count_of_views( get_the_ID() ); ?>
+
+						<div class="mx_count_of_views">
+							<i class="fa fa-eye"></i> (<span><?php echo $count_of_views; ?></span>)
+							
+						</div>
+
+						<!-- comments -->
+						<div class="mx_comment_count">
+							<i class="fa fa-comments"></i> (<?php echo mx_count_of_comments_by_post_id( get_the_ID() ); ?>)
+						</div>
+
 					</div>
 
 				</div>

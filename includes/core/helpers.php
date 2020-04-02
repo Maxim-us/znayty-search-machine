@@ -262,7 +262,7 @@ function mxzsm_get_available_cities() {
 }
 
 /*
-* Тavigation
+* Pavigation
 */
 function mxzsm_navigation( $custom_post, $count_posts_in_page, $meta_query, $tax_query ){
 
@@ -271,10 +271,12 @@ function mxzsm_navigation( $custom_post, $count_posts_in_page, $meta_query, $tax
 
 	$this_page = (int) $this_page;
 
-	if( $this_page === 0 ) $this_page = 1;
+	if( $this_page === 0 ) $this_page = 1;	
 
 	//get count publish posts
 	// $count_posts = wp_count_posts( $type = $custom_post, $perm = '' )->publish;
+
+	wp_reset_postdata();
 
 	$post_type_res = new WP_Query(
 
@@ -282,14 +284,18 @@ function mxzsm_navigation( $custom_post, $count_posts_in_page, $meta_query, $tax
 			'post_type' 		=> $custom_post,
 			'meta_query'		=> $meta_query,
 			'post_status' 		=> 'publish',
+			'posts_per_page' 	=> -1,
+			// 'paged' 			=> $this_page,
 
 			// terms
 			'tax_query' 		=> $tax_query
 		)
 
-	);
+	);	
 
-	$count_posts = count( $post_type_res->posts ); 
+	$count_posts = count( $post_type_res->posts );
+
+	// var_dump($count_posts);
 
 	//set count page
 	$count_page = $count_posts / $count_posts_in_page;
@@ -297,11 +303,23 @@ function mxzsm_navigation( $custom_post, $count_posts_in_page, $meta_query, $tax
 	$count_page = ceil( $count_page );
 
 	//get url
+	$_http = isset( $_SERVER["HTTPS"] ) ? 'https://' : 'http://';
+
 	$host = $_SERVER['HTTP_HOST'];
 
 	$path = $_SERVER['REQUEST_URI'];
 
-	$url = $host . $path;
+	preg_match( '/(&res_page=\d+)/', $path, $matches_pag );
+
+	if( count( $matches_pag ) > 0 ) {
+
+		$path = str_replace( $matches_pag[0], '', $path );
+
+	}
+
+	// var_dump( $path );
+
+	$url = $_http . $host . $path;	
 
 	//loop links
 	if( $count_posts > $count_posts_in_page ){ ?>
@@ -524,7 +542,7 @@ function mxzsm_get_city_by_post_id( $post_id ) {
 
 }
 
-// count of views of obj (12 sec)
+// count of views of obj (8 sec)
 function mxzsm_count_of_views_of_obj( $post_id ) {
 
 	wp_nonce_field( 'count_of_views_of_obj_action', 'count_of_views_of_obj_nonce' );
@@ -557,7 +575,7 @@ function mxzsm_count_of_views_of_obj( $post_id ) {
 
 					} );
 
-				}, 12000 );				
+				}, 6000 );				
 
 			} );
 
@@ -566,3 +584,124 @@ function mxzsm_count_of_views_of_obj( $post_id ) {
 	<?php	
 
 }
+
+// show last items of publications
+function mxzsm_show_last_items_of_publications( $post_type, $count_of_posts, $category, $search_page, $add_page ) {
+
+	$meta_query = array();
+
+	$tax_query = array();
+
+	wp_reset_postdata();
+
+	$post_type_res = new WP_Query(
+
+		array(
+			'post_type' 		=> $post_type,
+			'meta_query'		=> $meta_query,
+			'post_status' 		=> 'publish',
+			'posts_per_page' 	=> $count_of_posts,
+			// 'paged' 			=> $this_page,
+
+			// terms
+			'tax_query' 		=> $tax_query
+		)
+
+	); 
+
+	if( $post_type_res->have_posts() ) : ?>
+
+		<div class="mxzsm_show_last_items_of_publications">
+			
+			<?php while( $post_type_res->have_posts() ) : $post_type_res->the_post(); ?>				
+
+				<?php 
+				$thumbnail = get_the_post_thumbnail_url( get_the_ID(), 'znayty-thumbnail' ) == false ? MXZSM_PLUGIN_URL . 'includes/frontend/assets/img/empty-thum.png' : get_the_post_thumbnail_url( get_the_ID(), 'znayty-thumbnail-b' );
+				?>
+
+				<div class="mxzsm_show_last_item">
+
+					<div>
+					
+						<div class="mxzsm_show_last_item_thumbnail">
+
+							<?php if( $thumbnail ) : ?>
+
+								<a href="<?php echo get_the_permalink(); ?>">						
+									<img src="<?php echo $thumbnail; ?>" alt="" />
+								</a>
+
+							<?php endif; ?>
+
+						</div>
+
+						<div class="mxzsm_show_last_item_title">
+							<a href="<?php echo get_the_permalink(); ?>"><?php the_title(); ?></a>
+						</div>
+
+						<div class="mxzsm_show_last_item_meta">
+
+							<!-- categories -->
+							<?php $categories = get_the_terms( get_the_ID(), $category ); 
+
+								// var_dump( $categories );
+
+									if( $categories ) : ?>
+
+									<ul>
+
+										<?php foreach ( $categories as $key => $value ) { ?>
+
+											<li>
+												<a href="/<?php echo $search_page; ?>/?region_id=full&cat_id=<?php echo $value->term_id; ?>#mx_search_system_info"><?php echo $value->name; ?></a>
+											</li>
+
+										<?php } ?>
+
+									</ul>
+
+								<?php endif; ?>
+
+							<div>
+								
+								<!-- views -->
+								<?php $count_of_views = mx_get_count_of_views( get_the_ID() ) == '' ? 0 : mx_get_count_of_views( get_the_ID() ); ?>
+
+								<div class="mx_count_of_views">
+									<i class="fa fa-eye"></i> (<span><?php echo $count_of_views; ?></span>)
+									
+								</div>
+
+								<!-- comments -->
+								<div class="mx_comment_count">
+									<i class="fa fa-comments"></i> (<?php echo mx_count_of_comments_by_post_id( get_the_ID() ); ?>)
+								</div>
+
+							</div>
+
+						</div>
+
+					</div>
+
+				</div>			
+
+
+			<?php endwhile; ?>
+
+			<div class="mxzsm_show_last_item_footer">
+				<a href="/<?php echo $search_page; ?>/?region_id=full#mx_search_system_info">Переглянути всі <i class="fa fa-arrow-right"></i></a>
+				<a href="/<?php echo $add_page; ?>/"><i class="fa fa-plus"></i> Додати</a>
+			</div>
+
+
+		</div>
+
+
+	<?php endif;
+
+
+	// var_dump($post_type_res->posts);
+
+}
+
+?>

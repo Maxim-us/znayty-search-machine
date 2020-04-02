@@ -526,7 +526,7 @@ class MXZSM_Shortcode_Search_Result
 
 					<span>Категорії:</span>
 
-						<ul>
+					<ul>
 
 						<?php foreach ( $categories as $key => $value ) { ?>
 
