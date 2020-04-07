@@ -227,6 +227,8 @@ jQuery( document ).ready( function( $ ) {
 
 			e.preventDefault();
 
+			$( this ).find( 'input[type="submit"]' ).attr( 'disabled', 'disabled' );
+
 			var content = $( '#mxzsm_add_obj_editor' ).val();
 
 			// hide phone

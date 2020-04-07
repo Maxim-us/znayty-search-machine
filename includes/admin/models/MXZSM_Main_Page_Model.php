@@ -15,24 +15,66 @@ class MXZSM_Main_Page_Model extends MXZSM_Model
 	public static function mxzsm_wp_ajax()
 	{
 
-		add_action( 'wp_ajax_mxzsm_update', array( 'MXZSM_Main_Page_Model', 'prepare_update_database_column' ), 10, 1 );
+		add_action( 'wp_ajax_mxzsm_add_new_city_to_db', array( 'MXZSM_Main_Page_Model', 'add_new_city' ), 10, 1 );
 
 	}
 
-	/*
-	* Prepare for data updates
-	*/
-	public static function prepare_update_database_column()
+	public static function add_new_city()
 	{
-		
-		// Checked POST nonce is not empty
-		if( empty( $_POST['nonce'] ) ) wp_die( '0' );
 
-		// Checked or nonce match
-		if( wp_verify_nonce( $_POST['nonce'], 'mxzsm_nonce_request' ) ){
+		if( empty( $_POST['nonce'] ) ) wp_die();
 
-			// Update data
-			self::update_database_column( $_POST['mxzsm_some_string'] );		
+		if( wp_verify_nonce( $_POST['nonce'], 'mxzsm_add_city_nonce_request' ) ) {
+
+			if( ! isset( $_POST['region'] ) ) return;
+
+			if( ! isset( $_POST['city'] ) ) return;
+
+			$cities = mxzsm_get_cities_by_region_id( $_POST['region'] );
+
+			$city = $_POST['city'];
+
+			$insert_city = 1;
+
+			foreach ( $cities as $key => $value ) {
+
+				$enter_city = mb_strtolower( $city );
+
+				$db_city = mb_strtolower( $value->city );
+
+				if( $enter_city == $db_city ) {
+
+					$insert_city = 0;
+
+					break;
+				}
+
+			}
+
+			// insert new city
+			if( $insert_city == 1 ) {
+
+				global $wpdb;
+
+				$table_name_cities = $wpdb->prefix . 'cities';
+
+				// insert cities
+        		$insert_city_to_db = $wpdb->insert(
+					$table_name_cities,
+					array(
+						'city' 			=> sanitize_text_field( $city ),
+						'region_id'		=> sanitize_text_field( $_POST['region'] )
+					),
+					array( '%s', '%d' )
+				);
+
+				echo $insert_city_to_db;
+
+			} else {
+
+				echo $insert_city;
+
+			}			
 
 		}
 
@@ -40,29 +82,5 @@ class MXZSM_Main_Page_Model extends MXZSM_Model
 
 	}
 
-		// Update data
-		public static function update_database_column( $string )
-		{
-
-			global $wpdb;
-
-			$clean_string = esc_html( $string );
-
-			$table_name = $wpdb->prefix . MXZSM_TABLE_SLUG;
-
-			$wpdb->update(
-
-				$table_name, 
-				array(
-					'some_field' => $clean_string,
-				), 
-				array( 'id' => 1 ), 
-				array( 
-					'%s'
-				)
-
-			);
-
-		}
 	
 }

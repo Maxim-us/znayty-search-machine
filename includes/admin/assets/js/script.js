@@ -143,4 +143,55 @@ jQuery( document ).ready( function( $ ) {
 
 		}
 
+	// add new city
+	$( '#mx_add_new_city_to_list' ).on( 'submit', function( e ) {
+
+		e.preventDefault();
+
+		var data = {
+
+			action: 	'mxzsm_add_new_city_to_db',
+
+			nonce: 		$( '#mxzsm_add_city_nonce' ).val(),
+
+			region: 	$( '#mxzsm_region_list' ).val(),
+
+			city: 		$( '#mx_new_city_of_region' ).val()
+
+		};
+
+		jQuery.post( ajaxurl, data, function( response ) {
+
+			console.log( response  );
+
+			if( response === '0' ) {
+
+				alert( 'Таке місто вже існує!' );
+
+			} else {
+
+				alert( 'Місто додано!' );
+
+				document.location.reload();
+
+			}
+
+			// if( response === 'integer' ) {
+
+			// 	alert( 'Відправлено на модерацію. Дякуємо Вам!' );
+
+			// 	document.location.reload();
+
+
+			// } else {
+
+			// 	alert( 'Виникла помилка! Зв\'яжіться з нами.' );
+
+			// }
+			
+
+		} );
+
+	} );
+
 } );

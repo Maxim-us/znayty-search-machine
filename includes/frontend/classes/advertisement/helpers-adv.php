@@ -7,7 +7,7 @@ function mx_hide_phone( $phone ) {
 
 		global $post;
 
-		echo '<div class="mx-phone-hidden" title="Щоб побачити номер - авторизуйтесь!">+3 80 ... <a href="/my-account/?adv_parrent=mxzsm_adv_need&adv_slug=' . $post->post_name . '">Увійти</a></div>';
+		echo '<div class="mx-phone-hidden" title="Щоб побачити номер - авторизуйтесь!">+3 80 ... <a href="/my-account/?adv_parrent=mxzsm_adv_need&adv_slug=' . $post->post_name . '">Увійти, щоб побачити номер</a></div>';
 
 	} else {
 
@@ -24,7 +24,7 @@ function mx_hide_social( $url ) {
 
 		global $post;
 
-		echo '<div class="mx-phone-social" title="Щоб побачити лінк - авторизуйтесь!"><a href="/my-account/?adv_parrent=mxzsm_adv_need&adv_slug=' . $post->post_name . '">Увійти</a></div>';
+		echo '<div class="mx-phone-social" title="Щоб побачити лінк - авторизуйтесь!"><a href="/my-account/?adv_parrent=mxzsm_adv_need&adv_slug=' . $post->post_name . '">Увійти, щоб побачити профіль</a></div>';
 
 	} else {
 

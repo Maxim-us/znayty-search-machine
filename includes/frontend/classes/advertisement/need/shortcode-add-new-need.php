@@ -192,7 +192,9 @@ class MXZSM_Shortcode_Add_New_Need
 				<div class="mx_add_obj_fields">
 					<label for="mxzsm_add_obj_categories">Категорія: <span class="mxzsm_required">*</span></label>
 
-					<select name="mxzsm_add_obj_categories" id="mxzsm_add_obj_categories" required="required">
+					<input type="text" id="mxzsm_add_obj_categories" name="mxzsm_add_obj_categories" />
+
+					<!-- <select name="mxzsm_add_obj_categories" id="mxzsm_add_obj_categories" required="required">
 						<option value=""></option>
 
 						<option value="food">Продукти</option>
@@ -202,7 +204,7 @@ class MXZSM_Shortcode_Add_New_Need
 						<option value="spare_parts">Запчастини</option>
 						<option value="agriculture">С/Г товари</option>
 						<option value="other">Інше</option>
-					</select>
+					</select> -->
 
 					<small>Оберіть категорію. Наприклад: <em>Побутова хімія</em></small>
 				</div>
@@ -221,7 +223,7 @@ class MXZSM_Shortcode_Add_New_Need
 
 				<!-- need social -->
 				<div class="mx_add_obj_fields">
-					<label for="mxzsm_add_need_social">Профіль в соціальный мережі:</label>
+					<label for="mxzsm_add_need_social">Профіль в соціальній мережі:</label>
 					<input type="tel" id="mxzsm_add_need_social" />
 					<small>Ви можете вказати посилання на Ваш профіль в соціальній мережі.</small>					
 				</div>

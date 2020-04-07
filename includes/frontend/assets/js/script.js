@@ -246,6 +246,8 @@ jQuery( document ).ready( function( $ ) {
 
 			e.preventDefault();
 
+			$( this ).find( 'input[type="submit"]' ).attr( 'disabled', 'disabled' );
+
 			// var content = tinymce.get( 'mxzsm_add_obj_editor' ).getContent();
 
 			// var js_script = content.match( /(<script>.+<\/script>)/gi );

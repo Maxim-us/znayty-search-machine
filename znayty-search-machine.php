@@ -74,7 +74,7 @@ if ( ! defined( 'MXZSM_PLUGIN_ABS_PATH' ) ) {
 if ( ! defined( 'MXZSM_PLUGIN_VERSION' ) ) {
 
 	// version
-	define( 'MXZSM_PLUGIN_VERSION', '02.04.20' ); // Must be replaced before production on for example '1.0'
+	define( 'MXZSM_PLUGIN_VERSION', time() ); // Must be replaced before production on for example '1.0'
 
 }
 

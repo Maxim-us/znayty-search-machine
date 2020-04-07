@@ -616,7 +616,7 @@ function mxzsm_show_last_items_of_publications( $post_type, $count_of_posts, $ca
 			<?php while( $post_type_res->have_posts() ) : $post_type_res->the_post(); ?>				
 
 				<?php 
-				$thumbnail = get_the_post_thumbnail_url( get_the_ID(), 'znayty-thumbnail' ) == false ? MXZSM_PLUGIN_URL . 'includes/frontend/assets/img/empty-thum.png' : get_the_post_thumbnail_url( get_the_ID(), 'znayty-thumbnail-b' );
+				$thumbnail = get_the_post_thumbnail_url( get_the_ID(), 'znayty-thumbnail' ) == false ? MXZSM_PLUGIN_URL . 'includes/frontend/assets/img/empty-thum_list.jpg' : get_the_post_thumbnail_url( get_the_ID(), 'znayty-thumbnail' );
 				?>
 
 				<div class="mxzsm_show_last_item">

@@ -129,24 +129,24 @@ class MXZSMADVMetaboxCreationClass
 
 			$cat = get_post_meta( $post->ID, '_mxzsm_add_obj_categories', true );
 
-			$cat_name = $cat == 'food' ? 'Продукти' : '';
+			// $cat_name = $cat == 'food' ? 'Продукти' : '';
 
-			$cat_name = $cat == 'household_chemicals' ? 'Побутова хімія' : $cat_name;
+			// $cat_name = $cat == 'household_chemicals' ? 'Побутова хімія' : $cat_name;
 
-			$cat_name = $cat == 'household_goods' ? 'Господарські товари' : $cat_name;
+			// $cat_name = $cat == 'household_goods' ? 'Господарські товари' : $cat_name;
 
-			$cat_name = $cat == 'building' ? 'Будівельні матеріали' : $cat_name;
+			// $cat_name = $cat == 'building' ? 'Будівельні матеріали' : $cat_name;
 
-			$cat_name = $cat == 'spare_parts' ? 'Запчастини' : $cat_name;
+			// $cat_name = $cat == 'spare_parts' ? 'Запчастини' : $cat_name;
 
-			$cat_name = $cat == 'agriculture' ? 'С/Г товари' : $cat_name;
+			// $cat_name = $cat == 'agriculture' ? 'С/Г товари' : $cat_name;
 
-			$cat_name = $cat == 'other' ? 'Інше' : $cat_name; 
+			// $cat_name = $cat == 'other' ? 'Інше' : $cat_name; 
 
 			echo '<p>
 				<label for="#"><b>Категорія</b></label>
 				<br>
-				<span>' . $cat_name . '</span>
+				<span>' . $cat . '</span>
 			</p>';
 
 		}
