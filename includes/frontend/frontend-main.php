@@ -46,6 +46,13 @@ class MXZSM_FrontEnd_Main
 
 				MXZSM_Shortcode_Add_New_Obj::add_shorcode();
 
+			// edit object
+			mxzsm_require_class_file_frontend( 'shortcode-edit-object.php' );
+
+				MXZSM_Shortcode_Edit_Obj::add_shorcode();
+
+				MXZSM_Shortcode_Edit_Obj::mx_edit_post();
+
 
 		// ajax
 		mxzsm_require_class_file_frontend( 'db-talk-front.php' );
@@ -104,9 +111,12 @@ class MXZSM_FrontEnd_Main
 
 					MXZSM_Shortcodes_Search_Form_Adv_Prop::add_shorcode();
 
+		/**
+		* Notifications
+		*/
+		mxzsm_require_class_file_frontend( 'notifications-manage.php' );
 
-				
-
+			MXZSM_Notifications_Manage::mxzsm_notifications_ajax();
 
 	}
 

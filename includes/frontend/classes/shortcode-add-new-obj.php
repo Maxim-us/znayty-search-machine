@@ -1,6 +1,6 @@
 <?php
 
-class MXZSM_Shortcode_Add_New_Obj
+class MXZSM_Shortcode_Add_New_Obj 
 {
 
 	public static function add_shorcode() {
@@ -57,7 +57,7 @@ class MXZSM_Shortcode_Add_New_Obj
 
 			$results_posts_p = $wpdb->get_results(
 
-				"SELECT post_title, guid
+				"SELECT ID, post_title, guid
 					FROM
 						$table_posts
 					WHERE
@@ -88,15 +88,24 @@ class MXZSM_Shortcode_Add_New_Obj
 					<!-- add obj -->
 					<div class="mxzsm_users_obj_tabs_body_add_form">
 
-						<?php $count_of_v_posts = 2; ?>
+						<?php
+
+							$count_of_v_posts = 2;
+
+							$available_management = true;
+
+						?>
 
 						<?php if( count( $result_obj_v->posts ) < $count_of_v_posts ) : ?>
 							
-							<?php
+							<?php							
+
 								MXZSM_Shortcode_Add_New_Obj::add_obj_form();
 							?>
 
 						<?php else : ?>
+
+							<?php $available_management = false; ?>
 
 							<h4 style="text-align: center;">Ви відправили <?php echo $count_of_v_posts; ?> об'єкта на модерацію. Після затвердження, Ви зможете надістати ще. <br> Дякуємо Вам!</h4>
 
@@ -111,7 +120,7 @@ class MXZSM_Shortcode_Add_New_Obj
 
 					<!-- my objs -->
 					<div class="mxzsm_users_obj_tabs_body_my_objs" style="display: none;"><?php
-						MXZSM_Shortcode_Add_New_Obj::obj_public( $results_posts_p );
+						MXZSM_Shortcode_Add_New_Obj::obj_public( $results_posts_p, $available_management );
 					?></div>
 					
 				</div>
@@ -144,14 +153,14 @@ class MXZSM_Shortcode_Add_New_Obj
 
 				<!-- title -->
 				<div class="mx_add_obj_fields">
-					<label for="mxzsm_add_obj_title">Назва об'єкта: <span class="mxzsm_required">*</span></label>
+					<label for="mxzsm_add_obj_title">Назва: <span class="mxzsm_required">*</span></label>
 					<input type="text" id="mxzsm_add_obj_title" required="required" />
 					<small>Введіть назву об'єкта. Наприклад: <em>Кафе "Роксолана"</em></small>
 				</div>
 
 				<!-- editor -->
 				<div class="mx_add_obj_fields">
-					<label for="mxzsm_add_obj_editor">Опис об'єкта: <span class="mxzsm_required">*</span></label>
+					<label for="mxzsm_add_obj_editor">Опис: <span class="mxzsm_required">*</span></label>
 
 					<textarea name="mxzsm_add_obj_editor" id="mxzsm_add_obj_editor" cols="30" rows="10"></textarea>
 
@@ -217,44 +226,44 @@ class MXZSM_Shortcode_Add_New_Obj
 
 				<!-- categories of obj -->
 				<div class="mx_add_obj_fields">
-					<label for="mxzsm_add_obj_categories">Категорія об'єкта: <span class="mxzsm_required">*</span></label>
+					<label for="mxzsm_add_obj_categories">Категорія: <span class="mxzsm_required">*</span></label>
 					<input type="text" id="mxzsm_add_obj_categories" required="required" />
 					<small>Введіть через кому категорії. Наприклад: <em>Кафе, Їдальня</em></small>
 				</div>
 
 				<!-- keywords of obj -->
 				<div class="mx_add_obj_fields">
-					<label for="mxzsm_add_obj_keywords">Мітки об'єкта: <span class="mxzsm_required">*</span></label>
+					<label for="mxzsm_add_obj_keywords">Мітки: <span class="mxzsm_required">*</span></label>
 					<input type="text" id="mxzsm_add_obj_keywords" required="required" />
 					<small>Введіть через кому мітки. Наприклад: <em>їжа, корпоратив, вареники</em></small>
 				</div>
 
 				<!-- address of obj -->
 				<div class="mx_add_obj_fields">
-					<label for="mxzsm_add_obj_address">Адреса об'єкта:</label>
+					<label for="mxzsm_add_obj_address">Адреса:</label>
 					<input type="text" id="mxzsm_add_obj_address"/>
 					<small>Введіть адресу об'єкта. Наприклад: <em>м. Київ, вул. Головна, буд. 120</em></small>
 				</div>
 
 				<!-- website of obj -->
 				<div class="mx_add_obj_fields">
-					<label for="mxzsm_add_obj_website">Вебсайт об'єкта:</label>
+					<label for="mxzsm_add_obj_website">Вебсайт:</label>
 					<input type="url" id="mxzsm_add_obj_website" />
-					<small>Вебсайт об'єкта (якщо він є). Наприклад: <em>https://domain.com.ua</em></small>
+					<small>Вебсайт (якщо він є). Наприклад: <em>https://domain.com.ua</em></small>
 				</div>
 
 				<!-- email of obj -->
 				<div class="mx_add_obj_fields">
-					<label for="mxzsm_add_obj_email">Електронна адреса об'єкта:</label>
+					<label for="mxzsm_add_obj_email">Електронна адреса:</label>
 					<input type="email" id="mxzsm_add_obj_email" />
 					<small>Електронна адреса об'єкта (якщо вона є). Наприклад: <em>my_magazyn@gmail.com</em></small>
 				</div>
 
 				<!-- phone of obj -->
 				<div class="mx_add_obj_fields">
-					<label for="mxzsm_add_obj_phone">Телефон об'єкта:</label>
+					<label for="mxzsm_add_obj_phone">Телефон:</label>
 					<input type="tel" id="mxzsm_add_obj_phone" />
-					<small>Телефон об'єкта (якщо він є). Наприклад: <em>097 00 000 00</em></small>
+					<small>Телефон об'єкта (якщо він є). Наприклад: <em>+380970000000</em></small>
 				</div>
 
 				<!-- against covid -->
@@ -292,7 +301,7 @@ class MXZSM_Shortcode_Add_New_Obj
 
 				<!-- object image -->
 				<div class="mx_add_obj_fields">
-					<label for="mxzsm_add_obj_image">Зображення об'єкта:</label>
+					<label for="mxzsm_add_obj_image">Зображення:</label>
 					<a href="#" id="mxzsm_add_obj_image">Обрати зображення</a>
 					<!-- <a href="#" id="mx_delete_image" style="display: none;">Замінити зображення</a> -->
 					<input type="hidden" id="mxzsm_add_obj_image_id" />
@@ -320,7 +329,7 @@ class MXZSM_Shortcode_Add_New_Obj
 			      }
 			    </style>
 				<script async defer
-			    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCM_MT4-9Hzyqvn_JiRpf1cgYg8-VLG2hM&callback=initMap">
+			    src="https://maps.googleapis.com/maps/api/js?key=----&callback=initMap">
 			    </script>
 				<div id="map" class="mx_add_obj_fields"></div>
 			    <script>
@@ -374,7 +383,7 @@ class MXZSM_Shortcode_Add_New_Obj
 				<input type="hidden" id="mxzsm_add_obj_nonce" value="<?php echo wp_create_nonce( 'mxzsm_add_obj_nonce_request' ); ?>" />
 
 				<div>
-					<input type="submit" value="Додати Об'єкт" />
+					<input type="submit" value="Додати" />
 				</div>
 				
 			</form>
@@ -388,7 +397,7 @@ class MXZSM_Shortcode_Add_New_Obj
 			<table>
 				<thead>
 					<tr>
-						<th>Назва об'єкта</th>
+						<th>Назва об'єкта</th>						
 					</tr>
 				</thead>
 				<tbody>
@@ -425,13 +434,14 @@ class MXZSM_Shortcode_Add_New_Obj
 		<?php }
 
 		// objects on public
-		public static function obj_public( $results_posts_p )
+		public static function obj_public( $results_posts_p, $available_management )
 		{ ?>
 
 			<table>
 				<thead>
 					<tr>
 						<th>Назва об'єкта</th>
+						<th>Дії</th>
 					</tr>
 				</thead>
 				<tbody>
@@ -440,7 +450,7 @@ class MXZSM_Shortcode_Add_New_Obj
 
 						<?php foreach ( $results_posts_p as $key => $value ) : ?>
 
-							<?php MXZSM_Shortcode_Add_New_Obj::public_obj_item( $value->post_title, $value->guid ); ?>							
+							<?php MXZSM_Shortcode_Add_New_Obj::public_obj_item( $value->ID, $value->post_title, $value->guid, $available_management ); ?>							
 
 						<?php endforeach; ?> 
 
@@ -458,12 +468,20 @@ class MXZSM_Shortcode_Add_New_Obj
 		<?php }
 
 		// verification obj item
-		public static function public_obj_item( $post_title, $permalink )
+		public static function public_obj_item( $post_id, $post_title, $permalink, $available_management )
 		{ ?>
 
 			<tr>
 				<td>
 					<a href="<?php echo $permalink; ?>" target="_blank"><?php echo $post_title; ?></a>
+				</td>				
+				<td>
+
+					<?php if( $available_management ) : ?>
+
+						<a href="/redaguvaty-obyekt/?mx_post_id=<?php echo $post_id; ?>">Редагувати</a>
+						
+					<?php endif; ?>
 				</td>
 			</tr>
 

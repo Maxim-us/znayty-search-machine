@@ -82,7 +82,8 @@ function mxzsm_check_get_set_get( $_get ) {
 		'city_id'		=> 0,
 		'res_page'		=> 1,
 		'cat_id' 		=> 0,
-		'key_word_id'	=> 0
+		'key_word_id'	=> 0,
+		'mx_post_id' 	=> 0
 	);
 
 	foreach ( $_get as $key => $value ) {
@@ -704,4 +705,20 @@ function mxzsm_show_last_items_of_publications( $post_type, $count_of_posts, $ca
 
 }
 
+// get post by id
+function mxzsm_get_post_by_id( $post_id ) {
+
+	global $wpdb;
+
+	$table_of_posts = $wpdb->prefix . 'posts';
+
+	$posts_row = $wpdb->get_row(
+
+		"SELECT * FROM $table_of_posts WHERE ID = '" . $post_id . "'"
+
+	);
+
+	return $posts_row;
+
+}
 ?>

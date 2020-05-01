@@ -350,7 +350,7 @@ jQuery( document ).ready( function( $ ) {
 
 					alert( 'Відправлено на модерацію. Дякуємо Вам!' );
 
-					document.location.reload();
+					window.location.href = '/';
 
 
 				} else {
@@ -410,6 +410,183 @@ jQuery( document ).ready( function( $ ) {
 		}
 
 	} );
+
+	/*
+	* 	OBJECT EDITABLE
+	*/
+	// submit form
+		$( '#mxzsm_edit_obj' ).on( 'submit', function( e ) {
+
+			e.preventDefault();
+
+			$( this ).find( 'input[type="submit"]' ).attr( 'disabled', 'disabled' );
+
+			var content = $( '#mxzsm_add_obj_editor' ).val();
+			
+			// service type
+			var service_type_normal_mode = '';
+			if( $( '#mxzsm_add_obj_service_type_normal_mode' ).prop( 'checked' ) ) {
+
+				service_type_normal_mode = 1;
+
+			}
+
+			var service_type_takeaway = '';
+			if( $( '#mxzsm_add_obj_service_type_takeaway' ).prop( 'checked' ) ) {
+
+				service_type_takeaway = 1;
+
+			}
+
+			var service_type_delivery = '';
+			if( $( '#mxzsm_add_obj_service_type_delivery' ).prop( 'checked' ) ) {
+
+				service_type_delivery = 1;
+
+			}
+
+			// keywords
+			var form_data = {
+				action: 	'mxzsm_edit_obj_front',
+
+				post_id: 	$( '#mxzsm_post_id' ).val(),
+
+				current_user: $( '#mxzsm_current_user' ).val(),
+				current_user_id : $( '#current_user_id' ).val(),
+
+				title: 		$( '#mxzsm_add_obj_title' ).val(),
+				content: 	content,
+				address: 	$( '#mxzsm_add_obj_address' ).val(),
+				img_url: 	$( '.mxzsm_add_obj_image_preview' ).find( 'img' ).attr( 'src' ),
+				img_id: 	$( '#mxzsm_add_obj_image_id' ).val(),
+				nonce: 		$( '#mxzsm_edit_obj_nonce' ).val(),
+
+				// map data
+				obj_latitude: $( '#mx_obj_latitude' ).val(),
+				obj_longitude: $( '#mx_obj_longitude' ).val(),
+
+				// website
+				obj_website: $( '#mxzsm_add_obj_website' ).val(),
+
+				// email
+				obj_email: $( '#mxzsm_add_obj_email' ).val(),
+
+				// service type
+				normal_mode: service_type_normal_mode,
+				takeaway: service_type_takeaway,
+				delivery: service_type_delivery,
+
+				// phone
+				obj_phone: $( '#mxzsm_add_obj_phone' ).val(),
+
+				// video youtube
+				obj_video_youtube: $( '#mxzsm_add_obj_video_youtube' ).val(),
+
+			};
+
+			jQuery.post( mxzsm_app.ajaxurl, form_data, function( response ) {
+
+				if( response === 'error' ) {
+
+					window.location.href = '/';
+
+				}
+
+				if( response === 'edit' ) {
+
+					alert( 'Відправлено на модерацію. Дякуємо!' );
+
+					window.location.href = '/add-new-object/?active_item=my-public-obj';
+
+				}
+
+			} );
+
+		} );
+
+		// remove obj
+		$( '#mx_remove_obj' ).on( 'click', function( e ) {
+
+			e.preventDefault();
+
+			if ( !confirm( 'Ви впевнені, що хочете видалити цей об\'єкт?' ) ) return false;
+
+			var data = {
+
+				action: 	'mxzsm_delete_obj_front',
+
+				post_id: 	$( '#mxzsm_post_id' ).val(),
+
+				title: 		$( '#mxzsm_add_obj_title' ).val(),
+
+				current_user: $( '#mxzsm_current_user' ).val(),
+
+				current_user_id : $( '#current_user_id' ).val(),
+
+				nonce: 		$( '#mxzsm_edit_obj_nonce' ).val()
+
+			};
+
+			jQuery.post( mxzsm_app.ajaxurl, data, function( response ) {
+
+				console.log( response );
+
+				if( response === 'error' ) {
+
+					window.location.href = '/';
+
+				}
+
+				if( response === 'removed' ) {
+
+					alert( 'Видалено!' );
+
+					window.location.href = '/add-new-object/?active_item=my-public-obj';
+
+				}
+
+			} );
+
+		} );
+
+	// notifications
+	$( '.mx_close_notification_button' ).on( 'click', function( e ) {
+
+		e.preventDefault();
+		
+		$( this ).attr( 'disabled', 'disabled' );
+
+		var option = $( this ).attr( 'data-close-notification' );
+
+		var data = {
+
+			action: 	'mxzsm_got_this_notification',
+
+			nonce: 		mxzsm_data_obj_front.nonce,
+
+			option: 	option
+
+		};
+
+		var _this = $( this );
+
+		jQuery.post( mxzsm_app.ajaxurl, data, function( response ) {
+
+			if( response === 'integer' ) {
+
+				_this.parent().parent().hide( 'fast' );
+
+				setTimeout( function() {
+
+					_this.parent().parent().remove();
+
+				}, 1000 );
+
+			}
+
+		} );
+
+	} )
 
 } );
 
